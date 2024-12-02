@@ -1,0 +1,308 @@
+.s-cart {
+    padding: 5px 0;
+
+    h2 {
+        font-size: $fs-20;
+        color: $secondary-color;
+        font-weight: 600;
+    }
+    &-form {
+        &_child {
+            .s_input {
+                width: 100%;
+                input {
+                    width: 100%;
+                    padding: 0.5rem;
+                    border: 1px solid #a8a8a8;
+                    border-radius: $fs-32;
+                }
+                h5 {
+                    font-size: $fs-16;
+                    width: 20%;
+                }
+                textarea {
+                    width: 100%;
+                    padding: 0.5rem;
+                    border: 1px solid #a8a8a8;
+                    border-radius: $fs-32;
+                }
+                select {
+                    width: 100%;
+                    padding: 0.5rem;
+                    border: none;
+                    border: 1px solid #a8a8a8;
+                    border-radius: $fs-32;
+                }
+                textarea {
+                    width: 100%;
+                    padding: 0.5rem;
+                }
+            }
+        }
+        .s_radioActive {
+            @include flexBox(left);
+            gap: $fs-20;
+            border: 2px solid $third-color;
+            padding: $fs-16;
+            margin-bottom: $fs-20;
+            border-radius: $fs-12;
+            img {
+                width: 10%;
+            }
+            &_text {
+                font-size: $fs-14;
+                h4 {
+                    font-size: $fs-14;
+                    display: block;
+                }
+            }
+        }
+        .s_radio {
+            @include flexBox(left);
+            gap: $fs-20;
+            border: 1px solid #a8a8a8;
+            padding: $fs-16;
+            margin-bottom: $fs-20;
+            border-radius: $fs-12;
+            img {
+                width: 10%;
+            }
+            &_text {
+                font-size: $fs-14;
+                h4 {
+                    font-size: $fs-14;
+                    display: block;
+                }
+            }
+            &_right {
+                width: 50%;
+                img {
+                    width: 20%;
+                    margin-left: auto;
+                    display: none;
+                    transition: 0.5s;
+                }
+                &.active {
+                    img {
+                        display: block;
+                    }
+                }
+            }
+            &_left {
+                @include flexBox(left);
+                width: 50%;
+                gap: $fs-32;
+                img {
+                    width: 50px;
+                }
+                &_text {
+                    font-size: $fs-14;
+                    h4 {
+                        font-size: $fs-14;
+                        display: block;
+                    }
+                }
+            }
+        }
+
+        .s_button_1 {
+            text-align: center;
+            background-color: $third-color;
+            border: 2px solid $third-color;
+            color: #fff;
+            border-radius: $fs-8;
+            font-weight: 700;
+            padding: $fs-8;
+            width: 100%;
+            transition: 0.5s;
+            &:hover {
+                background-color: #fff;
+                color: $third-color;
+                font-weight: 700;
+                border: 2px solid $third-color;
+            }
+        }
+    }
+    .s-left {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        padding: $fs-12;
+        margin-bottom: $fs-20;
+        &_totalprice {
+            font-size: $fs-16;
+            margin-top: $fs-20;
+            span {
+                font-weight: 600;
+                margin-left: $fs-12;
+                font-size: $fs-20;
+            }
+        }
+        &_title {
+            @include flexBox(space-between);
+            &_left {
+                @include flexBox(space-between);
+                h2 {
+                    text-transform: uppercase;
+                    font-size: $fs-12;
+                    color: $secondary-color;
+                    font-weight: 800;
+                    i {
+                        margin-right: $fs-12;
+                        color: $secondary-color;
+                        background-color: $primary-color;
+                        padding: $fs-8;
+                        border-radius: $fs-72;
+                    }
+                    span {
+                        margin: 0 $fs-8;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+
+        .s-item {
+            margin: $fs-8 0 $fs-16 0;
+            border-bottom: 1px solid #eee;
+            &_top {
+                @include flexBox(space-between);
+                i {
+                    cursor: pointer;
+                    transition: 0.5s;
+                    padding: $fs-8;
+                    border-radius: 50%;
+                    &:hover {
+                        background-color: $third-color;
+                        color: #fff;
+                    }
+                }
+                &_left {
+                    @include flexBox(left);
+                    h2 {
+                        font-size: $fs-16;
+                        font-weight: 600;
+                        i {
+                            color: $secondary-color;
+                            background-color: $primary-color;
+                            padding: $fs-8;
+                            border-radius: $fs-72;
+                        }
+                        span {
+                            margin: 0 $fs-8;
+                            font-weight: 400;
+                        }
+                    }
+                    h3 {
+                        font-size: $fs-14;
+                        margin-left: $fs-20;
+                        color: $secondary-color;
+                        i {
+                            color: $secondary-color;
+                            padding: $fs-8;
+                            border-radius: $fs-72;
+                        }
+                        span {
+                            margin-left: 5px;
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+            &_bot {
+                @include flexBox(space-between);
+                padding-bottom: $fs-16;
+            }
+
+            .s_left {
+                @include flexBox(space-between);
+                margin-right: 1rem;
+                img {
+                    width: 70px;
+                    height: 50px;
+                    object-fit: cover;
+                    border-radius: $fs-8;
+                }
+                &_child {
+                    margin-left: $fs-8;
+                    h4 {
+                        font-weight: 600;
+                        font-size: $fs-12;
+                    }
+                    h5 {
+                        font-size: $fs-12;
+                    }
+                }
+            }
+        }
+    }
+}
+.s-totalFixed {
+    position: sticky;
+    z-index: 99999999999;
+    bottom: 0;
+    width: 100%;
+    color: #fff;
+    background-color: $secondary-color;
+    padding: $fs-12;
+    margin-top: $fs-20;
+    &_text {
+        text-align: center;
+        font-size: $fs-14;
+        span {
+            font-style: italic;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+    }
+    &_price {
+        @include flexBox(space-between);
+        .s_totalPrice {
+            @include flexBox(left);
+            .s_textTotal {
+                @include flexBox(left);
+                h4 {
+                    font-size: $fs-14;
+                }
+                h5 {
+                    font-size: $fs-14;
+                    font-weight: 600;
+                    margin-left: $fs-8;
+                }
+            }
+        }
+        .s_button {
+            text-align: center;
+            .s_button_1 {
+                background-color: $third-color;
+                color: #fff;
+                font-size: $fs-12;
+                border-radius: $fs-8;
+                padding: $fs-8;
+                width: 100%;
+            }
+        }
+    }
+}
+
+.error {
+    color: red;
+    font-size: $fs-14;
+    font-style: italic;
+    font-weight: 500;
+}
+.notification {
+    span {
+        font-style: italic;
+        font-weight: 600;
+    }
+}
+.emptyCart {
+    margin-top: $fs-72;
+    img {
+        width: 30%;
+        margin: 0 auto;
+    }
+    p {
+        font-size: $fs-24;
+        text-align: center;
+    }
+}

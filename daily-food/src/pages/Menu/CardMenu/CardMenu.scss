@@ -1,0 +1,76 @@
+.cardMenu {
+    @include flexBox(space-between);
+    gap: $fs-12;
+    width: 70%;
+    margin: $fs-40 auto;
+    padding: $fs-20 0;
+    border-bottom: 1px solid #eee;
+    &.order {
+        border-bottom: none;
+        .row {
+            display: block;
+            .col-md-4 {
+                width: 100%;
+            }
+        }
+    }
+    &-imgMenu {
+        text-align: center;
+
+        img {
+            border-radius: $fs-8;
+        }
+    }
+    &-textMenu {
+        h3 {
+            font-size: $fs-24;
+            font-weight: 600;
+            margin: 0;
+            color: $secondary-color;
+            white-space: nowrap;
+            @media (max-width: 767px) {
+                white-space: unset;
+                font-size: $fs-16;
+            }
+        }
+        h5 {
+            font-size: $fs-12;
+            color: $secondary-color;
+            font-weight: 700;
+            background-color: rgba(232, 131, 64, 0.199);
+            display: inline-block;
+            padding: $fs-8;
+            border-radius: $fs-8;
+
+            i {
+                margin-right: $fs-8;
+                color: $red-color;
+            }
+        }
+        p {
+            margin-bottom: $fs-24;
+            font-weight: 300;
+            @media (max-width: 767px) {
+                display: none;
+            }
+        }
+        li {
+            white-space: nowrap;
+            text-align: left;
+            font-weight: 600;
+            margin-bottom: $fs-8;
+
+            span {
+                font-weight: 400;
+            }
+
+            .lastchild {
+                display: inline-block;
+                white-space: nowrap;
+                &:last-child {
+                    background-color: $primary-color;
+                }
+            }
+        }
+    }
+}

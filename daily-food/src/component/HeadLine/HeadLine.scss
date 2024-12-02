@@ -1,0 +1,18 @@
+.headline {
+    padding: $fs-32 0;
+    @media (max-width: 767px) {
+        padding: $fs-24 0;
+    }
+    h2 {
+        color: $four-color;
+        font-size: $fs-40;
+        text-align: center;
+        &::after {
+            @include beforeAfter(5%, 8px, $third-color);
+            margin: $fs-8 auto;
+        }
+        @media (max-width: 575px) {
+            font-size: $fs-28;
+        }
+    }
+}

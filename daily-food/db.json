@@ -1,0 +1,605 @@
+{
+  "catemenu": [
+    {
+      "id": "1",
+      "title": "SLIMMING",
+      "price": 1000,
+      "image": "https://i.imgur.com/JXt22fi.jpg",
+      "calo": "200",
+      "describe": "100% natural food,Only organic ingredients"
+    },
+    {
+      "id": "2",
+      "title": "VEGETARIAN",
+      "price": "1200",
+      "image": "https://i.imgur.com/JXt22fi.jpg",
+      "calo": 200,
+      "describe": "100% natural food,Only organic ingredients"
+    },
+    {
+      "id": "3",
+      "title": "GYMER",
+      "image": "https://i.imgur.com/JXt22fi.jpg",
+      "calo": "2000",
+      "describe": "100% natural food,Only organic ingredients",
+      "price": "1200"
+    },
+    {
+      "id": "4",
+      "title": "BALANCED",
+      "image": "https://i.imgur.com/JXt22fi.jpg",
+      "calo": "2000",
+      "describe": "100% natural food,Only organic ingredients",
+      "price": "1200"
+    }
+  ],
+  "daymenu": [
+    {
+      "id": "1",
+      "idCate": "1",
+      "day": "MON",
+      "price": 100
+    },
+    {
+      "id": "2",
+      "idCate": "1",
+      "day": "TUE",
+      "price": "50"
+    },
+    {
+      "id": "3",
+      "idCate": "1",
+      "day": "WED",
+      "price": "50"
+    },
+    {
+      "id": "4",
+      "idCate": "1",
+      "day": "THU",
+      "price": "50"
+    },
+    {
+      "id": "5",
+      "idCate": "1",
+      "day": "FRI",
+      "price": "50"
+    },
+    {
+      "id": "6",
+      "idCate": "2",
+      "day": "MON",
+      "price": "50"
+    },
+    {
+      "id": "7",
+      "idCate": "2",
+      "day": "TUE",
+      "price": "50"
+    },
+    {
+      "id": "8",
+      "idCate": "2",
+      "day": "WED",
+      "price": "50"
+    },
+    {
+      "id": "9",
+      "idCate": "2",
+      "day": "THU",
+      "price": "50"
+    },
+    {
+      "id": "10",
+      "idCate": "2",
+      "day": "FRI",
+      "price": "50"
+    },
+    {
+      "id": "11",
+      "idCate": "3",
+      "day": "MON",
+      "price": "50"
+    },
+    {
+      "id": "12",
+      "idCate": "3",
+      "day": "TUE",
+      "price": "50"
+    },
+    {
+      "id": "13",
+      "idCate": "3",
+      "day": "WED",
+      "price": "50"
+    },
+    {
+      "id": "14",
+      "idCate": "3",
+      "day": "THU",
+      "price": "50"
+    },
+    {
+      "id": "15",
+      "idCate": "3",
+      "day": "FRI",
+      "price": "50"
+    },
+    {
+      "id": "16",
+      "idCate": "4",
+      "day": "MON",
+      "price": "50"
+    },
+    {
+      "id": "17",
+      "idCate": "4",
+      "day": "TUE",
+      "price": "50"
+    },
+    {
+      "id": "18",
+      "idCate": "4",
+      "day": "WED",
+      "price": "50"
+    },
+    {
+      "id": "19",
+      "idCate": "4",
+      "day": "THU",
+      "price": "50"
+    }
+  ],
+  "foodmenu": [
+    {
+      "id": "1",
+      "idCate": "1",
+      "idDay": "1",
+      "name": "Tuna Veggie Salad 1",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "2",
+      "idCate": "1",
+      "idDay": "1",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "3",
+      "idCate": "1",
+      "idDay": "1",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "4",
+      "idCate": "1",
+      "idDay": "2",
+      "name": "Tuna Veggie Salad 2",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "5",
+      "idCate": "1",
+      "idDay": "2",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "6",
+      "idCate": "1",
+      "idDay": "2",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "7",
+      "idCate": "1",
+      "idDay": "3",
+      "name": "Tuna Veggie Salad 2",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "8",
+      "idCate": "1",
+      "idDay": "3",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "9",
+      "idCate": "1",
+      "idDay": "3",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "10",
+      "idCate": "1",
+      "idDay": "4",
+      "name": "Tuna Veggie Salad 2",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "11",
+      "idCate": "1",
+      "idDay": "4",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "12",
+      "idCate": "1",
+      "idDay": "4",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "13",
+      "idCate": "1",
+      "idDay": "5",
+      "name": "Tuna Veggie Salad 2",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "14",
+      "idCate": "1",
+      "idDay": "5",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "15",
+      "idCate": "1",
+      "idDay": "5",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "16",
+      "idCate": "2",
+      "idDay": "6",
+      "name": "Tuna Veggie Salad 2",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "17",
+      "idCate": "2",
+      "idDay": "7",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "18",
+      "idCate": "2",
+      "idDay": "8",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "19",
+      "idCate": "2",
+      "idDay": "9",
+      "name": "Tuna Veggie Salad 2",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "20",
+      "idCate": "2",
+      "idDay": "10",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "21",
+      "idCate": "2",
+      "idDay": "11",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "22",
+      "idCate": "2",
+      "idDay": "12",
+      "name": "Tuna Veggie Salad 2",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "23",
+      "idCate": "2",
+      "idDay": "13",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "24",
+      "idCate": "2",
+      "idDay": "14",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "25",
+      "idCate": "2",
+      "idDay": "15",
+      "name": "Tuna Veggie Salad 2",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/pMmnTwv.png",
+      "time": "Breakfast",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "26",
+      "idCate": "2",
+      "idDay": "16",
+      "name": "Lowcarb Chicken Burger ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Lunch",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    },
+    {
+      "id": "27",
+      "idCate": "2",
+      "idDay": "1",
+      "name": "Spicy Grilled Fish Fillet ",
+      "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+      "image": "https://i.imgur.com/SyWmLe1.png",
+      "time": "Dinner",
+      "calories": "1390",
+      "carbohydrates": "1390",
+      "protein": "1390",
+      "fat": "1390"
+    }
+  ],
+  "order": [
+    {
+      "id": "8c4f",
+      "idOrders": "0591acad-4f23-4a93-9312-422a4b860ced",
+      "codeDiscount": "laxv8p",
+      "values": {
+        "fullname": "Luong Gia Han",
+        "email": "GhanLuong1106@gmail.com",
+        "phone": "0974200611",
+        "address": "112 Truong Thi Hoa 2",
+        "province": "89",
+        "district": "886",
+        "wards": "An Phú"
+      },
+      "cart": [
+        {
+          "id": "9",
+          "idCate": "2",
+          "day": "THU",
+          "price": "50",
+          "listfood": [
+            {
+              "id": "19",
+              "idCate": "2",
+              "idDay": "9",
+              "name": "Tuna Veggie Salad 2",
+              "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+              "image": "https://i.imgur.com/pMmnTwv.png",
+              "time": "Breakfast",
+              "calories": "1390",
+              "carbohydrates": "1390",
+              "protein": "1390",
+              "fat": "1390"
+            }
+          ],
+          "slug": "2",
+          "title": "VEGETARIAN"
+        }
+      ],
+      "payment": "delivery"
+    },
+    {
+      "idOrders": "596e332c-d5f2-4ed5-bc20-2217e37a98aa",
+      "codeDiscount": "zmLgm8",
+      "values": {
+        "fullname": "Luong Gia Han",
+        "email": "GhanLuong1106@gmail.com",
+        "phone": "0974200611",
+        "address": "112 Truong Thi Hoa 2",
+        "province": "77",
+        "district": "750",
+        "wards": "Bình Ba"
+      },
+      "cart": [
+        {
+          "id": "9",
+          "idCate": "2",
+          "day": "THU",
+          "price": "50",
+          "listfood": [
+            {
+              "id": "19",
+              "idCate": "2",
+              "idDay": "9",
+              "name": "Tuna Veggie Salad 2",
+              "des": "Cabbage according to a completely new recipe, it turned out delicious and spicy",
+              "image": "https://i.imgur.com/pMmnTwv.png",
+              "time": "Breakfast",
+              "calories": "1390",
+              "carbohydrates": "1390",
+              "protein": "1390",
+              "fat": "1390"
+            }
+          ],
+          "slug": "2",
+          "title": "VEGETARIAN"
+        }
+      ],
+      "payment": "delivery",
+      "id": "Xy8WxYz"
+    }
+  ],
+  "user": [
+    {
+      "id": "7c0f",
+      "user": "haha",
+      "email": "GhanLuong1106@gmail.com",
+      "password": "$2a$10$cJAYjaBnnoOXukHRL3n1UOCIN7gB46PlElUhu9uoWaRavQCzPFVMa",
+      "repassword": "Han1234@",
+      "permissions": "1"
+    },
+    {
+      "id": "6e2a",
+      "user": "hahha",
+      "email": "19521468@gm.uit.edu.vn",
+      "password": "$2a$10$FF3aofuXQUKLdH3BYobcGeIsrL44VGTGwOcBtloanaQA.CWzh30GG",
+      "repassword": "Han1234@",
+      "permissions": "0"
+    }
+  ]
+}

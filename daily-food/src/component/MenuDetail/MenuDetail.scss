@@ -1,0 +1,64 @@
+.menudetail {
+    display: flex;
+    margin: $fs-36 auto;
+    width: 80%;
+    @media (max-width: 767px) {
+        width: 100%;
+    }
+    &-images {
+        width: 4cqb;
+        img {
+            width: 100%;
+        }
+    }
+    &-detail {
+        width: 60%;
+        padding: 0 $fs-48;
+        @media (max-width: 767px) {
+            padding: 0;
+        }
+        h3 {
+            font-size: $fs-24;
+            font-weight: 600;
+            @media (max-width: 575px) {
+                margin: 20px 0;
+            }
+        }
+        h5 {
+            color: $red-color;
+            font-size: $fs-16;
+            margin: $fs-20 0;
+            font-weight: 700;
+            @media (max-width: 767px) {
+                margin: 0;
+            }
+        }
+        p {
+            font-size: $fs-16;
+            white-space: nowrap;
+            @media (max-width: 575px) {
+                white-space: unset;
+            }
+            i {
+                margin-right: $fs-12;
+            }
+        }
+        h4 {
+            font-size: $fs-16;
+            font-weight: 700;
+            margin-top: $fs-40;
+            @media (max-width: 767px) {
+                margin-top: 0;
+            }
+        }
+    }
+    &_button {
+        margin-top: $fs-48;
+        @media (max-width: 767px) {
+            margin-top: $fs-16;
+        }
+        a {
+            margin-right: $fs-20;
+        }
+    }
+}

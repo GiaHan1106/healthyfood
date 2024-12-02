@@ -1,0 +1,93 @@
+.login {
+    margin: 0 auto;
+    margin-top: $fs-44;
+    width: 65%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: $fs-12;
+    @media (max-width: 767px) {
+        width: 80%;
+        margin-bottom: $fs-20;
+    }
+    &-left {
+        @media (max-width: 767px) {
+            display: none;
+        }
+        img {
+            width: 400px;
+            height: 620px;
+            border-top-right-radius: 70%;
+            border-bottom-right-radius: 70%;
+        }
+    }
+    &-right {
+        padding: $fs-56;
+
+        &_text {
+            @media (max-width: 767px) {
+                h2,
+                h3 {
+                    text-align: center;
+                }
+            }
+            h2 {
+                font-size: $fs-32;
+                font-weight: 600;
+                color: $secondary-color;
+                span {
+                    margin-left: $fs-12;
+                    padding: $fs-8;
+                    color: $third-color;
+                    border-radius: $fs-8;
+                    display: none;
+                    @media (max-width: 767) {
+                        display: block;
+                    }
+                }
+                @media (max-width: 576px) {
+                    font-size: $fs-28;
+                }
+            }
+            h3 {
+                font-size: $fs-14;
+                font-style: italic;
+                margin-bottom: $fs-32;
+            }
+        }
+    }
+    &-input {
+        margin: $fs-20 0;
+        h5 {
+            font-size: $fs-16;
+        }
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #a8a8a8;
+            border-radius: $fs-8;
+        }
+    }
+    &-button {
+        margin-top: $fs-32;
+        &_login {
+            background-color: $third-color;
+            color: #fff;
+            padding: $fs-12;
+            font-size: $fs-14;
+            width: 100%;
+            border-radius: $fs-8;
+        }
+        &_google {
+            @include flexBox(center);
+            width: 100%;
+        }
+        h4 {
+            font-size: $fs-14;
+            text-align: center;
+            color: #b1b1b1;
+        }
+        p {
+            text-align: center;
+            font-size: $fs-14;
+        }
+    }
+}

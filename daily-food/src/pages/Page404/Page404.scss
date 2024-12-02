@@ -1,0 +1,23 @@
+.errorPage {
+    width: 50%;
+    margin: 0 auto;
+    img {
+        width: 100%;
+    }
+    p {
+        width: 40%;
+        margin: 0 auto;
+        text-align: center;
+        padding: $fs-8;
+        border-radius: $fs-8;
+        background-color: $secondary-color;
+        color: white;
+        margin-bottom: $fs-20;
+        transition: 0.5s;
+        font-weight: 700;
+        &:hover {
+            background-color: $primary-color;
+            color: $secondary-color;
+        }
+    }
+}

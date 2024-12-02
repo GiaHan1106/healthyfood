@@ -1,0 +1,17 @@
+.button-1 {
+    background-color: transparent;
+    border: 1px solid $third-color;
+    color: $third-color;
+    border-radius: $fs-48;
+    padding: $fs-16 $fs-16;
+    font-weight: bold;
+    @media (max-width: 991px) {
+        font-size: $fs-12 !important;
+        padding: $fs-12 $fs-12;
+    }
+    &.secondary {
+        background-color: $third-color;
+        color: #fff;
+        border-radius: $fs-12;
+    }
+}

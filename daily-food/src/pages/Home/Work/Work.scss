@@ -1,0 +1,38 @@
+.work {
+    margin-top: $fs-72;
+    padding: $fs-44 0;
+    background-color: $six-color;
+    @media (max-width: 767px) {
+        padding: $fs-20 0;
+        margin-top: 0;
+    }
+    h3 {
+        font-size: $fs-72;
+        text-align: center;
+        color: $third-color;
+        @media (max-width: 767px) {
+            font-size: $fs-48;
+            span {
+                font-size: $fs-28;
+            }
+        }
+        span {
+            font-size: $fs-36;
+            margin-right: $fs-8;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: $third-color;
+            color: transparent;
+        }
+    }
+    &-ideal {
+        padding: $fs-8 0;
+        text-align: center;
+        h4 {
+            font-size: $fs-20;
+            font-weight: 600;
+        }
+        p {
+            font-size: $fs-14;
+        }
+    }
+}

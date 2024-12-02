@@ -1,0 +1,241 @@
+.calories {
+    &-image {
+        position: relative;
+        margin-bottom: $fs-32;
+        img {
+            height: 350px;
+            object-fit: cover;
+            @media (max-width: 575px) {
+                height: 250px;
+            }
+        }
+    }
+    &-textBanner {
+        @include posAbsolute("tl", 50%, 50%);
+        background-color: #0000009b;
+        transform: translate(-50%, -50%);
+        border-radius: $fs-20;
+        text-align: center;
+        padding: $fs-40;
+        @media (max-width: 575px) {
+            padding: $fs-14;
+            width: 80%;
+        }
+        h2 {
+            color: #fff;
+            font-size: $fs-32;
+            @media (max-width: 575px) {
+                font-size: $fs-24;
+            }
+        }
+        h3 {
+            color: #fff;
+            margin-bottom: $fs-32;
+            font-size: $fs-24;
+            @media (max-width: 575px) {
+                font-size: $fs-20;
+            }
+        }
+    }
+    &-caculate {
+        border: 2px dashed $secondary-color;
+        border-radius: $fs-8;
+        padding: $fs-16;
+    }
+    &-calo {
+        h4 {
+            margin-bottom: $fs-20;
+            color: #fff;
+            font-size: $fs-16;
+            font-weight: 800;
+            background-color: $secondary-color;
+            display: inline-block;
+            padding: $fs-8 $fs-12;
+            border-radius: 40px;
+            span {
+                background-color: $third-color;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                display: inline-block;
+                margin-right: $fs-12;
+                i {
+                    color: #fff;
+                    font-size: $fs-16;
+                }
+            }
+        }
+    }
+    &-input {
+        @include flexBox(space-between);
+        gap: $fs-12;
+        @media (max-width: 767px) {
+            display: block;
+        }
+        h5 {
+            margin-right: $fs-20;
+            font-size: $fs-16;
+        }
+        input,
+        select {
+            width: 100%;
+            padding: $fs-8;
+            border-radius: $fs-24;
+            border: 1px solid #c2c2c2;
+            margin-bottom: $fs-16;
+        }
+    }
+    &-button {
+        button {
+            width: 100%;
+            padding: $fs-8;
+            border: 2px solid $secondary-color;
+            border-radius: $fs-24;
+            font-weight: 600;
+            color: $secondary-color;
+            background-color: transparent;
+            margin-bottom: $fs-16;
+        }
+    }
+    &-showResultCalo {
+        margin-top: $fs-32;
+    }
+    &-showResultBmi {
+        margin-top: $fs-32;
+    }
+    &_showCalo {
+        @include flexBox(space-between);
+        background-color: #1c6d241a;
+
+        padding: $fs-8;
+        margin-bottom: $fs-20;
+        border-radius: $fs-8;
+    }
+    &-totalCalo {
+        text-align: right;
+        font-size: $fs-20;
+        span {
+            color: $secondary-color;
+            font-weight: 800;
+        }
+    }
+    &_leftCalo {
+        font-weight: 600;
+        font-size: $fs-20;
+        color: $secondary-color;
+    }
+    &_rightCalo {
+        @include flexBox(left);
+        &_text {
+            margin-right: $fs-12;
+            span {
+                font-weight: 500;
+            }
+            .fa-fire {
+                margin-right: $fs-12;
+                color: $third-color;
+            }
+            .fa-weight-scale {
+                margin-right: $fs-12;
+                color: $secondary-color;
+            }
+        }
+    }
+    &-bmi {
+        h4 {
+            margin-bottom: $fs-20;
+            color: #fff;
+            font-size: $fs-16;
+            font-weight: 800;
+            background-color: $third-color;
+            display: inline-block;
+            padding: $fs-8 $fs-12;
+            border-radius: 40px;
+            span {
+                background-color: $secondary-color;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                display: inline-block;
+                margin-right: $fs-12;
+                i {
+                    color: #fff;
+                    font-size: $fs-16;
+                }
+            }
+        }
+    }
+    &_showbmi {
+        @include flexBox(space-between);
+        background-color: rgb(232 132 64 / 23%);
+        padding: $fs-8;
+        margin-bottom: $fs-20;
+        border-radius: $fs-8;
+    }
+    &-totalbmi {
+        text-align: right;
+        font-size: $fs-20;
+        span {
+            color: $secondary-color;
+            font-weight: 800;
+        }
+    }
+    &_leftbmi {
+        font-weight: 600;
+        font-size: $fs-20;
+        color: $secondary-color;
+    }
+    &_rightbmi {
+        @include flexBox(left);
+        &_text {
+            margin-right: $fs-12;
+            span {
+                font-weight: 500;
+            }
+            .fa-weight-hanging {
+                margin-right: $fs-8;
+                color: $third-color;
+            }
+            .fa-scale-balanced {
+                margin-right: $fs-8;
+                color: $secondary-color;
+            }
+        }
+    }
+    &-buttonType {
+        @include flexBox();
+        h2 {
+            font-size: $fs-20;
+            width: 20%;
+        }
+        &-type {
+            @include flexBox();
+            gap: $fs-12;
+            width: 80%;
+            &_child {
+                i {
+                    font-size: $fs-12;
+                    margin-right: $fs-12;
+                    color: $third-color;
+                }
+                color: $secondary-color;
+                padding: $fs-8;
+                border-radius: $fs-32;
+                font-size: $fs-16;
+                font-weight: 500;
+                background-color: #1c6d241a;
+            }
+        }
+    }
+    &-result {
+        margin-top: $fs-48 !important;
+        width: 50%;
+        margin: 0 auto;
+        border-top: 1px solid #1c6d241a;
+        text-align: center;
+    }
+}

@@ -1,0 +1,53 @@
+@mixin flexBox($justify: center) {
+    display: flex;
+    align-items: center;
+    justify-content: $justify;
+}
+@mixin posAbsolute($direction: "tl", $y: 0, $x: 0) {
+    position: absolute;
+    @if ($direction == "tl") {
+        top: $y;
+        left: $x;
+    }
+    @if ($direction == "tr") {
+        top: $y;
+        right: $x;
+    }
+    @if ($direction == "bl") {
+        bottom: $y;
+        left: $x;
+    }
+    @if ($direction == "br") {
+        bottom: $y;
+        right: $x;
+    }
+    @if ($direction == "centerX") {
+        top: $y;
+        left: $x;
+        transform: translateX(-50%);
+    }
+    @if ($direction == "centerY") {
+        top: $y;
+        left: $x;
+        transform: translateY(-50%);
+    }
+    @if ($direction == "centerXY") {
+        top: $y;
+        left: $x;
+        transform: translate(-50%, -50%);
+    }
+}
+@mixin textDecorate($color, $fontSize, $fontWeight: null) {
+    color: $color;
+    font-size: $fontSize;
+    @if ($fontWeight != null) {
+        font-weight: $fontWeight;
+    }
+}
+@mixin beforeAfter($width, $height, $bg) {
+    content: "";
+    display: block;
+    width: $width;
+    height: $height;
+    background-color: $bg;
+}

@@ -1,0 +1,12 @@
+.enviroment {
+    margin: $fs-40 0;
+    &-content {
+        img {
+            width: 30%;
+            margin: 0 auto;
+        }
+        p {
+            text-align: center;
+        }
+    }
+}

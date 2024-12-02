@@ -1,0 +1,78 @@
+.s-payment {
+    margin: $fs-48 0;
+    h2 {
+        font-size: $fs-16;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+    &-left {
+        .s_input {
+            @include flexBox(space-between);
+            margin-bottom: 1rem;
+            h5 {
+                font-size: $fs-16;
+                width: 20%;
+            }
+            input {
+                width: 80%;
+                padding: 0.5rem;
+                border: 1px solid #a8a8a8;
+                border-radius: 5px;
+            }
+            textarea {
+                width: 80%;
+                padding: 0.5rem;
+                border: 1px solid #a8a8a8;
+                border-radius: 5px;
+            }
+        }
+        textarea {
+            width: 80%;
+            padding: 0.5rem;
+        }
+        .s_button_1 {
+            text-align: center;
+            background-color: $third-color;
+            border: 2px solid $third-color;
+            color: #fff;
+            border-radius: $fs-8;
+            font-weight: 700;
+            padding: $fs-8;
+            width: 100%;
+            transition: 0.5s;
+            &:hover {
+                background-color: #fff;
+                color: $third-color;
+                font-weight: 700;
+                border: 2px solid $third-color;
+            }
+        }
+    }
+    &-right {
+        background-color: #efefef;
+        padding: 3rem 3rem 0 3rem;
+        h3 {
+            font-size: $fs-16;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        &_order {
+            @include flexBox(space-between);
+            border-bottom: 1px solid #d1d1d1;
+            padding-top: 1rem;
+            &:nth-child(6) {
+                border-bottom: 1px solid $primary-color;
+            }
+            &:last-child {
+                border-bottom: unset;
+            }
+            &_orderText {
+                font-size: $fs-16;
+            }
+            &_orderPrice {
+                font-size: $fs-16;
+                font-weight: 500;
+            }
+        }
+    }
+}

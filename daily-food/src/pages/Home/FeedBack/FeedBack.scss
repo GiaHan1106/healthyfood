@@ -1,0 +1,19 @@
+.feedback {
+    &-child {
+        margin-top: $fs-20;
+        text-align: center;
+        img {
+            width: 15%;
+            margin: 0 auto;
+        }
+        h3 {
+            margin: $fs-16 0;
+            font-size: $fs-20;
+        }
+        p {
+            width: 90%;
+            font-size: $fs-16;
+            margin: 0 auto;
+        }
+    }
+}

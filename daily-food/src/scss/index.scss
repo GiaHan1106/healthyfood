@@ -1,0 +1,38 @@
+@import "variable";
+@import "mixin";
+@import "base";
+
+@import "../component/Header/Header";
+@import "../component/Button/Button";
+@import "../component/Footer/Footer";
+@import "../component/HeadLine/HeadLine";
+@import "../component/MenuDetail/MenuDetail";
+@import "../component/CartFood/CartFood";
+
+@import "../pages/Home/Slide/Slide";
+@import "../pages/Home/Work/Work";
+@import "../pages/Home/Product/Product";
+@import "../pages/Home/TabMenu/Tabmenu";
+@import "../pages/Home/Feature/Feature";
+@import "../pages/Home/Enviroment/Enviroment";
+@import "../pages/Home/Map/Map";
+@import "../pages/Home/FeedBack/FeedBack";
+
+@import "../pages/About/About";
+@import "../pages/Menu/Menu";
+@import "../pages/Menu/CardMenu/CardMenu";
+@import "../pages/Order/Order";
+@import "../pages/Calories/Calories";
+@import "../pages/Recipe/Recipe";
+@import "../pages/Cart/Cart";
+@import "../pages/Payment//Payment";
+@import "../pages/Register/Register";
+@import "../pages/Login/Login";
+@import "../pages/Page404/Page404";
+
+@import "../component/Admin/SideBar";
+@import "../pages/Admin/CateMenu/CateMenu";
+@import "../pages/Admin/DayMenu/DayMenu";
+@import "../pages/Admin/FoodMenu/FoodMenu";
+@import "../pages/Admin/Revenue/Revenue";
+@import "../pages/Admin/OrderManage/OrderManage";

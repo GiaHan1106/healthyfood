@@ -1,0 +1,120 @@
+.menu {
+    &-imageMenu {
+        position: relative;
+        img {
+            height: 350px;
+            object-fit: cover;
+        }
+    }
+    &-textBanner {
+        @include posAbsolute("tl", 50%, 50%);
+        background-color: #0000009b;
+        transform: translate(-50%, -50%);
+        border-radius: $fs-20;
+        text-align: center;
+        padding: $fs-40;
+        @media (max-width: 767px) {
+            width: 80%;
+        }
+        h2 {
+            color: #fff;
+            font-size: $fs-32;
+            @media (max-width: 767px) {
+                font-size: $fs-24;
+            }
+            @media (max-width: 575px) {
+                font-size: $fs-16;
+            }
+        }
+        h3 {
+            color: #fff;
+            margin-bottom: $fs-32;
+            font-size: $fs-24;
+        }
+        .button-1.secondary {
+            font-size: $fs-12;
+        }
+    }
+    &-listmenu {
+        @include flexBox(space-between);
+        margin: $fs-40 auto;
+        width: 70%;
+        @media (max-width: 991px) {
+            width: 100%;
+        }
+        &_available {
+            display: block;
+            color: red;
+            font-size: $fs-12;
+            @media (max-width: 575px) {
+                font-size: $fs-8;
+            }
+        }
+        &_day {
+            @media (max-width: 991px) {
+                font-size: $fs-20;
+            }
+            @media (max-width: 575px) {
+                font-size: $fs-16;
+            }
+        }
+
+        li {
+            font-size: $fs-28;
+            font-weight: 600;
+            padding: $fs-8;
+            cursor: pointer;
+            &::after {
+                @include beforeAfter(0%, 4px, $fifth-color);
+                border-radius: $fs-8;
+                transition: 0.5s;
+            }
+            &.active {
+                color: $four-color;
+                &::after {
+                    width: 100%;
+                }
+            }
+            &.disable {
+                color: #eee;
+            }
+            &.now {
+                border: 1px solid $four-color;
+                border-radius: 10px;
+            }
+        }
+    }
+    &-content {
+        display: none;
+        &.active {
+            display: block;
+        }
+        .cardMenu {
+            @media (max-width: 991px) {
+                width: 100%;
+            }
+        }
+    }
+    &-button {
+        text-align: center;
+        h5 {
+            margin-bottom: $fs-28;
+            font-size: $fs-28;
+            span {
+                font-weight: 700;
+            }
+        }
+        &_button-1 {
+            background-color: transparent;
+            border: 1px solid $third-color;
+            color: $third-color;
+            border-radius: $fs-48;
+            padding: $fs-16 $fs-16;
+            font-weight: bold;
+            @media (max-width: 991px) {
+                font-size: $fs-12 !important;
+                padding: $fs-12 $fs-12;
+            }
+        }
+    }
+}

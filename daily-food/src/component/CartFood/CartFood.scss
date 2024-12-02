@@ -1,0 +1,19 @@
+.cartfood {
+    &-image {
+        border-bottom: 1px solid #000;
+        padding-bottom: $fs-16;
+        img {
+            border-radius: $fs-16;
+        }
+    }
+    &-price {
+        text-align: center;
+        margin-top: $fs-20;
+        h2 {
+            font-size: $fs-16;
+        }
+        h3 {
+            font-size: $fs-16;
+        }
+    }
+}

@@ -1,0 +1,14 @@
+.notification {
+    i {
+        margin-right: $fs-12;
+    }
+    &-child {
+        margin-left: $fs-32;
+        font-size: $fs-14;
+        margin: $fs-20;
+        span {
+            font-style: italic;
+            font-weight: 600;
+        }
+    }
+}

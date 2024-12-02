@@ -1,0 +1,30 @@
+.c-revenue {
+    margin-top: $fs-44;
+    &_card {
+        background-color: #1d6d241f;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        color: #1c6d24;
+        padding: 0.75rem;
+        border-radius: 0.55rem;
+        h2 {
+            font-size: $fs-28;
+            font-weight: 800;
+        }
+        h5 {
+            margin: $fs-32 0;
+            color: black;
+            font-size: $fs-14;
+        }
+        .icon {
+            text-align: right;
+            i {
+                width: 20%;
+                color: $third-color;
+                text-align: center;
+                padding: $fs-12;
+                border-radius: 50%;
+                background-color: rgb(232 132 64 / 26%);
+            }
+        }
+    }
+}
