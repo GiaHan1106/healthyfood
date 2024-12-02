@@ -74,19 +74,24 @@ const FoodMenu = () => {
             calories: data.calories,
             protein: data.protein,
             fat: data.fat,
-            catename: data.catename,
+            allday: data.allday || 0,
+            price: data.price || 0,
+            diseases: data.diseases || "",
         },
         validationSchema: Yup.object({
-            name: Yup.string().required("name is Required"),
-            image: Yup.string().required("image is Required"),
-            des: Yup.string().required("des is Required"),
-            calories: Yup.string().required("calofries is Required"),
-            protein: Yup.string().required("protein is Required"),
-            fat: Yup.string().required("fat is Required"),
+            name: Yup.string().required("Name is required"),
+            image: Yup.string().required("Image is required"),
+            des: Yup.string().required("Description is required"),
+            calories: Yup.number().required("Calories is required"),
+            protein: Yup.number().required("Protein is required"),
+            fat: Yup.number().required("Fat is required"),
+            allday: Yup.number().oneOf([0, 1], "Invalid value for All Day").required("All Day is required"),
+            price: Yup.number().required("Price is required").min(0, "Price must be at least 0"),
+            diseases: Yup.string().required("Diseases is required"),
         }),
         onSubmit: async (values) => {
             const newObj = {
-                idCate: selectCate.id,
+                idCate: parseInt(selectCate.id),
                 idDay: selectDays.id,
                 name: values.name,
                 image: values.image,
@@ -94,30 +99,30 @@ const FoodMenu = () => {
                 calories: values.calories,
                 protein: values.protein,
                 fat: values.fat,
+                allday: values.allday,
+                price: values.price,
+                diseases: values.diseases,
             };
+            console.log(newObj);
 
-            // console.log("form value:", newObj);
-
-            if (update) {
-                try {
-                    const res = await axios.put(`http://localhost:8081/foodmenu/` + values.id, newObj);
-                    console.log("Response:", res.data);
-                    alert("Data updated successfully!");
-                    window.location.reload();
-                } catch (error) {
-                    console.error("There was an error updating the data!", error);
-                    alert("Failed to update data.");
+            try {
+                let res;
+                if (update) {
+                    // Cập nhật
+                    res = await axios.put(`http://localhost:8081/foodmenu/` + values.id, newObj);
+                    const updatedList = newCateMenu.map((item) => (item.foodmenu_id === values.id ? { ...item, ...newObj } : item));
+                    setNewCateMenu(updatedList);
+                } else {
+                    // Thêm mới
+                    res = await axios.post(`http://localhost:8081/foodmenu`, newObj);
+                    setNewCateMenu([...newCateMenu, res.data]); // Adds new data to the state
                 }
-            } else {
-                try {
-                    const res = await axios.post(`http://localhost:8081/foodmenu/`, newObj);
-                    console.log("Response:", res.data);
-                    alert("Data ADD successfully!");
-                    window.location.reload();
-                } catch (error) {
-                    console.error("There was an error ADD the data!", error);
-                    alert("Failed to ADD data.");
-                }
+                alert("Data saved successfully!");
+                formik.resetForm();
+                setSelectCate({});
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to save data.");
             }
         },
     });
@@ -128,21 +133,21 @@ const FoodMenu = () => {
         setData({
             id: findId.id,
             idCate: findId.idCate,
-            idDay: findId.idDay, // Ensure this field is mapped
+            idDay: findId.idDay,
             name: findId.name,
             image: findId.image,
             des: findId.des,
             calories: findId.calories,
             protein: findId.protein,
             fat: findId.fat,
-            catename: findId.catename.title,
+            allday: findId.allday,
         });
         setSelectCate({
             id: findId.catename.id,
             title: findId.catename.title,
         });
         setSelectDays({
-            id: findId.idDay, // Correct this value if necessary
+            id: findId.idDay,
             day: getDayName(findId.idDay),
         });
     };
@@ -173,30 +178,6 @@ const FoodMenu = () => {
 
         return days[dayNumber] || "Unknown"; // Nếu không phải 1-5, trả về 'Unknown'
     };
-    //useEffect dau tien load ra duoc title va day dau tien
-    useEffect(() => {
-        // Kiểm tra xem cateMenu và dayMenu có dữ liệu không
-        if (catemenu.length > 0 && daymenu.length > 0) {
-            // Lấy phần tử đầu tiên của cateMenu
-            const firstCate = catemenu[0];
-            setSelectCate({
-                id: firstCate.catemenu_id,
-                title: firstCate.catemenu_title,
-            });
-
-            // Lọc ngày tương ứng với category đầu tiên
-            const selectDay = daymenu.filter((item) => item.daymenu_idCate.toString() === firstCate.catemenu_id.toString());
-
-            if (selectDay.length > 0) {
-                setDaysByCate(selectDay.map((item) => item.daymenu_day));
-                setSelectDays({
-                    id: selectDay[0].daymenu_id,
-                    day: selectDay[0].daymenu_day,
-                });
-            }
-        }
-    }, [catemenu, daymenu]);
-
     useEffect(() => {
         const newListDay = listData.map((list) => {
             list.catename = catemenu.find((food) => list.idCate === food.id);
@@ -212,18 +193,26 @@ const FoodMenu = () => {
 
     useEffect(() => {
         if (catemenu && catemenu.length > 0) {
+            // Lọc các ngày liên quan đến danh mục đầu tiên
             const filterDay = daymenu.filter((item) => item.daymenu_idCate === catemenu[0].catemenu_id);
-            const getfirstlistday = filterDay.map((item) => ({
-                id: catemenu[0].catemenu_id,
+
+            // Chuyển đổi dữ liệu sang định dạng cần thiết
+            const getFirstListDay = filterDay.map((item) => ({
+                id: item.daymenu_id, // Sử dụng `id` chính xác
                 day: item.daymenu_day,
             }));
-            setDaysByCate(getfirstlistday);
-            setSelectDays(getfirstlistday);
+
+            // Cập nhật danh sách mới (xóa danh sách cũ trước khi thêm)
+            setDaysByCate(getFirstListDay);
+
+            // Chọn ngày đầu tiên làm mặc định (nếu cần)
+            setSelectDays(getFirstListDay.length > 0 ? getFirstListDay[0] : []);
         } else {
             console.log("Data is not ready yet.");
+            setDaysByCate([]); // Làm rỗng danh sách khi không có danh mục
+            setSelectDays([]); // Làm rỗng ngày được chọn
         }
-    }, [catemenu]);
-    console.log(daysByCate);
+    }, [catemenu, daymenu]); // Đảm bảo `daymenu` là một dependency
 
     return (
         <div className="foodmenuManage">
@@ -275,6 +264,14 @@ const FoodMenu = () => {
                     </Col>
                     <Col md={4}>
                         <div className="foodmenuManage-input">
+                            <h5>Price</h5>
+                            <input type="number" onChange={formik.handleChange} name="price" value={formik.values.price} />
+                            {formik.touched.price && formik.errors.price ? <div className="error">{formik.errors.price}</div> : null}
+                        </div>
+                    </Col>
+
+                    <Col md={4}>
+                        <div className="foodmenuManage-input">
                             <h5>Description</h5>
                             <input type="text" onChange={formik.handleChange} name="des" value={formik.values.des} />
                             {formik.touched.des && formik.errors.des ? <div className="error">{formik.errors.des}</div> : null}
@@ -302,6 +299,24 @@ const FoodMenu = () => {
                         </div>
                     </Col>
                     <Col md={4}>
+                        <div className="foodmenuManage-input">
+                            <h5>Diseases</h5>
+                            <input type="text" onChange={formik.handleChange} name="diseases" value={formik.values.diseases} />
+                            {formik.touched.diseases && formik.errors.diseases ? <div className="error">{formik.errors.diseases}</div> : null}
+                        </div>
+                    </Col>
+                    <Col md={4}>
+                        <div className="foodmenuManage-input">
+                            <h5>Sell</h5>
+                            <select name="allday" onChange={formik.handleChange} value={formik.values.allday}>
+                                <option value={1}>All Day</option>
+                                <option value={0}>Combo</option>
+                            </select>
+                            {formik.touched.allday && formik.errors.allday ? <div className="error">{formik.errors.allday}</div> : null}
+                        </div>
+                    </Col>
+
+                    <Col md={4}>
                         {update && update ? (
                             <div className="foodmenuManage-button">
                                 <button className="foodmenuManage-button_login" type="submit">
@@ -328,10 +343,13 @@ const FoodMenu = () => {
                             <th>Name</th>
                             <th>Time</th>
                             <th>Image</th>
-                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Sell</th>
                             <th>Calories</th>
                             <th>ProTein</th>
                             <th>Fat</th>
+                            <th>Diseases</th>
+                            <th>Sell</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -348,10 +366,13 @@ const FoodMenu = () => {
                                     <td>
                                         <img src={item.foodmenu_image} alt="" />
                                     </td>
+                                    <td>{item.price}</td>
                                     <td>{item.foodmenu_des}</td>
                                     <td>{item.foodmenu_calories}</td>
                                     <td>{item.foodmenu_protein}</td>
                                     <td>{item.foodmenu_fat}</td>
+                                    <td>{item.diseases}</td>
+                                    <td>{item.allday === 1 ? "All Day" : "Combo"}</td>
                                     <td>
                                         <button onClick={() => handleEdit(item.foodmenu_id)}>Edit</button>
                                     </td>

@@ -266,6 +266,63 @@ app.get("/foodmenu", (req, res) => {
         return res.json(data);
     });
 });
+app.post("/foodmenu", async (req, res) => {
+    const {
+        foodmenu_idCate,
+        foodmenu_idDay,
+        foodmenu_name,
+        foodmenu_image,
+        foodmenu_des,
+        foodmenu_calories,
+        foodmenu_protein,
+        foodmenu_fat,
+        allday,
+        price,
+        diseases, // Thêm trường này
+    } = req.body;
+
+    try {
+        const sql = `
+            INSERT INTO foodmenu (foodmenu_idCate, foodmenu_idDay, foodmenu_name, foodmenu_image, foodmenu_des, foodmenu_calories, foodmenu_protein, foodmenu_fat, allday, price, diseases) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        await db.query(sql, [
+            foodmenu_idCate,
+            foodmenu_idDay,
+            foodmenu_name,
+            foodmenu_image,
+            foodmenu_des,
+            foodmenu_calories,
+            foodmenu_protein,
+            foodmenu_fat,
+            allday,
+            price,
+            diseases, // Truyền giá trị diseases
+        ]);
+        res.status(201).json({ message: "Food added successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to add food" });
+    }
+});
+
+// PUT cập nhật món ăn
+app.put("/foodmenu/:id", async (req, res) => {
+    const { id } = req.params;
+    const { foodmenu_idCate, foodmenu_idDay, foodmenu_name, foodmenu_image, foodmenu_des, foodmenu_calories, foodmenu_protein, foodmenu_fat, allday, price, diseases } = req.body;
+    try {
+        const sql = `
+            UPDATE foodmenu 
+            SET foodmenu_idCate = ?, foodmenu_idDay = ?, foodmenu_name = ?, foodmenu_image = ?, foodmenu_des = ?, foodmenu_calories = ?, foodmenu_protein = ?, foodmenu_fat = ?, allday = ?, price = ? , diseases = ? 
+            WHERE id = ?
+        `;
+        await db.query(sql, [foodmenu_idCate, foodmenu_idDay, foodmenu_name, foodmenu_image, foodmenu_des, foodmenu_calories, foodmenu_protein, foodmenu_fat, allday, price, diseases, id]);
+        res.status(200).json({ message: "Food updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to update food" });
+    }
+});
 
 ///ORDERS
 app.get("/orders", (req, res) => {
