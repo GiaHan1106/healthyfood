@@ -77,7 +77,7 @@ const FoodMenu = () => {
             time: data.time,
             image: data.image,
             des: data.des,
-            carbohydrates: data.des,
+            carbohydrates: data.carbohydrates,
             calories: data.calories,
             protein: data.protein,
             fat: data.fat,
@@ -118,7 +118,10 @@ const FoodMenu = () => {
             try {
                 let res;
                 if (update) {
-                    res = await axios.put(`http://localhost:8081/foodmenu/` + values.id, newObj);
+                    // Ensure to send the correct `id` in the PUT request URL
+                    res = await axios.put(`http://localhost:8081/foodmenu/${values.id}`, newObj);
+
+                    // Update the list after the update
                     const updatedList = newCateMenu.map((item) => (item.foodmenu_id === values.id ? { ...item, ...newObj } : item));
                     setNewCateMenu(updatedList);
                 } else {
@@ -128,8 +131,6 @@ const FoodMenu = () => {
                         catename: catemenu.find((food) => food.catemenu_id === newObj.foodmenu_idCate),
                         daymenu: daymenu.find((day) => day.daymenu_id === newObj.foodmenu_idDay),
                     };
-                    console.log(newCateMenu);
-                    console.log(newItem);
                     setNewCateMenu([...newCateMenu, newItem]);
                 }
                 alert("Data saved successfully!");

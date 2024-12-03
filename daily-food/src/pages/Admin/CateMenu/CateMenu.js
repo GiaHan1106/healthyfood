@@ -167,6 +167,7 @@ const CateMenu = () => {
                             <td>
                                 <button onClick={() => handleEdit(item.catemenu_id)}>Edit</button>
                             </td>
+
                             <td>
                                 <button onClick={() => handleDelete(item.catemenu_id)}>Delete</button>
                             </td>
