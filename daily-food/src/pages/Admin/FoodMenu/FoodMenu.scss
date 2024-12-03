@@ -1,6 +1,12 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 .foodmenuManage {
     margin-top: $fs-32;
     border-radius: $fs-12;
+    overflow-x: auto;
     &-input {
         h5 {
             font-size: $fs-16;
@@ -31,6 +37,10 @@
     }
     &-table {
         margin-top: $fs-40;
+        max-width: 100%;
+        overflow-x: auto;
+        padding: $fs-16;
+
         tbody {
             tr {
                 td {

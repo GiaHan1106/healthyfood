@@ -252,6 +252,16 @@ app.delete("/daymenu/:id", (req, res) => {
 });
 
 ///FOODMENU
+app.get("/foodmenu/:foodmenu_id", (req, res) => {
+    let foodId = req.params.foodmenu_id; // Sửa từ 'id' thành 'foodmenu_id'
+    let sql = `SELECT * FROM foodmenu WHERE foodmenu_id = ${db.escape(foodId)}`;
+
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+});
+
 app.get("/foodmenu", (req, res) => {
     let foodId = req.query.idCate;
     let sql = "SELECT * FROM foodmenu";
@@ -271,9 +281,11 @@ app.post("/foodmenu", async (req, res) => {
         foodmenu_idCate,
         foodmenu_idDay,
         foodmenu_name,
+        foodmenu_time,
         foodmenu_image,
         foodmenu_des,
         foodmenu_calories,
+        foodmenu_carbohydrates,
         foodmenu_protein,
         foodmenu_fat,
         allday,
@@ -283,16 +295,18 @@ app.post("/foodmenu", async (req, res) => {
 
     try {
         const sql = `
-            INSERT INTO foodmenu (foodmenu_idCate, foodmenu_idDay, foodmenu_name, foodmenu_image, foodmenu_des, foodmenu_calories, foodmenu_protein, foodmenu_fat, allday, price, diseases) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO foodmenu (foodmenu_idCate, foodmenu_idDay, foodmenu_name, foodmenu_time ,foodmenu_image, foodmenu_des, foodmenu_calories,foodmenu_carbohydrates, foodmenu_protein, foodmenu_fat, allday, price, diseases) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         await db.query(sql, [
             foodmenu_idCate,
             foodmenu_idDay,
             foodmenu_name,
+            foodmenu_time,
             foodmenu_image,
             foodmenu_des,
             foodmenu_calories,
+            foodmenu_carbohydrates,
             foodmenu_protein,
             foodmenu_fat,
             allday,
@@ -306,22 +320,113 @@ app.post("/foodmenu", async (req, res) => {
     }
 });
 
-// PUT cập nhật món ăn
-app.put("/foodmenu/:id", async (req, res) => {
-    const { id } = req.params;
-    const { foodmenu_idCate, foodmenu_idDay, foodmenu_name, foodmenu_image, foodmenu_des, foodmenu_calories, foodmenu_protein, foodmenu_fat, allday, price, diseases } = req.body;
-    try {
-        const sql = `
-            UPDATE foodmenu 
-            SET foodmenu_idCate = ?, foodmenu_idDay = ?, foodmenu_name = ?, foodmenu_image = ?, foodmenu_des = ?, foodmenu_calories = ?, foodmenu_protein = ?, foodmenu_fat = ?, allday = ?, price = ? , diseases = ? 
-            WHERE id = ?
-        `;
-        await db.query(sql, [foodmenu_idCate, foodmenu_idDay, foodmenu_name, foodmenu_image, foodmenu_des, foodmenu_calories, foodmenu_protein, foodmenu_fat, allday, price, diseases, id]);
-        res.status(200).json({ message: "Food updated successfully" });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Failed to update food" });
+app.put("/foodmenu/:foodmenu_id", (req, res) => {
+    const foodmenu_id = req.params.foodmenu_id;
+    const {
+        foodmenu_idCate,
+        foodmenu_idDay,
+        foodmenu_name,
+        foodmenu_time,
+        foodmenu_image,
+        foodmenu_des,
+        foodmenu_calories,
+        foodmenu_carbohydrates,
+        foodmenu_protein,
+        foodmenu_fat,
+        allday,
+        price,
+        diseases,
+    } = req.body;
+    if (
+        !foodmenu_idCate ||
+        !foodmenu_idDay ||
+        !foodmenu_name ||
+        !foodmenu_time ||
+        !foodmenu_image ||
+        !foodmenu_des ||
+        !foodmenu_calories ||
+        !foodmenu_carbohydrates ||
+        !foodmenu_protein ||
+        !foodmenu_fat ||
+        !diseases ||
+        !allday ||
+        !price
+    ) {
+        return res.status(400).json({ error: "All fields are required" });
     }
+    const sql = `
+        UPDATE foodmenu
+        SET  foodmenu_idCate = ?, 
+            foodmenu_idDay = ?, 
+            foodmenu_name = ?, 
+            foodmenu_time = ?, 
+            foodmenu_image = ?, 
+            foodmenu_des = ?, 
+            foodmenu_calories = ?, 
+            foodmenu_carbohydrates = ?, 
+            foodmenu_protein = ?, 
+            foodmenu_fat = ?, 
+            allday = ?, 
+            price = ?, 
+            diseases = ?
+        WHERE foodmenu_id = ? `;
+    db.query(
+        sql,
+        [
+            foodmenu_idCate,
+            foodmenu_idDay,
+            foodmenu_name,
+            foodmenu_time,
+            foodmenu_image,
+            foodmenu_des,
+            foodmenu_calories,
+            foodmenu_carbohydrates,
+            foodmenu_protein,
+            foodmenu_fat,
+            allday,
+            price,
+            diseases,
+            foodmenu_id,
+        ],
+        (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: "Error updating Foodmenu" });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: "Foodmenu not found" });
+            }
+
+            return res.status(200).json({
+                message: "Foodmenu updated successfully",
+                foodmenu_id,
+            });
+        }
+    );
+});
+
+app.delete("/foodmenu/:id", (req, res) => {
+    const { id } = req.params; // Lấy `id` từ tham số URL
+
+    // Xóa bản ghi trong bảng `foodmenu`
+    const deleteSQL = "DELETE FROM foodmenu WHERE foodmenu_id = ?";
+    db.query(deleteSQL, [id], (err, deleteResult) => {
+        if (err) {
+            console.error("Error deleting data:", err);
+            return res.status(500).json({ error: "Error deleting data from database" });
+        }
+
+        if (deleteResult.affectedRows === 0) {
+            return res.status(404).json({ error: "foodmenu not found" });
+        }
+
+        // Trả về thông báo thành công
+        return res.status(200).json({
+            message: "foodmenu deleted successfully",
+            foodmenu_id: id,
+        });
+    });
 });
 
 ///ORDERS
