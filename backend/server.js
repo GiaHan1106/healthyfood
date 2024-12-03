@@ -392,7 +392,7 @@ app.put("/foodmenu/:foodmenu_id", (req, res) => {
             allday,
             price,
             diseases,
-            foodmenu_id, // foodmenu_id từ params
+            foodmenu_id,
         ],
         (err, result) => {
             if (err) {
