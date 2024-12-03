@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as Yup from "yup";
 import { Col, Row, Table } from "react-bootstrap";
 import UseFetch from "~/feature/UseFetch";
@@ -13,7 +13,7 @@ const FoodMenu = () => {
     const [newCateMenu, setNewCateMenu] = useState([]);
     const [update, setUpdate] = useState("");
 
-    const [selectCate, setSelectCate] = useState(catemenu.length > 0 ? { id: catemenu[0].catemenu_id, title: catemenu[0].catemenu_title } : { id: "", title: "" });
+    const [selectCate, setSelectCate] = useState({ id: "", title: "" });
     const [selectDays, setSelectDays] = useState([]);
     const [daysByCate, setDaysByCate] = useState([]);
 
@@ -28,8 +28,9 @@ const FoodMenu = () => {
         carbohydrates: "",
         protein: "",
         fat: "",
-        catename: "",
-        cateDay: "",
+        price: "",
+        allday: "",
+        diseases: "",
     });
 
     // Hàm chon cate
@@ -37,7 +38,12 @@ const FoodMenu = () => {
         const selectedOption = e.target.selectedOptions[0];
         const selectedId = selectedOption.getAttribute("data-id");
         const selectedTitle = selectedOption.value;
-        const selectDay = daymenu.filter((item) => item.daymenu_idCate.toString() === selectedId);
+
+        handleDaysByCate(selectedId, selectedTitle);
+    };
+
+    const handleDaysByCate = (selectedId, selectedTitle) => {
+        const selectDay = daymenu.filter((item) => item.daymenu_idCate.toString() === selectedId.toString());
         setSelectCate({
             id: selectedId,
             title: selectedTitle,
@@ -59,7 +65,6 @@ const FoodMenu = () => {
             id: selectedId,
             day: selectedTitle,
         });
-        console.log(selectDays);
     };
 
     //submit
@@ -119,12 +124,13 @@ const FoodMenu = () => {
                 } else {
                     res = await axios.post(`http://localhost:8081/foodmenu`, newObj);
                     const newItem = {
-                        ...res.data,
+                        ...newObj,
                         catename: catemenu.find((food) => food.catemenu_id === newObj.foodmenu_idCate),
                         daymenu: daymenu.find((day) => day.daymenu_id === newObj.foodmenu_idDay),
                     };
+                    console.log(newCateMenu);
+                    console.log(newItem);
                     setNewCateMenu([...newCateMenu, newItem]);
-                    console.log([...newCateMenu, newItem]);
                 }
                 alert("Data saved successfully!");
                 formik.resetForm();
@@ -139,18 +145,20 @@ const FoodMenu = () => {
         setUpdate(id);
         const findId = newCateMenu.find((item) => item.foodmenu_id === id);
         setData({
-            id: findId.id,
-            idCate: findId.idCate,
-            idDay: findId.idDay,
-            name: findId.name,
-            time: findId.time,
-            image: findId.image,
-            des: findId.des,
-            carbohydrates: findId.carbohydrates,
-            calories: findId.calories,
-            protein: findId.protein,
-            fat: findId.fat,
+            id: findId.foodmenu_id,
+            idCate: findId.foodmenu_idCate,
+            idDay: findId.foodmenu_idDay,
+            name: findId.foodmenu_name,
+            time: findId.foodmenu_time,
+            image: findId.foodmenu_image,
+            des: findId.foodmenu_des,
+            calories: findId.foodmenu_calories,
+            carbohydrates: findId.foodmenu_carbohydrates,
+            protein: findId.foodmenu_protein,
+            fat: findId.foodmenu_fat,
+            price: findId.price,
             allday: findId.allday,
+            diseases: findId.diseases,
         });
         setSelectCate({
             id: findId.catename.id,
@@ -184,30 +192,83 @@ const FoodMenu = () => {
             1: "MON",
             2: "TUE",
             3: "WED",
-            4: "THUR",
+            4: "THU",
             5: "FRI",
             6: "SAT",
             7: "SUN",
+            8: "MON",
+            9: "TUE",
+            10: "WED",
+            11: "THUR",
+            12: "FRI",
+            13: "SAT",
+            14: "SUN",
+            15: "MON",
+            16: "TUE",
+            17: "WED",
+            18: "THUR",
+            19: "FRI",
+            26: "SAT",
+            27: "SUN",
+            28: "MON",
+            29: "TUE",
+            31: "WED",
+            32: "THUR",
+            33: "FRI",
+            34: "SAT",
+            35: "SUN",
         };
 
         return days[dayNumber] || "Unknown"; // Nếu không phải 1-5, trả về 'Unknown'
     };
 
     useEffect(() => {
-        const newListDay = listData.map((list) => {
+        setNewCateMenu(listData);
+    }, [listData]);
+
+    const newListDay = useMemo(() => {
+        return listData.map((list) => {
             list.catename = catemenu.find((food) => list.idCate === food.id);
             list.daymenu = daymenu.find((day) => list.idDay === day.id);
             return list;
         });
+    }, [listData, catemenu, daymenu]);
+
+    useEffect(() => {
         setNewCateMenu(newListDay);
-    }, [catemenu, listData, newCateMenu]);
+    }, [newListDay]);
 
     useEffect(() => {
         if (catemenu.length > 0 && daymenu.length > 0) {
+            handleDaysByCate(catemenu[0].catemenu_id, catemenu[0].catemenu_title);
             const firstCategoryDays = daymenu.filter((item) => item.daymenu_idCate === catemenu[0].catemenu_id);
-            setDaysByCate(firstCategoryDays.map((item) => ({ id: item.daymenu_id, day: item.daymenu_day })));
-            setSelectDays(firstCategoryDays.length > 0 ? { id: firstCategoryDays[0].daymenu_id, day: firstCategoryDays[0].daymenu_day } : null);
+            setSelectDays(
+                firstCategoryDays.length > 0
+                    ? {
+                          id: firstCategoryDays[0].daymenu_id,
+                          day: firstCategoryDays[0].daymenu_day,
+                      }
+                    : null
+            );
+            setSelectCate({
+                id: catemenu[0].catemenu_id,
+                title: catemenu[0].catemenu_title,
+            });
         }
+        // if (catemenu.length > 0 && daymenu.length > 0) {
+        //   const firstCategoryDays = daymenu.filter(
+        //     (item) => item.daymenu_idCate === catemenu[0].catemenu_id
+        //   );
+        //   setSelectDays(
+        //     firstCategoryDays.length > 0
+        //       ? {
+        //           id: firstCategoryDays[0].daymenu_id,
+        //           day: firstCategoryDays[0].daymenu_day,
+        //         }
+        //       : null
+        //   );
+        // }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [catemenu, daymenu]);
 
     return (
@@ -347,7 +408,6 @@ const FoodMenu = () => {
                 <Table striped bordered hover>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Title</th>
                             <th>Day</th>
                             <th>Name</th>
@@ -367,9 +427,8 @@ const FoodMenu = () => {
                     </thead>
                     <tbody>
                         {newCateMenu &&
-                            newCateMenu.map((item) => (
-                                <tr key={item.foodmenu_id}>
-                                    <td>{item.foodmenu_id}</td>
+                            newCateMenu.map((item, index) => (
+                                <tr key={index}>
                                     <td>{item.catename && item.catename.catemenu_title}</td>
                                     <td>{getDayName(item.foodmenu_idDay)}</td>
                                     <td>{item.foodmenu_name}</td>

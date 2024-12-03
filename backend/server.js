@@ -263,19 +263,14 @@ app.get("/foodmenu/:foodmenu_id", (req, res) => {
 });
 
 app.get("/foodmenu", (req, res) => {
-    let foodId = req.query.idCate;
     let sql = "SELECT * FROM foodmenu";
-    if (foodId) {
-        if (isNaN(foodId)) {
-            return res.status(400).json({ error: "Invalid idCate format" });
-        }
-        sql += ` WHERE foodmenu_idCate = ${db.escape(foodId)}`;
-    }
+
     db.query(sql, (err, data) => {
         if (err) return res.json("Error");
         return res.json(data);
     });
 });
+
 app.post("/foodmenu", async (req, res) => {
     const {
         foodmenu_idCate,
@@ -337,6 +332,8 @@ app.put("/foodmenu/:foodmenu_id", (req, res) => {
         price,
         diseases,
     } = req.body;
+
+    // Kiểm tra các trường hợp thiếu dữ liệu
     if (
         !foodmenu_idCate ||
         !foodmenu_idDay ||
@@ -354,22 +351,31 @@ app.put("/foodmenu/:foodmenu_id", (req, res) => {
     ) {
         return res.status(400).json({ error: "All fields are required" });
     }
+
+    // Kiểm tra kiểu dữ liệu hợp lệ cho price (ví dụ: kiểm tra nếu price là số)
+    if (isNaN(price)) {
+        return res.status(400).json({ error: "Price must be a number" });
+    }
+
     const sql = `
-        UPDATE foodmenu
-        SET  foodmenu_idCate = ?, 
-            foodmenu_idDay = ?, 
-            foodmenu_name = ?, 
-            foodmenu_time = ?, 
-            foodmenu_image = ?, 
-            foodmenu_des = ?, 
-            foodmenu_calories = ?, 
-            foodmenu_carbohydrates = ?, 
-            foodmenu_protein = ?, 
-            foodmenu_fat = ?, 
-            allday = ?, 
-            price = ?, 
-            diseases = ?
-        WHERE foodmenu_id = ? `;
+      UPDATE foodmenu
+      SET  
+          foodmenu_idCate = ?, 
+          foodmenu_idDay = ?, 
+          foodmenu_name = ?, 
+          foodmenu_time = ?, 
+          foodmenu_image = ?, 
+          foodmenu_des = ?, 
+          foodmenu_calories = ?, 
+          foodmenu_carbohydrates = ?, 
+          foodmenu_protein = ?, 
+          foodmenu_fat = ?, 
+          allday = ?, 
+          price = ?, 
+          diseases = ?
+      WHERE foodmenu_id = ? 
+  `;
+
     db.query(
         sql,
         [
@@ -386,7 +392,7 @@ app.put("/foodmenu/:foodmenu_id", (req, res) => {
             allday,
             price,
             diseases,
-            foodmenu_id,
+            foodmenu_id, // foodmenu_id từ params
         ],
         (err, result) => {
             if (err) {
@@ -406,25 +412,27 @@ app.put("/foodmenu/:foodmenu_id", (req, res) => {
     );
 });
 
-app.delete("/foodmenu/:id", (req, res) => {
-    const { id } = req.params; // Lấy `id` từ tham số URL
+app.delete("/foodmenu/:foodmenu_id", (req, res) => {
+    const foodmenu_id = req.params.foodmenu_id;
 
-    // Xóa bản ghi trong bảng `foodmenu`
-    const deleteSQL = "DELETE FROM foodmenu WHERE foodmenu_id = ?";
-    db.query(deleteSQL, [id], (err, deleteResult) => {
+    const sql = `
+      DELETE FROM foodmenu
+      WHERE foodmenu_id = ?
+  `;
+
+    db.query(sql, [foodmenu_id], (err, result) => {
         if (err) {
-            console.error("Error deleting data:", err);
-            return res.status(500).json({ error: "Error deleting data from database" });
+            console.error(err);
+            return res.status(500).json({ error: "Error deleting Foodmenu" });
         }
 
-        if (deleteResult.affectedRows === 0) {
-            return res.status(404).json({ error: "foodmenu not found" });
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Foodmenu not found" });
         }
 
-        // Trả về thông báo thành công
         return res.status(200).json({
-            message: "foodmenu deleted successfully",
-            foodmenu_id: id,
+            message: "Foodmenu deleted successfully",
+            foodmenu_id,
         });
     });
 });
