@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Col, Row, Table } from "react-bootstrap";
 import UseFetch from "~/feature/UseFetch";
@@ -11,6 +11,9 @@ const FoodMenu = () => {
     const daymenu = UseFetch(`http://localhost:8081/daymenu`);
 
     const [newCateMenu, setNewCateMenu] = useState([]);
+    const [cateMenuData, setCateMenu] = useState([]);
+    const [dayMenuData, setDayMenu] = useState([]);
+
     const [update, setUpdate] = useState("");
 
     const [selectCate, setSelectCate] = useState({ id: "", title: "" });
@@ -20,6 +23,7 @@ const FoodMenu = () => {
     const [data, setData] = useState({
         id: "",
         idCate: "",
+        idDay: "",
         name: "",
         time: "",
         image: "",
@@ -43,7 +47,7 @@ const FoodMenu = () => {
     };
 
     const handleDaysByCate = (selectedId, selectedTitle) => {
-        const selectDay = daymenu.filter((item) => item.daymenu_idCate.toString() === selectedId.toString());
+        const selectDay = dayMenuData.filter((item) => item.daymenu_idCate.toString() === selectedId.toString());
         setSelectCate({
             id: selectedId,
             title: selectedTitle,
@@ -73,6 +77,7 @@ const FoodMenu = () => {
         initialValues: {
             id: data.id,
             idCate: data.idCate,
+            idDay: data.idDay,
             name: data.name,
             time: data.time,
             image: data.image,
@@ -116,7 +121,6 @@ const FoodMenu = () => {
             };
 
             try {
-                console.log(newObj);
                 let res;
                 if (update) {
                     // Ensure to send the correct `id` in the PUT request URL
@@ -124,15 +128,12 @@ const FoodMenu = () => {
 
                     // Update the list after the update
                     const updatedList = newCateMenu.map((item) => (item.foodmenu_id === values.id ? { ...item, ...newObj } : item));
+
                     setNewCateMenu(updatedList);
                 } else {
                     res = await axios.post(`http://localhost:8081/foodmenu`, newObj);
-                    const newItem = {
-                        ...newObj,
-                        catename: catemenu.find((food) => food.catemenu_id === newObj.foodmenu_idCate),
-                        daymenu: daymenu.find((day) => day.daymenu_id === newObj.foodmenu_idDay),
-                    };
-                    setNewCateMenu([...newCateMenu, newItem]);
+                    setNewCateMenu([...newCateMenu, newObj]);
+                    window.location.reload();
                 }
                 alert("Data saved successfully!");
                 formik.resetForm();
@@ -143,11 +144,34 @@ const FoodMenu = () => {
         },
     });
 
+    const handleGetCate = (idCate) => {
+        const cate = cateMenuData?.find((cate) => cate?.catemenu_id?.toString() === idCate?.toString());
+
+        return cate
+            ? {
+                  id: cate.catemenu_id,
+                  title: cate.catemenu_title,
+              }
+            : { id: null, title: "Unknown" }; // Provide fallback values
+    };
+
+    const handleGetDay = (idDay) => {
+        const dayMenu = dayMenuData?.find((day) => day?.daymenu_id?.toString() === idDay?.toString());
+
+        return dayMenu
+            ? {
+                  id: dayMenu.daymenu_idCate,
+                  day: dayMenu.daymenu_day,
+              }
+            : { id: null, day: "Unknown" };
+    };
+
     const handleEdit = (id) => {
-        setUpdate(id);
-        const findId = newCateMenu.find((item) => item.foodmenu_id === id);
-        setSelectCate(findId.foodmenu_idCate);
-        setSelectDays(findId.foodmenu_idCDay);
+        const findId = newCateMenu.find((item) => item.foodmenu_id.toString() === id.toString());
+
+        setSelectCate(handleGetCate(findId.foodmenu_idCate));
+        setSelectDays(handleGetDay(findId.foodmenu_idDay));
+
         setData({
             id: findId.foodmenu_id,
             idCate: findId.foodmenu_idCate,
@@ -164,88 +188,49 @@ const FoodMenu = () => {
             allday: findId.allday,
             diseases: findId.diseases,
         });
-        setSelectCate({
-            id: findId.catename.id,
-            title: findId.catename.title,
-        });
-        setSelectDays({
-            id: findId.idDay,
-            day: getDayName(findId.idDay),
-        });
+
+        setUpdate(id);
     };
 
     const handleDelete = async (id) => {
-        const findId = newCateMenu.find((item) => item.foodmenu_id === id);
+        if (!id) {
+            alert("Invalid ID");
+            return;
+        }
+
+        const findId = newCateMenu.find((item) => item?.foodmenu_id?.toString() === id?.toString());
+
         if (!findId) {
             alert("Menu item not found");
             return;
         }
+
         try {
             const res = await axios.delete(`http://localhost:8081/foodmenu/` + findId.foodmenu_id);
             alert("Delete was successful");
             window.location.reload();
         } catch (error) {
-            console.error("Error deleting menu item:", error); // Log full error details
+            console.error("Error deleting menu item:", error);
             alert("There was an error deleting the menu item: " + error.message);
         }
-    };
-
-    // Hàm ánh xạ số thành tên ngày
-    const getDayName = (dayNumber) => {
-        const days = {
-            1: "MON",
-            2: "TUE",
-            3: "WED",
-            4: "THU",
-            5: "FRI",
-            6: "SAT",
-            7: "SUN",
-            8: "MON",
-            9: "TUE",
-            10: "WED",
-            11: "THUR",
-            12: "FRI",
-            13: "SAT",
-            14: "SUN",
-            15: "MON",
-            16: "TUE",
-            17: "WED",
-            18: "THUR",
-            19: "FRI",
-            26: "SAT",
-            27: "SUN",
-            28: "MON",
-            29: "TUE",
-            31: "WED",
-            32: "THUR",
-            33: "FRI",
-            34: "SAT",
-            35: "SUN",
-        };
-
-        return days[dayNumber] || "Unknown";
     };
 
     useEffect(() => {
         setNewCateMenu(listData);
     }, [listData]);
 
-    const newListDay = useMemo(() => {
-        return listData.map((list) => {
-            list.catename = catemenu.find((food) => list.idCate === food.id);
-            list.daymenu = daymenu.find((day) => list.idDay === day.id);
-            return list;
-        });
-    }, [listData, catemenu, daymenu]);
+    useEffect(() => {
+        setCateMenu(catemenu);
+    }, [catemenu]);
 
     useEffect(() => {
-        setNewCateMenu(newListDay);
-    }, [newListDay]);
+        setDayMenu(daymenu);
+    }, [daymenu]);
 
     useEffect(() => {
-        if (catemenu.length > 0 && daymenu.length > 0) {
-            handleDaysByCate(catemenu[0].catemenu_id, catemenu[0].catemenu_title);
-            const firstCategoryDays = daymenu.filter((item) => item.daymenu_idCate === catemenu[0].catemenu_id);
+        if (cateMenuData.length > 0 && dayMenuData.length > 0) {
+            handleDaysByCate(cateMenuData[0].catemenu_id, cateMenuData[0].catemenu_title);
+            const firstCategoryDays = dayMenuData.filter((item) => item.daymenu_idCate === cateMenuData[0].catemenu_id);
             setSelectDays(
                 firstCategoryDays.length > 0
                     ? {
@@ -255,25 +240,13 @@ const FoodMenu = () => {
                     : null
             );
             setSelectCate({
-                id: catemenu[0].catemenu_id,
-                title: catemenu[0].catemenu_title,
+                id: cateMenuData[0].catemenu_id,
+                title: cateMenuData[0].catemenu_title,
             });
         }
-        // if (catemenu.length > 0 && daymenu.length > 0) {
-        //   const firstCategoryDays = daymenu.filter(
-        //     (item) => item.daymenu_idCate === catemenu[0].catemenu_id
-        //   );
-        //   setSelectDays(
-        //     firstCategoryDays.length > 0
-        //       ? {
-        //           id: firstCategoryDays[0].daymenu_id,
-        //           day: firstCategoryDays[0].daymenu_day,
-        //         }
-        //       : null
-        //   );
-        // }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [catemenu, daymenu]);
+    }, [cateMenuData, dayMenuData]);
 
     return (
         <div className="foodmenuManage">
@@ -283,8 +256,8 @@ const FoodMenu = () => {
                         <div className="foodmenuManage-input">
                             <h5>Title</h5>
                             <select name="idCate" onChange={handleSelectCate} value={selectCate.title}>
-                                {catemenu &&
-                                    catemenu.map((item) => (
+                                {cateMenuData &&
+                                    cateMenuData.map((item) => (
                                         <option value={item.catemenu_title} data-id={item.catemenu_id} key={item.catemenu_title}>
                                             {item.catemenu_title}
                                         </option>
@@ -392,7 +365,7 @@ const FoodMenu = () => {
                     </Col>
 
                     <Col md={4}>
-                        {update && update ? (
+                        {update && update.length !== 0 ? (
                             <div className="foodmenuManage-button">
                                 <button className="foodmenuManage-button_login" type="submit">
                                     UPDATE
@@ -433,8 +406,8 @@ const FoodMenu = () => {
                         {newCateMenu &&
                             newCateMenu.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.catename && item.catename.catemenu_title}</td>
-                                    <td>{getDayName(item.foodmenu_idDay)}</td>
+                                    <td> {handleGetCate(item.foodmenu_idCate).title}</td>
+                                    <td> {handleGetDay(item.foodmenu_idDay).day}</td>
                                     <td>{item.foodmenu_name}</td>
                                     <td>{item.foodmenu_time}</td>
                                     <td>
