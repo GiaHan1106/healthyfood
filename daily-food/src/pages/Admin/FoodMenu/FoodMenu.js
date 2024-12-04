@@ -116,6 +116,7 @@ const FoodMenu = () => {
             };
 
             try {
+                console.log(newObj);
                 let res;
                 if (update) {
                     // Ensure to send the correct `id` in the PUT request URL
@@ -145,6 +146,8 @@ const FoodMenu = () => {
     const handleEdit = (id) => {
         setUpdate(id);
         const findId = newCateMenu.find((item) => item.foodmenu_id === id);
+        setSelectCate(findId.foodmenu_idCate);
+        setSelectDays(findId.foodmenu_idCDay);
         setData({
             id: findId.foodmenu_id,
             idCate: findId.foodmenu_idCate,
@@ -220,7 +223,7 @@ const FoodMenu = () => {
             35: "SUN",
         };
 
-        return days[dayNumber] || "Unknown"; // Nếu không phải 1-5, trả về 'Unknown'
+        return days[dayNumber] || "Unknown";
     };
 
     useEffect(() => {
