@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Cart = () => {
     const { cart, deleteCartRetail, cartRetail, deleteCart, deleteAll } = useCart();
-
     const Navigate = useNavigate();
     const [sortCart, setSortCart] = useState([]);
     const [selectProvince, setSelectProvince] = useState();
@@ -64,7 +63,6 @@ const Cart = () => {
 
             try {
                 const response = await axios.post("http://localhost:8081/orders", dataOrders);
-                console.log(response);
                 if (response.status === 200) {
                     setInformationOrder(dataOrders);
                     setShow(true);
@@ -92,6 +90,9 @@ const Cart = () => {
     const dataProvince = UseFetch(`https://esgoo.net/api-tinhthanh/1/0.htm`);
     const dataDistrict = UseFetch(`https://esgoo.net/api-tinhthanh/2/${selectProvince}.htm`);
     const dataWards = UseFetch(`https://esgoo.net/api-tinhthanh/3/${selectDistrict}.htm`);
+    // console.log(dataProvince);
+    // console.log(dataDistrict);
+    // console.log(dataProvince);
 
     const handleSelectProvince = (e) => {
         setSelectProvince(e.target.value);
@@ -104,6 +105,7 @@ const Cart = () => {
     const handleSelectWards = (e) => {
         setSelectWards(e.target.value);
         formik.setFieldValue("wards", e.target.value);
+        console.log(e.target.value);
     };
 
     //Sap xep Cart theo danh muc va thu tu
@@ -133,7 +135,6 @@ const Cart = () => {
 
         const arrayKey = Object.values(grouped);
         setSortCart(arrayKey);
-        console.log(cart);
     }, [cart, cartRetail]);
 
     return (

@@ -38,7 +38,7 @@
     &-listmenu {
         @include flexBox(space-between);
         margin: $fs-40 auto;
-        width: 70%;
+        width: 90%;
         @media (max-width: 991px) {
             width: 100%;
         }

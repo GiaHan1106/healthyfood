@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "~/context/UserContext";
 import UseFetch from "~/feature/UseFetch";
 import CardMenu from "~/pages/Menu/CardMenu/CardMenu";
 
-const OrderManage = () => {
+const UserOrder = () => {
     const Navigate = useNavigate();
-
+    const { user } = useUser();
+    const [orders, setOrders] = useState([]);
     const [showDetailOrder, setShowDetailOrder] = useState({});
     const [show, setShow] = useState(false);
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
@@ -20,7 +22,9 @@ const OrderManage = () => {
         const findIdDistrict = districtsdata.data.find((district) => district.id === districtId);
         return findIdDistrict ? findIdDistrict.full_name_en : "Unknown";
     };
-
+    useEffect(() => {
+        setOrders(listOrder); // Gán danh sách từ UseFetch vào state khi component mount
+    }, [listOrder]);
     useEffect(() => {
         if (dataProvince?.data) {
             // Fetch all district names based on listOrder and dataProvince
@@ -65,26 +69,40 @@ const OrderManage = () => {
 
     const handleClose = () => {
         setShow(false);
-        Navigate("/admin/ordermanage");
+        Navigate("/user/userorder");
     };
+    const handleCancel = async (id) => {
+        if (!id) {
+            alert("Invalid order ID");
+            return;
+        }
 
-    const handleStatusChange = async (event, orderId) => {
-        const newStatus = event.target.value;
         try {
-            const response = await fetch(`http://localhost:8081/orders/${orderId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: newStatus }),
+            const response = await fetch(`http://localhost:8081/orders/${id}`, {
+                method: "DELETE",
             });
+
             if (response.ok) {
-                console.log(`Order ID: ${orderId} status updated to ${newStatus}`);
+                // Cập nhật UI ngay lập tức
+                setOrders((prevOrders) => prevOrders.filter((item) => item.id !== id));
+                alert(`Canceled successfully`);
+                setShow(false);
+                window.location.reload();
             } else {
-                console.error(`Failed to update status for Order ID: ${orderId}`);
+                console.error(`Failed to cancel Order ID`);
+                alert(`Failed to cancel Order ID`);
             }
         } catch (error) {
-            console.error("Error updating status:", error);
+            console.error("Error canceling order:", error);
+            alert(`There was an error canceling the order: ${error.message}`);
         }
     };
+
+    const filteredOrders = listOrder.filter((order) => {
+        const userInfo = JSON.parse(order.information);
+        console.log(userInfo.email === user.email);
+        return userInfo.email === user.email;
+    });
 
     return (
         <div className="orderManage">
@@ -98,12 +116,13 @@ const OrderManage = () => {
                             <th>Code Discount</th>
                             <th>Payment</th>
                             <th>Status</th>
+                            <th>Cancel</th>
                             <th>Seen</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {listOrder && listOrder.length > 0 ? (
-                            listOrder.map((item) => {
+                        {filteredOrders && filteredOrders.length > 0 ? (
+                            filteredOrders.map((item) => {
                                 const userInfo = JSON.parse(item.information);
                                 return (
                                     <tr key={item.id}>
@@ -113,15 +132,16 @@ const OrderManage = () => {
 
                                         <td>{item.codeDiscount || "N/A"}</td>
                                         <td>{item.payment || "N/A"}</td>
+                                        <td>{item.status}</td>
                                         <td>
-                                            <select value={item.status} onChange={(e) => handleStatusChange(e, item.id)}>
-                                                <option value="Progressing">Progressing</option>
-                                                <option value="Done">Done</option>
-                                                <option value="Cancel">Cancel</option>
-                                            </select>
+                                            <button style={{ backgroundColor: "red", color: "white", borderRadius: "5px" }} onClick={() => handleCancel(item.id)}>
+                                                CanCel
+                                            </button>
                                         </td>
                                         <td>
-                                            <button onClick={() => handleShowDetail(item)}>Show Detail</button>
+                                            <button style={{ backgroundColor: "green", color: "white", borderRadius: "5px" }} onClick={() => handleShowDetail(item)}>
+                                                Show Detail
+                                            </button>
                                         </td>
                                     </tr>
                                 );
@@ -180,38 +200,42 @@ const OrderManage = () => {
                             <i className="fa-solid fa-angle-right"></i>
                             <h5>Combo:</h5>
                         </div>
-                        {showDetailOrder.cart &&
-                            JSON.parse(showDetailOrder.cart).map((item, index) => (
-                                <div key={index}>
-                                    {item.listfood &&
-                                        item.listfood.length > 0 &&
-                                        item.listfood.map((food, foodIndex) => (
-                                            <div key={foodIndex}>
-                                                <CardMenu
-                                                    image={food.foodmenu_image}
-                                                    name={food.foodmenu_name}
-                                                    des={food.foodmenu_des}
-                                                    calories={food.foodmenu_calories}
-                                                    protein={food.foodmenu_protein}
-                                                    carbohydrates={food.foodmenu_carbohydrates}
-                                                />
-                                            </div>
-                                        ))}
-                                </div>
-                            ))}
-                        {/* Calculate and display total price */}
-                        {showDetailOrder.cart && (
-                            <p className="s-left_totalprice">
-                                Total Price for Combo:
-                                <span>
-                                    $
-                                    {Math.round(
-                                        JSON.parse(showDetailOrder.cart).reduce((total, current) => {
-                                            return total + Number(current.price);
-                                        }, 0)
-                                    )}
-                                </span>
-                            </p>
+                        {/* Kiểm tra nếu showDetailOrder.cart không rỗng */}
+                        {showDetailOrder.cart && JSON.parse(showDetailOrder.cart).length > 0 ? (
+                            <>
+                                {JSON.parse(showDetailOrder.cart).map((item, index) => (
+                                    <div key={index}>
+                                        {item.listfood &&
+                                            item.listfood.length > 0 &&
+                                            item.listfood.map((food, foodIndex) => (
+                                                <div key={foodIndex}>
+                                                    <CardMenu
+                                                        image={food.foodmenu_image}
+                                                        name={food.foodmenu_name}
+                                                        des={food.foodmenu_des}
+                                                        calories={food.foodmenu_calories}
+                                                        protein={food.foodmenu_protein}
+                                                        carbohydrates={food.foodmenu_carbohydrates}
+                                                    />
+                                                </div>
+                                            ))}
+                                    </div>
+                                ))}
+                                {/* Tính toán và hiển thị tổng giá */}
+                                <p className="s-left_totalprice">
+                                    Total Price for Combo:
+                                    <span>
+                                        $
+                                        {Math.round(
+                                            JSON.parse(showDetailOrder.cart).reduce((total, current) => {
+                                                return total + Number(current.price);
+                                            }, 0)
+                                        )}
+                                    </span>
+                                </p>
+                            </>
+                        ) : (
+                            <p>No items in the cart.</p> // Hiển thị thông báo nếu cart rỗng
                         )}
                     </div>
 
@@ -220,33 +244,37 @@ const OrderManage = () => {
                             <i className="fa-solid fa-angle-right"></i>
                             <h5>Retail:</h5>
                         </div>
-                        {showDetailOrder.cartRetail &&
-                            JSON.parse(showDetailOrder.cartRetail).map((item, index) => (
-                                <div key={index}>
-                                    <CardMenu
-                                        image={item.foodmenu_image}
-                                        name={item.foodmenu_name}
-                                        time={item.foodmenu_time}
-                                        des={item.foodmenu_des}
-                                        calories={item.foodmenu_calories}
-                                        protein={item.foodmenu_protein}
-                                        carbohydrates={item.foodmenu_carbohydrates}
-                                    />
-                                </div>
-                            ))}
-                        {/* Calculate and display total price */}
-                        {showDetailOrder.cartRetail && (
-                            <p className="s-left_totalprice">
-                                Total Price for Combo:
-                                <span>
-                                    $
-                                    {Math.round(
-                                        JSON.parse(showDetailOrder.cartRetail).reduce((total, current) => {
-                                            return total + Number(current.price * current.quantity);
-                                        }, 0)
-                                    )}
-                                </span>
-                            </p>
+                        {/* Kiểm tra nếu showDetailOrder.cartRetail không rỗng */}
+                        {showDetailOrder.cartRetail && JSON.parse(showDetailOrder.cartRetail).length > 0 ? (
+                            <>
+                                {JSON.parse(showDetailOrder.cartRetail).map((item, index) => (
+                                    <div key={index}>
+                                        <CardMenu
+                                            image={item.foodmenu_image}
+                                            name={item.foodmenu_name}
+                                            time={item.foodmenu_time}
+                                            des={item.foodmenu_des}
+                                            calories={item.foodmenu_calories}
+                                            protein={item.foodmenu_protein}
+                                            carbohydrates={item.foodmenu_carbohydrates}
+                                        />
+                                    </div>
+                                ))}
+                                {/* Tính toán và hiển thị tổng giá */}
+                                <p className="s-left_totalprice">
+                                    Total Price for Combo:
+                                    <span>
+                                        $
+                                        {Math.round(
+                                            JSON.parse(showDetailOrder.cartRetail).reduce((total, current) => {
+                                                return total + Number(current.price * current.quantity);
+                                            }, 0)
+                                        )}
+                                    </span>
+                                </p>
+                            </>
+                        ) : (
+                            <p>No items in retail cart.</p> // Hiển thị thông báo nếu cartRetail rỗng
                         )}
                     </div>
                 </Modal.Body>
@@ -260,4 +288,4 @@ const OrderManage = () => {
     );
 };
 
-export default OrderManage;
+export default UserOrder;

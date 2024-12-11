@@ -24,6 +24,7 @@
 @import "../pages/Order/Order";
 @import "../pages/Calories/Calories";
 @import "../pages/Recipe/Recipe";
+@import "../pages/CategoryDetail/CategoryDetail";
 @import "../pages/Cart/Cart";
 @import "../pages/Payment//Payment";
 @import "../pages/Register/Register";
@@ -36,3 +37,7 @@
 @import "../pages/Admin/FoodMenu/FoodMenu";
 @import "../pages/Admin/Revenue/Revenue";
 @import "../pages/Admin/OrderManage/OrderManage";
+
+@import "../component/User/SideBar";
+@import "../pages/User/Dashboard/Dashboard";
+@import "../pages/User/UserOrder/UserOrder";

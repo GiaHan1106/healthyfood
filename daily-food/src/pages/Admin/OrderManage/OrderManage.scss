@@ -1,4 +1,13 @@
 .notification {
+    &_des {
+        @include flexBox(left);
+        h5,
+        i {
+            font-weight: bold;
+            color: $secondary-color;
+            font-size: $fs-20;
+        }
+    }
     i {
         margin-right: $fs-12;
     }
@@ -11,4 +20,29 @@
             font-weight: 600;
         }
     }
+}
+.cardMenu {
+    width: unset;
+    margin: unset;
+    &-textMenu {
+        h3 {
+            font-size: 1rem;
+            margin-top: $fs-8;
+            white-space: nowrap;
+            @media (max-width: 575px) {
+                font-size: 0.85rem;
+            }
+        }
+        p {
+            margin-bottom: unset;
+            @media (max-width: 575px) {
+                display: none;
+            }
+        }
+    }
+}
+.modal-content {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150%;
 }

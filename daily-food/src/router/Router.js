@@ -14,7 +14,8 @@ import OrderManage from "~/pages/Admin/OrderManage/OrderManage";
 import Order from "~/pages/Order/Order";
 import CateMenu from "~/pages/Admin/CateMenu/CateMenu";
 import CategoryDetail from "~/pages/CategoryDetail/CategoryDetail";
-
+import UserOrder from "~/pages/User/UserOrder/UserOrder";
+import Dashboard from "~/pages/User/Dashboard/Dashboard";
 const RouterUser = [
     { path: "/", component: Home },
     { path: "/about", component: About },
@@ -29,6 +30,10 @@ const RouterUser = [
     { path: "/register", component: Register },
     { path: "/categorydetail/:slug", component: CategoryDetail },
 ];
+const RouterUserLogin = [
+    { path: "/user/dashboard", component: Dashboard },
+    { path: "/user/userorder", component: UserOrder },
+];
 const RouterAdmin = [
     { path: "/admin", component: Revenue },
     { path: "/admin/catemenu", component: CateMenu },
@@ -36,4 +41,5 @@ const RouterAdmin = [
     { path: "/admin/foodmenu", component: FoodMenu },
     { path: "/admin/ordermanage", component: OrderManage },
 ];
-export { RouterUser, RouterAdmin };
+
+export { RouterUser, RouterAdmin, RouterUserLogin };

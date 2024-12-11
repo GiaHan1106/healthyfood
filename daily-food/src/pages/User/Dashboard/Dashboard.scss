@@ -1,0 +1,13 @@
+.s-dashboard {
+    background-color: #fff;
+    border-radius: $fs-8;
+    padding: $fs-12;
+    &_infor {
+        margin: $fs-16 0;
+        span {
+            color: $secondary-color;
+            font-weight: 600;
+            margin-right: $fs-8;
+        }
+    }
+}

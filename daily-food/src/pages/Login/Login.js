@@ -52,10 +52,10 @@ const Login = () => {
                         }, 2000);
                     } else {
                         setTimeout(() => {
-                            navigate("/");
+                            navigate("/user/dashboard");
                         }, 2000);
                     }
-                    getUserLogin({ email: checkUser.user_email, username: checkUser.user_user, permissions: checkUser.user_permissions });
+                    getUserLogin({ id: checkUser.user_id, email: checkUser.user_email, username: checkUser.user_user, permissions: checkUser.user_permissions });
                 } else {
                     toast.error("Password is not correct !", {
                         position: "top-center",

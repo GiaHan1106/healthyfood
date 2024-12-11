@@ -46,7 +46,7 @@ const Menu = () => {
             .filter((item) => item.listfood && item.listfood.length > 0)
             .map((item) => item.listfood)
             .flat()
-            .slice(0, 3) // Limit to first 3 items
+            .slice(0, 3)
             .reduce((total, foodItem) => total + (foodItem.price || 0), 0);
     };
     return (

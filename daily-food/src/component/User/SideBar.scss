@@ -1,0 +1,87 @@
+.c-bodyUser {
+    padding: $fs-20;
+}
+.c-rightUser {
+    background-color: $secondary-color;
+    border-radius: $fs-8;
+    padding: $fs-20;
+}
+.c-dashboardUser {
+    height: 100vh;
+    padding: 1rem 2rem;
+    .c_menu {
+        li {
+            margin-bottom: $fs-12;
+            background-color: $secondary-color;
+            transition: 0.5s;
+            font-weight: 500;
+            font-size: $fs-16;
+            border-radius: $fs-8;
+            padding: $fs-14 $fs-8;
+            cursor: pointer;
+            font-weight: bold;
+            a {
+                transition: 0.5s;
+                padding: $fs-8;
+                color: #fff;
+            }
+            i {
+                margin-right: $fs-12;
+                color: $secondary-color;
+            }
+        }
+    }
+}
+.c-nameUser {
+    @include flexBox(space-between);
+    h3 {
+        margin-right: auto;
+        font-weight: 600;
+        color: #fff;
+    }
+    &_right {
+        color: #fff;
+        @include flexBox(center);
+        i {
+            font-size: $fs-24;
+        }
+    }
+    &_left {
+        color: #fff;
+        h3 {
+            font-size: $fs-20;
+        }
+        p {
+            font-size: $fs-14;
+        }
+        i {
+            color: $third-color;
+            margin-left: $fs-12;
+        }
+    }
+    .button2 {
+        border: none;
+        background-color: transparent;
+        font-size: $fs-14;
+        text-decoration: underline;
+        margin-left: 1rem;
+        color: #fff;
+    }
+    .c_name {
+        @include flexBox("center");
+        background-color: #fff;
+        padding: 1rem;
+        width: 20%;
+        margin-right: 1rem;
+        border-radius: 50px;
+        h5 {
+            font-size: $fs-14;
+            padding-top: 0.5rem;
+            color: #6384e8;
+        }
+        img {
+            width: 13%;
+            border-radius: 50%;
+        }
+    }
+}

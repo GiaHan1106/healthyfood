@@ -20,8 +20,6 @@ const Header = () => {
     const dataMenu = UseFetch("http://localhost:8081/catemenu");
     const userinfor = JSON.parse(localStorage.getItem("USERINFO"));
 
-    console.log(userinfor); // In ra giá trị của myItem, hoặc null nếu không tìm thấy
-
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (e.target === iconRef.current) {

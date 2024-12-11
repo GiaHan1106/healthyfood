@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import CardMenu from "../Menu/CardMenu/CardMenu";
 import { useCart } from "~/context/CartContext";
 
@@ -50,38 +50,41 @@ const CategoryDetail = () => {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div>
-            <div className="s-order-search_bar">
-                <input type="text" placeholder="Search by name or diseases..." value={searchTerm} onChange={handleSearch} className="search-input" />
-            </div>
-            <h2>{categoryNames[slug] || "Không xác định"}</h2>
-            <Row>
-                {filteredFood.length > 0 ? (
-                    filteredFood.map((food) => (
-                        <Col lg={3} key={food.foodmenu_id} className="mb-4">
-                            <div className="menu-detailMenu">
-                                <CardMenu
-                                    image={food.foodmenu_image}
-                                    name={food.foodmenu_name}
-                                    time={food.foodmenu_time}
-                                    des={food.foodmenu_des}
-                                    calories={food.foodmenu_calories}
-                                    protein={food.foodmenu_protein}
-                                    carbohydrates={food.allday}
-                                    price={food.price}
-                                    order={true}
-                                    deseases={food.diseases}
-                                />
-                                <button className="s-order-button" onClick={() => addCartRetail(food)}>
-                                    Order
-                                </button>
-                            </div>
-                        </Col>
-                    ))
-                ) : (
-                    <p>Không có món ăn nào trong danh mục này.</p>
-                )}
-            </Row>
+        <div className="s-categoryDetail">
+            <Container>
+                <div className="s-order-search_bar">
+                    <input type="text" placeholder="Search by name or diseases..." value={searchTerm} onChange={handleSearch} className="search-input" />
+                </div>
+                <h2>{categoryNames[slug] || "Không xác định"}</h2>
+
+                <Row>
+                    {filteredFood.length > 0 ? (
+                        filteredFood.map((food) => (
+                            <Col lg={3} key={food.foodmenu_id} className="mb-4">
+                                <div className="menu-detailMenu">
+                                    <CardMenu
+                                        image={food.foodmenu_image}
+                                        name={food.foodmenu_name}
+                                        time={food.foodmenu_time}
+                                        des={food.foodmenu_des}
+                                        calories={food.foodmenu_calories}
+                                        protein={food.foodmenu_protein}
+                                        carbohydrates={food.allday}
+                                        price={food.price}
+                                        order={true}
+                                        deseases={food.diseases}
+                                    />
+                                    <button className="s-order-button" onClick={() => addCartRetail(food)}>
+                                        Order
+                                    </button>
+                                </div>
+                            </Col>
+                        ))
+                    ) : (
+                        <p>Không có món ăn nào trong danh mục này.</p>
+                    )}
+                </Row>
+            </Container>
         </div>
     );
 };

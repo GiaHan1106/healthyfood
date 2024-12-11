@@ -34,7 +34,7 @@
         @include flexBox(space-between);
         gap: $fs-48;
         padding: 2rem;
-        z-index: 99999999 !important;
+        z-index: 99 !important;
         @media (max-width: 1200px) {
             gap: $fs-24;
         }
@@ -78,7 +78,7 @@
             }
             &_child {
                 background-image: linear-gradient(to top, #fecb5f00 0%, #fecb5f 100%);
-                @include posAbsolute("tl", 76px, 0);
+                @include posAbsolute("tl", 85px, 0);
                 @include flexBox(space-between);
                 z-index: 999999;
                 padding: $fs-72 $fs-150;

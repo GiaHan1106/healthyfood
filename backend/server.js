@@ -6,7 +6,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(cors());
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -14,6 +13,8 @@ const db = mysql.createConnection({
     password: "",
     database: "daiLy-food",
 });
+
+const bcrypt = require("bcryptjs");
 
 ///CATEMENU
 app.get("/catemenu", (req, res) => {
@@ -460,6 +461,25 @@ app.post("/orders", (req, res) => {
         return res.status(200).json({ message: "Order created successfully" });
     });
 });
+app.delete("/orders/:id", (req, res) => {
+    const orderId = req.params.id; // Lấy ID đơn hàng từ URL
+
+    // SQL để xóa đơn hàng theo ID
+    const sql = `DELETE FROM orders WHERE id = ?`;
+
+    db.query(sql, [orderId], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error deleting order" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+
+        return res.status(200).json({ message: "Order deleted successfully" });
+    });
+});
 
 ///USER
 app.get("/user", (req, res) => {
@@ -467,6 +487,70 @@ app.get("/user", (req, res) => {
     db.query(sql, (err, data) => {
         if (err) return res.json("Error");
         return res.json(data);
+    });
+});
+
+app.delete("/user/:user_id", (req, res) => {
+    const user_id = req.params.user_id;
+
+    const sql = `
+      DELETE FROM user
+      WHERE user_id = ?
+  `;
+
+    db.query(sql, [user_id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error deleting user" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        return res.status(200).json({
+            message: "user deleted successfully",
+            user_id,
+        });
+    });
+});
+app.post("/user", async (req, res) => {
+    const { user_user, user_email, user_password, user_repassword, user_permissions } = req.body;
+
+    // Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa
+    db.query("SELECT * FROM user WHERE user_email = ?", [user_email], (err, result) => {
+        if (err) {
+            console.error("Error checking email:", err);
+            return res.status(500).json({ message: "Server error" });
+        }
+
+        if (result.length > 0) {
+            return res.status(400).json({ message: "Email already exists" });
+        }
+
+        // Kiểm tra xem mật khẩu và mật khẩu xác nhận có trùng khớp không
+        if (user_password !== user_repassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
+        }
+
+        // Mã hóa mật khẩu
+        bcrypt.hash(user_password, 10, (err, hashedPassword) => {
+            if (err) {
+                console.error("Error hashing password:", err);
+                return res.status(500).json({ message: "Error hashing password" });
+            }
+
+            // Chèn người dùng mới vào cơ sở dữ liệu
+            const query = "INSERT INTO user (user_user, user_email, user_password, user_repassword, user_permissions) VALUES (?, ?, ?, ?, ?)";
+            db.query(query, [user_user, user_email, hashedPassword, user_repassword, user_permissions], (err, result) => {
+                if (err) {
+                    console.error("Error inserting user:", err);
+                    return res.status(500).json({ message: "Error inserting user" });
+                }
+
+                res.status(201).json({ message: "User registered successfully" });
+            });
+        });
     });
 });
 
