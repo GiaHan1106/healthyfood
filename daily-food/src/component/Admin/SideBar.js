@@ -34,11 +34,6 @@ const SideBar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/admin/usermanage">
-                        <i className="fa-solid fa-pen-to-square"></i>User Manage
-                    </Link>
-                </li>
-                <li>
                     <Link to="/admin/contactmanage">
                         <i className="fa-sharp fa-solid fa-address-book"></i>Contact Manage
                     </Link>

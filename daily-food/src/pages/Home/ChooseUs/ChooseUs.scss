@@ -2,10 +2,12 @@
     margin-top: $fs-72;
     padding: $fs-44 0;
     background-color: $six-color;
+
     @media (max-width: 767px) {
         padding: $fs-20 0;
         margin-top: 0;
     }
+
     h3 {
         font-size: $fs-72;
         text-align: center;

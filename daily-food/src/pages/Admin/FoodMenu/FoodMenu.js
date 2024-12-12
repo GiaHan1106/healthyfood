@@ -123,12 +123,8 @@ const FoodMenu = () => {
             try {
                 let res;
                 if (update) {
-                    // Ensure to send the correct `id` in the PUT request URL
                     res = await axios.put(`http://localhost:8081/foodmenu/${values.id}`, newObj);
-
-                    // Update the list after the update
                     const updatedList = newCateMenu.map((item) => (item.foodmenu_id === values.id ? { ...item, ...newObj } : item));
-
                     setNewCateMenu(updatedList);
                 } else {
                     res = await axios.post(`http://localhost:8081/foodmenu`, newObj);
@@ -168,10 +164,8 @@ const FoodMenu = () => {
 
     const handleEdit = (id) => {
         const findId = newCateMenu.find((item) => item.foodmenu_id.toString() === id.toString());
-
         setSelectCate(handleGetCate(findId.foodmenu_idCate));
         setSelectDays(handleGetDay(findId.foodmenu_idDay));
-
         setData({
             id: findId.foodmenu_id,
             idCate: findId.foodmenu_idCate,

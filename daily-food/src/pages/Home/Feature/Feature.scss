@@ -1,0 +1,42 @@
+.feature {
+    background-color: $six-color;
+    padding: $fs-40;
+    margin: $fs-40 0;
+    ul {
+        li {
+            margin: $fs-40 0;
+            background-color: #fff;
+            padding: $fs-16;
+            border-radius: $fs-8;
+            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+            i {
+                color: $third-color;
+                margin-right: $fs-8;
+            }
+        }
+    }
+    &-imagePrograms {
+        margin-left: $fs-40;
+        border-radius: 100px 0px 200px 50px;
+        background-color: #fff;
+        padding: $fs-20;
+        height: 97%;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        @media (max-width: 991px) {
+            display: none;
+        }
+    }
+    &-image {
+        width: 100%;
+        padding-bottom: 2px;
+        padding-right: $fs-40;
+        margin: 0 auto;
+        border-radius: 100px 0px 200px 50px;
+        position: relative;
+
+        img {
+            display: block;
+            margin: auto;
+        }
+    }
+}

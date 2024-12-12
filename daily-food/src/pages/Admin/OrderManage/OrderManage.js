@@ -9,10 +9,10 @@ const OrderManage = () => {
 
     const [showDetailOrder, setShowDetailOrder] = useState({});
     const [show, setShow] = useState(false);
+    const [orders, setOrders] = useState([]);
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
     const listOrder = UseFetch("http://localhost:8081/orders");
     const dataProvince = UseFetch("https://esgoo.net/api-tinhthanh/1/0.htm");
-
     // Function to fetch district data
     const fetchDistricts = async (provinceId, districtId) => {
         const districtsResponse = await fetch(`https://esgoo.net/api-tinhthanh/2/${provinceId}.htm`);
@@ -67,19 +67,27 @@ const OrderManage = () => {
         setShow(false);
         Navigate("/admin/ordermanage");
     };
-
+    useEffect(() => {
+        if (listOrder && listOrder.length > 0) {
+            setOrders(listOrder);
+        }
+    }, [listOrder]);
     const handleStatusChange = async (event, orderId) => {
-        const newStatus = event.target.value;
+        const newStatus = event.target.value; // Lấy giá trị trạng thái mới
+
         try {
+            // Gửi PUT request tới backend để thay đổi trạng thái
             const response = await fetch(`http://localhost:8081/orders/${orderId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: newStatus }),
             });
+
             if (response.ok) {
-                console.log(`Order ID: ${orderId} status updated to ${newStatus}`);
+                setOrders((prevOrders) => prevOrders.map((order) => (order.id === orderId ? { ...order, status: newStatus } : order)));
+                alert(`status updated successfull`);
             } else {
-                console.error(`Failed to update status for Order ID: ${orderId}`);
+                alert(`Failed to update status`);
             }
         } catch (error) {
             console.error("Error updating status:", error);
@@ -102,8 +110,8 @@ const OrderManage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {listOrder && listOrder.length > 0 ? (
-                            listOrder.map((item) => {
+                        {orders && orders.length > 0 ? (
+                            orders.map((item) => {
                                 const userInfo = JSON.parse(item.information);
                                 return (
                                     <tr key={item.id}>
@@ -117,7 +125,6 @@ const OrderManage = () => {
                                             <select value={item.status} onChange={(e) => handleStatusChange(e, item.id)}>
                                                 <option value="Progressing">Progressing</option>
                                                 <option value="Done">Done</option>
-                                                <option value="Cancel">Cancel</option>
                                             </select>
                                         </td>
                                         <td>

@@ -20,13 +20,13 @@ const Enviroment = () => {
                     <Col md={4}>
                         <div className="enviroment-content">
                             <img src={icon2} alt="" />
-                            <p>The only supplier in the market using bio-degradable bags</p>
+                            <p>Clean & return the black containers to get a refund of 5,000 VND per 10 clean boxes</p>
                         </div>
                     </Col>
                     <Col md={4}>
                         <div className="enviroment-content">
                             <img src={icon3} alt="" />
-                            <p>The only supplier in the market using bio-degradable bags</p>
+                            <p>We provide only one set of cutlery per day to minimize the environmental footprint</p>
                         </div>
                     </Col>
                 </Row>

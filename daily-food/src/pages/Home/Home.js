@@ -1,6 +1,6 @@
 import React from "react";
 import Slide from "../Home/Slide/Slide";
-import Work from "./Work/Work";
+import ChooseUs from "./ChooseUs/ChooseUs";
 import Product from "./Product/Product";
 import TabMenu from "./TabMenu/TabMenu";
 import Feature from "./Feature/Feature";
@@ -11,11 +11,11 @@ const Home = () => {
     return (
         <>
             <Slide></Slide>
-            <Work></Work>
+            <ChooseUs></ChooseUs>
             <Product></Product>
             <TabMenu></TabMenu>
-            <Feature></Feature>
             <Enviroment></Enviroment>
+            <Feature></Feature>
             <Map></Map>
             <FeedBack></FeedBack>
         </>

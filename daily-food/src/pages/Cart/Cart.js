@@ -317,17 +317,17 @@ const Cart = () => {
                                                     <i className="fa-regular fa-trash-can" onClick={() => deleteCartRetail(item.foodmenu_id)}></i>
                                                 </div>
                                             </div>
-                                            <p className="s-left_totalprice">
-                                                Total Price:
-                                                <span>
-                                                    $
-                                                    {cartRetail.reduce((total, current) => {
-                                                        return total + Number(current.price * current.quantity);
-                                                    }, 0)}
-                                                </span>
-                                            </p>
                                         </div>
                                     ))}
+                                    <p className="s-left_totalprice">
+                                        Total Price:
+                                        <span>
+                                            $
+                                            {cartRetail.reduce((total, current) => {
+                                                return total + Number(current.price * current.quantity);
+                                            }, 0)}
+                                        </span>
+                                    </p>
                                 </Col>
                             </Row>
                         </div>

@@ -1,5 +1,12 @@
 .product {
     padding-top: $fs-32;
+    position: relative;
+    overflow: hidden;
+    height: 140vh;
+    @media (max-width: 991px) {
+        overflow: unset;
+        height: unset;
+    }
     @media (max-width: 767px) {
         padding-top: 0;
     }
@@ -55,5 +62,27 @@
             margin: $fs-8 auto;
             transition: 0.5s;
         }
+    }
+    &-imageChoose {
+        position: absolute;
+        top: 65%;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 100%;
+        z-index: 1;
+        width: 70%;
+        animation: rotateImage 10s linear infinite;
+        clip-path: circle(49% at 50% 50%);
+        @media (max-width: 991px) {
+            display: none;
+        }
+    }
+}
+@keyframes rotateImage {
+    0% {
+        transform: translateX(-50%) rotate(0deg);
+    }
+    100% {
+        transform: translateX(-50%) rotate(360deg);
     }
 }

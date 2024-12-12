@@ -4,6 +4,7 @@ import product1 from "~/assets/product/product1.png";
 import product2 from "~/assets/product/product2.png";
 import product3 from "~/assets/product/product3.png";
 import HeadLine from "~/component/HeadLine/HeadLine";
+import Whychoose from "~/assets/whychoose.jpg";
 
 const Product = () => {
     return (
@@ -37,6 +38,9 @@ const Product = () => {
                     </Col>
                 </Row>
             </Container>
+            <div className="product-imageChoose">
+                <img src={Whychoose} alt="" />
+            </div>
         </div>
     );
 };

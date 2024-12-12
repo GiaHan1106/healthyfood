@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import HeadLine from "~/component/HeadLine/HeadLine";
 import AOS from "aos";
 import "aos/dist/aos.css";
-const Work = () => {
+const ChooseUs = () => {
     useEffect(() => {
         AOS.init({
             duration: 1000, // Thời gian hiệu ứng (ms)
@@ -12,7 +12,7 @@ const Work = () => {
     return (
         <div className="work">
             <Container>
-                <HeadLine headline={"How it Work"}></HeadLine>
+                <HeadLine headline={"Why clients choose us"}></HeadLine>
                 <Row>
                     <Col md={3}>
                         <div data-aos="fade-down-right" data-aos-delay="200">
@@ -20,11 +20,8 @@ const Work = () => {
                                 <span>0</span>1
                             </h3>
                             <div className="work-ideal">
-                                <h4>Pick Your Plan</h4>
-                                <p>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore, modi. Recusandae, autem fuga! Perspiciatis, accusantium mollitia deleniti facilis velit sed ex
-                                    nulla eum hic. Minus cupiditate fugit reprehenderit cum numquam!
-                                </p>
+                                <h4>Only fresh products</h4>
+                                <p>When preparing dishes, we use only natural and fresh products</p>
                             </div>
                         </div>
                     </Col>
@@ -34,11 +31,8 @@ const Work = () => {
                                 <span>0</span>2
                             </h3>
                             <div className="work-ideal">
-                                <h4>Order</h4>
-                                <p>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore, modi. Recusandae, autem fuga! Perspiciatis, accusantium mollitia deleniti facilis velit sed ex
-                                    nulla eum hic. Minus cupiditate fugit reprehenderit cum numquam!
-                                </p>
+                                <h4>Variety of dishes</h4>
+                                <p>Thanks to a large selection of dishes, everyone will find something to their liking</p>
                             </div>
                         </div>
                     </Col>
@@ -48,11 +42,8 @@ const Work = () => {
                                 <span>0</span>3
                             </h3>
                             <div className="work-ideal">
-                                <h4>Delivery</h4>
-                                <p>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore, modi. Recusandae, autem fuga! Perspiciatis, accusantium mollitia deleniti facilis velit sed ex
-                                    nulla eum hic. Minus cupiditate fugit reprehenderit cum numquam!
-                                </p>
+                                <h4>Convenient packaging</h4>
+                                <p>We package meals in such a way that they are convenient to eat anywhere and anytime</p>
                             </div>
                         </div>
                     </Col>
@@ -62,11 +53,8 @@ const Work = () => {
                                 <span>0</span>4
                             </h3>
                             <div className="work-ideal">
-                                <h4>Heat & Enjoy</h4>
-                                <p>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore, modi. Recusandae, autem fuga! Perspiciatis, accusantium mollitia deleniti facilis velit sed ex
-                                    nulla eum hic. Minus cupiditate fugit reprehenderit cum numquam!
-                                </p>
+                                <h4>Without frying</h4>
+                                <p>Instead of traditional frying, we prefer to cook our dishes in the oven or steam</p>
                             </div>
                         </div>
                     </Col>
@@ -76,4 +64,4 @@ const Work = () => {
     );
 };
 
-export default Work;
+export default ChooseUs;

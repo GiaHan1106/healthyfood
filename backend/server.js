@@ -446,14 +446,33 @@ app.get("/orders", (req, res) => {
         return res.json(data);
     });
 });
+app.get("/orders/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = `SELECT orderTime FROM orders WHERE id = ?`;
+
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error fetching order time" });
+        }
+        if (result.length === 0) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        const orderTime = new Date(result[0].orderTime); // Thời gian đặt hàng
+        return res.status(200).json({ orderTime });
+    });
+});
+
 app.post("/orders", (req, res) => {
     const { id, idOrders, codeDiscount, information, cart, payment, cartRetail } = req.body;
     console.log("=====Received data:=======", req.body);
+    const orderTime = new Date(); // Lấy thời gian hiện tại
     const sql = `
-        INSERT INTO orders (id, idOrders, codeDiscount, information, cart, payment, cartRetail)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO orders (id, idOrders, codeDiscount, information, cart, payment, cartRetail, orderTime)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    db.query(sql, [id, idOrders, codeDiscount, JSON.stringify(information), JSON.stringify(cart), payment, JSON.stringify(cartRetail)], (err, result) => {
+    db.query(sql, [id, idOrders, codeDiscount, JSON.stringify(information), JSON.stringify(cart), payment, JSON.stringify(cartRetail), orderTime], (err, result) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: "Error inserting order" });
@@ -461,10 +480,23 @@ app.post("/orders", (req, res) => {
         return res.status(200).json({ message: "Order created successfully" });
     });
 });
-app.delete("/orders/:id", (req, res) => {
-    const orderId = req.params.id; // Lấy ID đơn hàng từ URL
+app.put("/orders/:id", async (req, res) => {
+    const orderId = req.params.id;
+    const { status } = req.body;
 
-    // SQL để xóa đơn hàng theo ID
+    try {
+        // Cập nhật status vào cơ sở dữ liệu
+        await db.query("UPDATE orders SET status = ? WHERE id = ?", [status, orderId]);
+
+        res.status(200).json({ message: "Order status updated successfully" });
+    } catch (error) {
+        console.error("Error updating order status:", error);
+        res.status(500).json({ message: "Failed to update order status" });
+    }
+});
+
+app.delete("/orders/:id", (req, res) => {
+    const orderId = req.params.id;
     const sql = `DELETE FROM orders WHERE id = ?`;
 
     db.query(sql, [orderId], (err, result) => {
@@ -516,31 +548,22 @@ app.delete("/user/:user_id", (req, res) => {
 });
 app.post("/user", async (req, res) => {
     const { user_user, user_email, user_password, user_repassword, user_permissions } = req.body;
-
-    // Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa
     db.query("SELECT * FROM user WHERE user_email = ?", [user_email], (err, result) => {
         if (err) {
             console.error("Error checking email:", err);
             return res.status(500).json({ message: "Server error" });
         }
-
         if (result.length > 0) {
             return res.status(400).json({ message: "Email already exists" });
         }
-
-        // Kiểm tra xem mật khẩu và mật khẩu xác nhận có trùng khớp không
         if (user_password !== user_repassword) {
             return res.status(400).json({ message: "Passwords do not match" });
         }
-
-        // Mã hóa mật khẩu
         bcrypt.hash(user_password, 10, (err, hashedPassword) => {
             if (err) {
                 console.error("Error hashing password:", err);
                 return res.status(500).json({ message: "Error hashing password" });
             }
-
-            // Chèn người dùng mới vào cơ sở dữ liệu
             const query = "INSERT INTO user (user_user, user_email, user_password, user_repassword, user_permissions) VALUES (?, ?, ?, ?, ?)";
             db.query(query, [user_user, user_email, hashedPassword, user_repassword, user_permissions], (err, result) => {
                 if (err) {

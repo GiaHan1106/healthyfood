@@ -1,59 +1,38 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import CartFood from "~/component/CartFood/CartFood";
 import HeadLine from "~/component/HeadLine/HeadLine";
-import cartFood from "~/assets/imgCart.png";
-
+import imagePrograms from "~/assets/program.png";
 const Feature = () => {
-    const cart = [
-        {
-            id: 1,
-            image: cartFood,
-            title: "Chrysanthemum",
-            price: "50.000",
-        },
-        {
-            id: 2,
-            image: cartFood,
-            title: "Chrysanthemum",
-            price: "50.000",
-        },
-        {
-            id: 3,
-            image: cartFood,
-            title: "Chrysanthemum",
-            price: "20.000",
-        },
-        {
-            id: 4,
-            image: cartFood,
-            title: "Chrysanthemum",
-            price: "40.000",
-        },
-        {
-            id: 5,
-            image: cartFood,
-            title: "Chrysanthemum",
-            price: "30.000",
-        },
-        {
-            id: 6,
-            image: cartFood,
-            title: "Chrysanthemum",
-            price: "20.000",
-        },
-    ];
-
     return (
-        <div>
+        <div className="feature">
             <Container>
-                <HeadLine headline={"Feature Product"}></HeadLine>
                 <Row>
-                    {cart.map((item) => (
-                        <Col xs={6} md={2} key={item.id}>
-                            <CartFood image={item.image} title={item.title} price={item.price}></CartFood>
-                        </Col>
-                    ))}
+                    <Col lg={6} md={12} className="mb-4">
+                        <HeadLine headline={"What We Serve Our Best Programs"}></HeadLine>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dignissimos ullam necessitatibus laudantium omnis distinctio quae culpa quisquam ratione unde cumque
+                            sapiente quibusdam alias quasi numquam tempora odio repudiandae animi.
+                        </p>
+                        <ul>
+                            <li>
+                                <i className="fa-solid fa-star"></i>All menu recipe made by specialists
+                            </li>
+                            <li>
+                                <i className="fa-solid fa-star"></i>Fresh and locally grown products
+                            </li>
+                            <li>
+                                <i className="fa-solid fa-star"></i>Fast delivery and easy returns
+                            </li>
+                        </ul>
+                    </Col>
+
+                    <Col lg={6} md={12}>
+                        <div className="feature-imagePrograms">
+                            <div className="feature-image">
+                                <img src={imagePrograms} alt="" />
+                            </div>
+                        </div>
+                    </Col>
                 </Row>
             </Container>
         </div>

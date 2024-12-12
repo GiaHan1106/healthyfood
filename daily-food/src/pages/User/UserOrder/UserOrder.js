@@ -1,3 +1,4 @@
+import { get } from "axios";
 import { useState, useEffect } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +24,7 @@ const UserOrder = () => {
         return findIdDistrict ? findIdDistrict.full_name_en : "Unknown";
     };
     useEffect(() => {
-        setOrders(listOrder); // Gán danh sách từ UseFetch vào state khi component mount
+        setOrders(listOrder);
     }, [listOrder]);
     useEffect(() => {
         if (dataProvince?.data) {
@@ -83,11 +84,12 @@ const UserOrder = () => {
             });
 
             if (response.ok) {
-                // Cập nhật UI ngay lập tức
-                setOrders((prevOrders) => prevOrders.filter((item) => item.id !== id));
+                setOrders((prevOrders) => {
+                    return prevOrders.filter((item) => item.id !== id);
+                });
                 alert(`Canceled successfully`);
-                setShow(false);
                 window.location.reload();
+                setShow(false);
             } else {
                 console.error(`Failed to cancel Order ID`);
                 alert(`Failed to cancel Order ID`);
@@ -100,13 +102,33 @@ const UserOrder = () => {
 
     const filteredOrders = listOrder.filter((order) => {
         const userInfo = JSON.parse(order.information);
-        console.log(userInfo.email === user.email);
         return userInfo.email === user.email;
+    });
+    const sortedOrders = filteredOrders.sort((a, b) => {
+        const orderTimeA = new Date(a.orderTime).getTime();
+        const orderTimeB = new Date(b.orderTime).getTime();
+        const currentTime = new Date().getTime();
+
+        const canCancelA = (currentTime - orderTimeA) / 1000 / 60 < 5; // Có thể hủy
+        const canCancelB = (currentTime - orderTimeB) / 1000 / 60 < 5; // Có thể hủy
+
+        // Nếu A có thể hủy mà B không thể hủy => A lên trước
+        if (canCancelA && !canCancelB) return -1;
+        if (!canCancelA && canCancelB) return 1;
+        return 0; // Giữ nguyên vị trí nếu cả hai cùng trạng thái
     });
 
     return (
-        <div className="orderManage">
-            <div className="orderManage-table">
+        <div className="s-orderManage">
+            <ul>
+                <li>
+                    <i className="fa-solid fa-bell"></i>Orders can be canceled within 5 minutes.{" "}
+                </li>
+                <li>
+                    <i className="fa-solid fa-fire"></i>After 5 minutes, you will not be able to cancel and the order will be processed and prepared for delivery to you.
+                </li>
+            </ul>
+            <div className="s-orderManage-table">
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -121,9 +143,14 @@ const UserOrder = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredOrders && filteredOrders.length > 0 ? (
-                            filteredOrders.map((item) => {
+                        {sortedOrders && sortedOrders.length > 0 ? (
+                            sortedOrders.map((item) => {
                                 const userInfo = JSON.parse(item.information);
+                                const orderTime = new Date(item.orderTime).getTime(); // Thời gian đặt hàng (timestamp)
+                                const currentTime = new Date().getTime(); // Thời gian hiện tại
+                                const timeDiffInMinutes = (currentTime - orderTime) / 1000 / 60; // Tính chênh lệch thời gian theo phút
+                                const canCancel = timeDiffInMinutes < 5; // Điều kiện cho phép hủy trong vòng 5 phút
+
                                 return (
                                     <tr key={item.id}>
                                         <td>{userInfo.fullname || "Unknown"}</td>
@@ -134,8 +161,17 @@ const UserOrder = () => {
                                         <td>{item.payment || "N/A"}</td>
                                         <td>{item.status}</td>
                                         <td>
-                                            <button style={{ backgroundColor: "red", color: "white", borderRadius: "5px" }} onClick={() => handleCancel(item.id)}>
-                                                CanCel
+                                            <button
+                                                style={{
+                                                    backgroundColor: canCancel ? "red" : "gray",
+                                                    color: "white",
+                                                    borderRadius: "5px",
+                                                    cursor: canCancel ? "pointer" : "not-allowed",
+                                                }}
+                                                onClick={() => canCancel && handleCancel(item.id)}
+                                                disabled={!canCancel}
+                                            >
+                                                Cancel
                                             </button>
                                         </td>
                                         <td>
