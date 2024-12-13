@@ -28,7 +28,7 @@ const Menu = () => {
     };
 
     useEffect(() => {
-        checkDay();
+        // checkDay();
         handleNowDay();
     }, []);
 
@@ -49,6 +49,7 @@ const Menu = () => {
             return 0;
         }
     };
+    console.log(dataMenu.catemenu_title);
 
     return (
         <div className="menu">
@@ -56,8 +57,7 @@ const Menu = () => {
                 <img src={bannerMenu} alt="" />
                 <div className="menu-textBanner">
                     <h2>WEEKLY MEAL PLAN</h2>
-                    <h3>{dataMenu && dataMenu.catemenu_title}</h3>
-                    <Button secondary="true" text="ORDER NOW" link=""></Button>
+                    {dataMenu && dataMenu.map((item) => <h3>{item.catemenu_title}</h3>)}
                 </div>
             </div>
 
@@ -65,12 +65,7 @@ const Menu = () => {
                 <ul className="menu-listmenu">
                     {dataMenuDay &&
                         dataMenuDay.map((item, index) => (
-                            <li
-                                key={item.daymenu_id}
-                                className={`${tab === index && "active"} ${handleNowDay(index) ? "disable" : ""} ${nowDay.day === index + 1 ? "now" : ""}`}
-                                onClick={() => setTab(index)}
-                            >
-                                {handleNowDay(index) ? <span className="menu-listmenu_available">Not available</span> : ""}
+                            <li key={item.daymenu_id} className={`${tab === index && "active"}`} onClick={() => setTab(index)}>
                                 <span className="menu-listmenu_day">{item.daymenu_day}</span>
                             </li>
                         ))}
@@ -113,25 +108,21 @@ const Menu = () => {
                                         </h5>
                                     )}
 
-                                    {handleNowDay(index) ? (
-                                        <p>You should order a food today before 8:00 am</p>
-                                    ) : (
-                                        <button
-                                            className="menu-button_button-1"
-                                            onClick={() =>
-                                                addCart(
-                                                    {
-                                                        ...item,
-                                                        price: (calculateTotalPrice(item.listfood) * 0.9).toFixed(2),
-                                                    },
-                                                    slug[slug.length - 1],
-                                                    dataMenu[0]?.catemenu_title || ""
-                                                )
-                                            }
-                                        >
-                                            Order for {item.daymenu_day}
-                                        </button>
-                                    )}
+                                    <button
+                                        className="menu-button_button-1"
+                                        onClick={() =>
+                                            addCart(
+                                                {
+                                                    ...item,
+                                                    price: (calculateTotalPrice(item.listfood) * 0.9).toFixed(2),
+                                                },
+                                                slug[slug.length - 1],
+                                                dataMenu[0]?.catemenu_title || ""
+                                            )
+                                        }
+                                    >
+                                        Order for {item.daymenu_day}
+                                    </button>
                                 </div>
                             </div>
                         ))}
