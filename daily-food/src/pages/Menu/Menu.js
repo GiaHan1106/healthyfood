@@ -79,18 +79,20 @@ const Menu = () => {
                         dataMenuDay.map((item, index) => (
                             <div key={item.daymenu_id} className={`menu-content ${tab === index && "active"}`}>
                                 {item.listfood &&
-                                    item.listfood.map((food) => (
-                                        <CardMenu
-                                            key={food.foodmenu_id}
-                                            image={food.foodmenu_image}
-                                            name={food.foodmenu_name}
-                                            time={food.foodmenu_time}
-                                            des={food.foodmenu_des}
-                                            calories={food.foodmenu_calories}
-                                            protein={food.foodmenu_protein}
-                                            carbohydrates={food.foodmenu_carbohydrates}
-                                        ></CardMenu>
-                                    ))}
+                                    item.listfood
+                                        .filter((food) => food.allday === 1)
+                                        .map((food) => (
+                                            <CardMenu
+                                                key={food.foodmenu_id}
+                                                image={food.foodmenu_image}
+                                                name={food.foodmenu_name}
+                                                time={food.foodmenu_time}
+                                                des={food.foodmenu_des}
+                                                calories={food.foodmenu_calories}
+                                                protein={food.foodmenu_protein}
+                                                carbohydrates={food.foodmenu_carbohydrates}
+                                            ></CardMenu>
+                                        ))}
 
                                 <div className="menu-button">
                                     {dataMenuDay && dataMenuDay.length > 0 && (
@@ -120,7 +122,7 @@ const Menu = () => {
                                                     {
                                                         ...item,
                                                         price: (calculateTotalPrice(dataMenuDay) * 0.9).toFixed(2),
-                                                    }, // Pass discounted price
+                                                    },
                                                     slug[slug.length - 1],
                                                     dataMenu[0]?.catemenu_title || ""
                                                 )

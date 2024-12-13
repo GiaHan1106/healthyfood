@@ -119,20 +119,43 @@ const FoodMenu = () => {
                 price: values.price,
                 diseases: values.diseases,
             };
-
             try {
                 let res;
+                console.log(formik.values);
                 if (update) {
                     res = await axios.put(`http://localhost:8081/foodmenu/${values.id}`, newObj);
                     const updatedList = newCateMenu.map((item) => (item.foodmenu_id === values.id ? { ...item, ...newObj } : item));
+                    console.log(updatedList);
+
                     setNewCateMenu(updatedList);
                 } else {
                     res = await axios.post(`http://localhost:8081/foodmenu`, newObj);
                     setNewCateMenu([...newCateMenu, newObj]);
-                    window.location.reload();
                 }
                 alert("Data saved successfully!");
-                formik.resetForm();
+                formik.resetForm(); // Reset form values
+
+                // Reset other states (selectCate, selectDays, data, etc.)
+                setSelectCate({ id: "", title: "" });
+                setSelectDays({ id: "", day: "" });
+                setData({
+                    id: "",
+                    idCate: "",
+                    idDay: "",
+                    name: "",
+                    time: "",
+                    image: "",
+                    des: "",
+                    calories: "",
+                    carbohydrates: "",
+                    protein: "",
+                    fat: "",
+                    price: "",
+                    allday: "",
+                    diseases: "",
+                });
+
+                setUpdate("");
             } catch (error) {
                 console.error("Error:", error);
                 alert("Failed to save data.");
@@ -148,7 +171,7 @@ const FoodMenu = () => {
                   id: cate.catemenu_id,
                   title: cate.catemenu_title,
               }
-            : { id: null, title: "Unknown" }; // Provide fallback values
+            : { id: null, title: "Unknown" };
     };
 
     const handleGetDay = (idDay) => {
@@ -208,6 +231,16 @@ const FoodMenu = () => {
             alert("There was an error deleting the menu item: " + error.message);
         }
     };
+    const sortedMenu = newCateMenu.sort((a, b) => {
+        // First, compare by foodmenu_idCate (ascending order)
+        if (a.foodmenu_idCate < b.foodmenu_idCate) return -1;
+        if (a.foodmenu_idCate > b.foodmenu_idCate) return 1;
+
+        // If foodmenu_idCate is the same, compare by foodmenu_idDay (ascending order)
+        return a.foodmenu_idDay - b.foodmenu_idDay;
+    });
+
+    console.log(sortedMenu);
 
     useEffect(() => {
         setNewCateMenu(listData);
@@ -397,8 +430,8 @@ const FoodMenu = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {newCateMenu &&
-                            newCateMenu.map((item, index) => (
+                        {sortedMenu &&
+                            sortedMenu.map((item, index) => (
                                 <tr key={index}>
                                     <td> {handleGetCate(item.foodmenu_idCate).title}</td>
                                     <td> {handleGetDay(item.foodmenu_idDay).day}</td>
@@ -414,7 +447,7 @@ const FoodMenu = () => {
                                     <td>{item.foodmenu_protein}</td>
                                     <td>{item.foodmenu_fat}</td>
                                     <td>{item.diseases}</td>
-                                    <td>{item.allday === 1 ? "All Day" : "Combo"}</td>
+                                    <td>{item.allday.toString() === "1" ? "All Day" : "Combo"}</td>
                                     <td>
                                         <button onClick={() => handleEdit(item.foodmenu_id)}>Edit</button>
                                     </td>
