@@ -16,6 +16,7 @@ const Menu = () => {
         day: "",
         hour: "",
     });
+
     const [tab, setTab] = useState();
 
     const checkDay = () => {
@@ -37,19 +38,17 @@ const Menu = () => {
 
     useEffect(() => {
         dataMenuDay.forEach((day) => {
-            day.listfood = dataMenuFood.filter((food) => food.foodmenu_idDay === day.daymenu_id);
+            day.listfood = dataMenuFood.filter((food) => food.foodmenu_idDay === day.daymenu_id && food.foodmenu_idCate === day.daymenu_idCate);
         });
     }, [dataMenuDay, dataMenuFood]);
 
-    const calculateTotalPrice = (dataMenuDay) => {
-        return dataMenuDay
-            .filter((item) => item.listfood && item.listfood.length > 0)
-            .map((item) => item.listfood)
-            .flat()
-            .slice(0, 3)
-            .reduce((total, foodItem) => total + (foodItem.price || 0), 0);
+    const calculateTotalPrice = (listfood) => {
+        if (listfood) {
+            return listfood.slice(0, 3).reduce((total, foodItem) => total + (foodItem.price || 0), 0);
+        } else {
+            return 0;
+        }
     };
-    console.log(dataMenuDay);
 
     return (
         <div className="menu">
@@ -108,9 +107,9 @@ const Menu = () => {
                                                     fontSize: "24px",
                                                 }}
                                             >
-                                                $ {calculateTotalPrice(dataMenuDay)}
+                                                $ {calculateTotalPrice(item.listfood)}
                                             </span>
-                                            <span style={{ color: "black", marginLeft: "20px" }}>${Math.floor(calculateTotalPrice(dataMenuDay) * 0.9)}</span>
+                                            <span style={{ color: "black", marginLeft: "20px" }}>${Math.floor(calculateTotalPrice(item.listfood) * 0.9)}</span>
                                         </h5>
                                     )}
 
@@ -123,7 +122,7 @@ const Menu = () => {
                                                 addCart(
                                                     {
                                                         ...item,
-                                                        price: (calculateTotalPrice(dataMenuDay) * 0.9).toFixed(2),
+                                                        price: (calculateTotalPrice(item.listfood) * 0.9).toFixed(2),
                                                     },
                                                     slug[slug.length - 1],
                                                     dataMenu[0]?.catemenu_title || ""
