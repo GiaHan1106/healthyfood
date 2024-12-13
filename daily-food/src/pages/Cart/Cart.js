@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { v4 as uuidv4 } from "uuid";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
+import emptyCart from "~/assets/emptyCart.png";
 import axios from "axios";
 const Cart = () => {
     const { cart, deleteCartRetail, cartRetail, deleteCart, deleteAll } = useCart();
@@ -141,8 +142,7 @@ const Cart = () => {
         <div>
             {cart.length === 0 && cartRetail.length === 0 ? (
                 <div className="emptyCart">
-                    <img src="https://eztoro.com/static/svg/no_data.svg" alt="" />
-                    <p>Empty Cart</p>
+                    <img src={emptyCart} alt="" />
                 </div>
             ) : (
                 <form onSubmit={formik.handleSubmit}>

@@ -5,12 +5,12 @@ const CardMenu = (props) => {
     return (
         <div className={`cardMenu ${props.order ? "order" : ""}`}>
             <Row style={{ alignItems: "center" }}>
-                <Col xs={4}>
+                <Col xs={6} md={4}>
                     <div className="cardMenu-imgMenu">
                         <img src={props.image} alt="" />
                     </div>
                 </Col>
-                <Col xs={8}>
+                <Col xs={6} md={8}>
                     <div className="cardMenu-textMenu">
                         <h3>{props.name}</h3>
                         <h5>

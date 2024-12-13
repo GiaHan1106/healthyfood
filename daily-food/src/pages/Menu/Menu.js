@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Button from "~/component/Button/Button";
-import bannerMenu from "~/assets/banner/imageMenu.png";
+import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import CardMenu from "./CardMenu/CardMenu";
-import { useParams } from "react-router-dom";
+import bannerMenu from "~/assets/banner/imageMenu.png";
 import UseFetch from "~/feature/UseFetch";
 import { useCart } from "~/context/CartContext";
+
 const Menu = () => {
     const { addCart } = useCart();
     const { slug } = useParams();
@@ -13,29 +13,40 @@ const Menu = () => {
     const dataMenuDay = UseFetch(`http://localhost:8081/daymenu?idCate=${slug[slug.length - 1]}`);
     const dataMenuFood = UseFetch(`http://localhost:8081/foodmenu?idCate=${slug[slug.length - 1]}`);
     const [nowDay, setNowDay] = useState({
-        day: "",
-        hour: "",
+        day: "", // ngày trong tuần (0 - Chủ nhật, 6 - Thứ Bảy)
+        hour: "", // giờ hiện tại
     });
 
-    const [tab, setTab] = useState();
+    const [tab, setTab] = useState(0); // Chỉ số tab hiện tại
 
+    // Mảng ngày trong tuần
+    const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+    // Lấy ngày hiện tại và cập nhật trạng thái
     const checkDay = () => {
         const now = new Date();
-        setNowDay({ day: now.getDay(), hour: now.getHours() });
-    };
-    const handleNowDay = (index) => {
-        return (nowDay.day < 6 && index + 1 < nowDay.day) || (nowDay.hour > 8 && nowDay.day >= index + 1);
+        const day = now.getDay();
+        setNowDay({ day, hour: now.getHours() });
     };
 
+    // Cập nhật tab khi ngày thay đổi
     useEffect(() => {
-        // checkDay();
-        handleNowDay();
+        checkDay();
     }, []);
 
+    // Chọn tab tương ứng với ngày hiện tại
     useEffect(() => {
-        setTab(nowDay.day - 1);
-    }, [nowDay]);
+        if (dataMenuDay && dataMenuDay.length > 0) {
+            const currentDayName = weekDays[nowDay.day]; // Ví dụ: "FRI"
+            const currentDayIndex = dataMenuDay.findIndex((item) => item.daymenu_day.toUpperCase() === currentDayName);
 
+            if (currentDayIndex !== -1) {
+                setTab(currentDayIndex); // Chọn tab tương ứng với ngày hiện tại
+            }
+        }
+    }, [nowDay, dataMenuDay]);
+
+    // Cập nhật danh sách thực phẩm cho menu mỗi khi data thay đổi
     useEffect(() => {
         dataMenuDay.forEach((day) => {
             day.listfood = dataMenuFood.filter((food) => food.foodmenu_idDay === day.daymenu_id && food.foodmenu_idCate === day.daymenu_idCate);
@@ -49,7 +60,6 @@ const Menu = () => {
             return 0;
         }
     };
-    console.log(dataMenu.catemenu_title);
 
     return (
         <div className="menu">
@@ -57,7 +67,7 @@ const Menu = () => {
                 <img src={bannerMenu} alt="" />
                 <div className="menu-textBanner">
                     <h2>WEEKLY MEAL PLAN</h2>
-                    {dataMenu && dataMenu.map((item) => <h3>{item.catemenu_title}</h3>)}
+                    {dataMenu && dataMenu.map((item) => <h3 key={item.catemenu_id}>{item.catemenu_title}</h3>)}
                 </div>
             </div>
 
@@ -70,6 +80,7 @@ const Menu = () => {
                             </li>
                         ))}
                 </ul>
+
                 <div className="menu-detailMenu">
                     {dataMenuDay &&
                         dataMenuDay.map((item, index) => (
@@ -87,9 +98,8 @@ const Menu = () => {
                                                 calories={food.foodmenu_calories}
                                                 protein={food.foodmenu_protein}
                                                 carbohydrates={food.foodmenu_carbohydrates}
-                                            ></CardMenu>
+                                            />
                                         ))}
-
                                 <div className="menu-button">
                                     {dataMenuDay && dataMenuDay.length > 0 && (
                                         <h5>
@@ -107,7 +117,6 @@ const Menu = () => {
                                             <span style={{ color: "black", marginLeft: "20px" }}>${Math.floor(calculateTotalPrice(item.listfood) * 0.9)}</span>
                                         </h5>
                                     )}
-
                                     <button
                                         className="menu-button_button-1"
                                         onClick={() =>

@@ -5,22 +5,41 @@
     margin: $fs-40 auto;
     padding: $fs-20 0;
     border-bottom: 1px solid #eee;
+
+    @media (max-width: 991px) {
+        overflow: hidden; /* Đảm bảo không có phần thừa vượt ra ngoài */
+    }
+
     &.order {
         border-bottom: none;
+
         .row {
             display: block;
+
             .col-md-4 {
                 width: 100%;
             }
         }
     }
+
     &-imgMenu {
         text-align: center;
 
         img {
             border-radius: $fs-8;
+            width: 100%; /* Đảm bảo hình ảnh bao phủ chiều rộng */
+            height: 300px; /* Đặt chiều cao cố định */
+            object-fit: cover; /* Duy trì tỉ lệ và cắt phần thừa */
+            object-position: center; /* Focus vào giữa hình ảnh */
+
+            @media (max-width: 767px) {
+                height: 180px; /* Điều chỉnh chiều cao cho màn hình nhỏ hơn */
+                object-position: center center; /* Căn giữa cả theo chiều ngang và dọc */
+                width: auto;
+            }
         }
     }
+
     &-textMenu {
         h3 {
             font-size: $fs-24;
@@ -28,12 +47,15 @@
             margin: 0;
             color: $secondary-color;
             white-space: nowrap;
+
             @media (max-width: 767px) {
                 white-space: unset;
                 font-size: $fs-16;
             }
         }
+
         h5 {
+            white-space: nowrap;
             font-size: $fs-12;
             color: $secondary-color;
             font-weight: 700;
@@ -47,13 +69,16 @@
                 color: $red-color;
             }
         }
+
         p {
             margin-bottom: $fs-24;
             font-weight: 300;
+
             @media (max-width: 767px) {
                 display: none;
             }
         }
+
         li {
             white-space: nowrap;
             text-align: left;
@@ -67,6 +92,7 @@
             .lastchild {
                 display: inline-block;
                 white-space: nowrap;
+
                 &:last-child {
                     background-color: $primary-color;
                 }

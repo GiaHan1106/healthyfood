@@ -11,15 +11,10 @@ const CategoryDetail = () => {
     const searchTermFromState = state?.searchTerm || ""; // Default to empty string if not present
 
     const [categoryFood, setCategoryFood] = useState([]);
+    const [titleCate, settitleCate] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(searchTermFromState);
-
-    const categoryNames = {
-        1: "Slimming",
-        2: "Vegetable",
-        3: "Gymer",
-        4: "Balance",
-    };
 
     useEffect(() => {
         const fetchFoodByCategory = async () => {
@@ -33,7 +28,18 @@ const CategoryDetail = () => {
                 setLoading(false);
             }
         };
-
+        const fetchTitleCategory = async () => {
+            try {
+                const response = await fetch(`http://localhost:8081/catemenu`);
+                const data = await response.json();
+                settitleCate(data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+                setLoading(false);
+            }
+        };
+        fetchTitleCategory();
         fetchFoodByCategory();
     }, [slug]);
 
@@ -46,6 +52,9 @@ const CategoryDetail = () => {
     const filteredFood = categoryFood.filter(
         (food) => food.foodmenu_name.toLowerCase().includes(searchTerm) || (food.diseases && JSON.parse(food.diseases).some((disease) => disease.toLowerCase().includes(searchTerm)))
     );
+    //filter name Title
+    const categoryTitle = titleCate.find((title) => String(title.catemenu_id) === slug)?.catemenu_title || "Không xác định";
+    console.log(categoryTitle);
 
     if (loading) return <div>Loading...</div>;
 
@@ -55,12 +64,11 @@ const CategoryDetail = () => {
                 <div className="s-order-search_bar">
                     <input type="text" placeholder="Search by name or diseases..." value={searchTerm} onChange={handleSearch} className="search-input" />
                 </div>
-                <h2>{categoryNames[slug] || "Không xác định"}</h2>
-
+                <h2>{categoryTitle}</h2>
                 <Row>
                     {filteredFood.length > 0 ? (
                         filteredFood.map((food) => (
-                            <Col lg={3} key={food.foodmenu_id} className="mb-4">
+                            <Col xs={6} lg={3} key={food.foodmenu_id} className="mb-4">
                                 <div className="menu-detailMenu">
                                     <CardMenu
                                         image={food.foodmenu_image}
