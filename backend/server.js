@@ -11,7 +11,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "daiLy-food",
+    database: "daily-food",
 });
 
 const bcrypt = require("bcryptjs");

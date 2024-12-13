@@ -49,6 +49,8 @@ const Menu = () => {
             .slice(0, 3)
             .reduce((total, foodItem) => total + (foodItem.price || 0), 0);
     };
+    console.log(dataMenuDay);
+
     return (
         <div className="menu">
             <div className="menu-imageMenu">
