@@ -12,7 +12,7 @@ const ChooseUs = () => {
     return (
         <div className="work">
             <Container>
-                <HeadLine headline={"Why clients choose us"}></HeadLine>
+                <HeadLine headline={"Why Choosing Us"}></HeadLine>
                 <Row>
                     <Col md={3}>
                         <div data-aos="fade-down-right" data-aos-delay="200">

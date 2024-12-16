@@ -32,6 +32,18 @@ const SideBar = () => {
                     <Link to="/admin/ordermanage">
                         <i className="fa-solid fa-image"></i>Orders Manage
                     </Link>
+                    <ul className="c_subMenu">
+                        <li>
+                            <Link to="/admin/orderProgressingAdmin">
+                                <i className="fa-regular fa-calendar-days"></i>Progressing
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/admin/orderDoneAdmin">
+                                <i className="fa-regular fa-calendar-days"></i>Done
+                            </Link>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <Link to="/admin/contactmanage">

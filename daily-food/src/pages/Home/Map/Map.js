@@ -6,22 +6,22 @@ const Map = () => {
         {
             id: 1,
             name: "Binh Thanh",
-            address: "380 Bùi Hữu Nghĩa, Phường 2, Bình Thạnh (đối diện chợ Bà Chiểu)",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAt7Mkf_0UsT4DvoeT3QT_o2ywZUqU_RfMNQ&s",
+            address: "380 Bui Huu Nghia, Ward 2, Binh Thanh District(opposite Ba Chieu market)",
+            img: "https://kenh14cdn.com/zoom/594_371/2019/4/3/ems3-15542620135731935027285-crop-15542621662852068949217.jpg",
             link: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8077.125254493454!2d106.69701959462422!3d10.823635768176585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528f1f95cf5cb%3A0xf9e7b4f2adbd6adb!2sEmart%20Supermarket!5e0!3m2!1sen!2s!4v1718161597110!5m2!1sen!2s",
         },
         {
             id: 2,
             name: "Go Vap",
-            address: "50 Dương Quảng Hàm, Phường 2, Gò Vấp",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAt7Mkf_0UsT4DvoeT3QT_o2ywZUqU_RfMNQ&s",
+            address: "50 Duong Quang Ham, Ward 2, Go Vap District",
+            img: "https://dalat-info.vn/wp-content/uploads/2023/09/Insalata-Vietnam-Healthy-Food-Salad-bar.jpeg",
             link: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52184.15720579712!2d106.6732108918185!3d10.799988094807926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752949eb3e795f%3A0xa435dd1685ea2fbc!2sHoang%20Van%20Thu%20Park!5e0!3m2!1sen!2s!4v1718165247572!5m2!1sen!2s",
         },
         {
             id: 3,
             name: "Tan Binh",
-            address: "230 Út Tịch , Phường 3, Tân Bình ",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAt7Mkf_0UsT4DvoeT3QT_o2ywZUqU_RfMNQ&s",
+            address: "230 Ut Tich , Ward 3, Tan Binh District",
+            img: "https://kenh14cdn.com/2019/4/3/ff3-1554261917255977100940.jpg",
             link: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60151.17044555723!2d106.67223288544582!3d10.803941573607032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317525d4fb4d7abb%3A0xed06665f8a047451!2sLe%20Van%20Thinh%20Hospital!5e0!3m2!1sen!2s!4v1718165310657!5m2!1sen!2s",
         },
     ];

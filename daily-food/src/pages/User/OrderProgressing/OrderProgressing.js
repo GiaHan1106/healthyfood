@@ -1,4 +1,3 @@
-import { get } from "axios";
 import { useState, useEffect } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +5,7 @@ import { useUser } from "~/context/UserContext";
 import UseFetch from "~/feature/UseFetch";
 import CardMenu from "~/pages/Menu/CardMenu/CardMenu";
 
-const UserOrder = () => {
+const OrderProgressing = () => {
     const Navigate = useNavigate();
     const { user } = useUser();
     const [orders, setOrders] = useState([]);
@@ -23,15 +22,21 @@ const UserOrder = () => {
         const findIdDistrict = districtsdata.data.find((district) => district.id === districtId);
         return findIdDistrict ? findIdDistrict.full_name_en : "Unknown";
     };
+
     useEffect(() => {
-        setOrders(listOrder);
-    }, [listOrder]);
+        // Lọc các đơn hàng có trạng thái "progressing" và thuộc về user hiện tại
+        const filteredOrders = listOrder.filter((order) => {
+            const userInfo = JSON.parse(order.information); // Lấy thông tin người dùng từ order
+            return userInfo.email === user.email && order.status === "progressing"; // Lọc theo email và trạng thái
+        });
+        setOrders(filteredOrders); // Cập nhật danh sách đơn hàng
+    }, [listOrder, user.email]);
+
     useEffect(() => {
         if (dataProvince?.data) {
-            // Fetch all district names based on listOrder and dataProvince
             const fetchData = async () => {
                 const updatedDistricts = await Promise.all(
-                    listOrder.map(async (item) => {
+                    orders.map(async (item) => {
                         const userInfo = JSON.parse(item.information);
                         if (userInfo?.province && userInfo?.district) {
                             const provinceId = userInfo.province;
@@ -49,7 +54,8 @@ const UserOrder = () => {
             };
             fetchData();
         }
-    }, [listOrder, dataProvince]);
+    }, [orders, dataProvince]);
+
     const handleShowDetail = (order) => {
         let parsedInfo = {};
 
@@ -63,8 +69,6 @@ const UserOrder = () => {
             parsedInfo = order.information;
         }
         setShowDetailOrder({ ...parsedInfo, ...order });
-        console.log(showDetailOrder);
-
         setShow(true);
     };
 
@@ -72,6 +76,7 @@ const UserOrder = () => {
         setShow(false);
         Navigate("/user/userorder");
     };
+
     const handleCancel = async (id) => {
         if (!id) {
             alert("Invalid order ID");
@@ -88,7 +93,6 @@ const UserOrder = () => {
                     return prevOrders.filter((item) => item.id !== id);
                 });
                 alert(`Canceled successfully`);
-                window.location.reload();
                 setShow(false);
             } else {
                 console.error(`Failed to cancel Order ID`);
@@ -100,22 +104,17 @@ const UserOrder = () => {
         }
     };
 
-    const filteredOrders = listOrder.filter((order) => {
-        const userInfo = JSON.parse(order.information);
-        return userInfo.email === user.email;
-    });
-    const sortedOrders = filteredOrders.sort((a, b) => {
+    const sortedOrders = orders.sort((a, b) => {
         const orderTimeA = new Date(a.orderTime).getTime();
         const orderTimeB = new Date(b.orderTime).getTime();
         const currentTime = new Date().getTime();
 
-        const canCancelA = (currentTime - orderTimeA) / 1000 / 60 < 5; // Có thể hủy
-        const canCancelB = (currentTime - orderTimeB) / 1000 / 60 < 5; // Có thể hủy
+        const canCancelA = (currentTime - orderTimeA) / 1000 / 60 < 5;
+        const canCancelB = (currentTime - orderTimeB) / 1000 / 60 < 5;
 
-        // Nếu A có thể hủy mà B không thể hủy => A lên trước
         if (canCancelA && !canCancelB) return -1;
         if (!canCancelA && canCancelB) return 1;
-        return 0; // Giữ nguyên vị trí nếu cả hai cùng trạng thái
+        return 0;
     });
 
     return (
@@ -128,6 +127,7 @@ const UserOrder = () => {
                     <i className="fa-solid fa-fire"></i>After 5 minutes, you will not be able to cancel and the order will be processed and prepared for delivery to you.
                 </li>
             </ul>
+            <h4>Manage Order Progressing Of User</h4>
             <div className="s-orderManage-table">
                 <Table striped bordered hover>
                     <thead>
@@ -143,13 +143,13 @@ const UserOrder = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedOrders && sortedOrders.length > 0 ? (
+                        {sortedOrders.length > 0 ? (
                             sortedOrders.map((item) => {
                                 const userInfo = JSON.parse(item.information);
-                                const orderTime = new Date(item.orderTime).getTime(); // Thời gian đặt hàng (timestamp)
-                                const currentTime = new Date().getTime(); // Thời gian hiện tại
-                                const timeDiffInMinutes = (currentTime - orderTime) / 1000 / 60; // Tính chênh lệch thời gian theo phút
-                                const canCancel = timeDiffInMinutes < 5; // Điều kiện cho phép hủy trong vòng 5 phút
+                                const orderTime = new Date(item.orderTime).getTime();
+                                const currentTime = new Date().getTime();
+                                const timeDiffInMinutes = (currentTime - orderTime) / 1000 / 60;
+                                const canCancel = timeDiffInMinutes < 5;
 
                                 return (
                                     <tr key={item.id}>
@@ -236,7 +236,6 @@ const UserOrder = () => {
                             <i className="fa-solid fa-angle-right"></i>
                             <h5>Combo:</h5>
                         </div>
-                        {/* Kiểm tra nếu showDetailOrder.cart không rỗng */}
                         {showDetailOrder.cart && JSON.parse(showDetailOrder.cart).length > 0 ? (
                             <>
                                 {JSON.parse(showDetailOrder.cart).map((item, index) => (
@@ -257,7 +256,6 @@ const UserOrder = () => {
                                             ))}
                                     </div>
                                 ))}
-                                {/* Tính toán và hiển thị tổng giá */}
                                 <p className="s-left_totalprice">
                                     Total Price for Combo:
                                     <span>
@@ -271,7 +269,7 @@ const UserOrder = () => {
                                 </p>
                             </>
                         ) : (
-                            <p>No items in the cart.</p> // Hiển thị thông báo nếu cart rỗng
+                            <p>No items in the cart.</p>
                         )}
                     </div>
 
@@ -280,7 +278,6 @@ const UserOrder = () => {
                             <i className="fa-solid fa-angle-right"></i>
                             <h5>Retail:</h5>
                         </div>
-                        {/* Kiểm tra nếu showDetailOrder.cartRetail không rỗng */}
                         {showDetailOrder.cartRetail && JSON.parse(showDetailOrder.cartRetail).length > 0 ? (
                             <>
                                 {JSON.parse(showDetailOrder.cartRetail).map((item, index) => (
@@ -296,7 +293,6 @@ const UserOrder = () => {
                                         />
                                     </div>
                                 ))}
-                                {/* Tính toán và hiển thị tổng giá */}
                                 <p className="s-left_totalprice">
                                     Total Price for Combo:
                                     <span>
@@ -310,7 +306,7 @@ const UserOrder = () => {
                                 </p>
                             </>
                         ) : (
-                            <p>No items in retail cart.</p> // Hiển thị thông báo nếu cartRetail rỗng
+                            <p>No items in retail cart.</p>
                         )}
                     </div>
                 </Modal.Body>
@@ -324,4 +320,4 @@ const UserOrder = () => {
     );
 };
 
-export default UserOrder;
+export default OrderProgressing;

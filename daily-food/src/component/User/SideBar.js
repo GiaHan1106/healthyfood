@@ -9,7 +9,19 @@ const SideBar = () => {
                     <Link to="/user/dashboard">DASHBOARD</Link>
                 </li>
                 <li>
-                    <Link to="/user/userorder">ORDER</Link>
+                    ORDER
+                    <ul className="c_subMenu">
+                        <li>
+                            <Link to="/user/orderProgressing">
+                                <i className="fa-regular fa-calendar-days"></i>Progressing
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/user/orderDone">
+                                <i className="fa-regular fa-calendar-days"></i>Done
+                            </Link>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

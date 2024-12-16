@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import UseFetch from "~/feature/UseFetch";
 import CardMenu from "~/pages/Menu/CardMenu/CardMenu";
 
-const OrderManage = () => {
+const OrderDone = () => {
     const Navigate = useNavigate();
 
     const [showDetailOrder, setShowDetailOrder] = useState({});
@@ -13,6 +13,7 @@ const OrderManage = () => {
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
     const listOrder = UseFetch("http://localhost:8081/orders");
     const dataProvince = UseFetch("https://esgoo.net/api-tinhthanh/1/0.htm");
+
     // Function to fetch district data
     const fetchDistricts = async (provinceId, districtId) => {
         const districtsResponse = await fetch(`https://esgoo.net/api-tinhthanh/2/${provinceId}.htm`);
@@ -21,12 +22,20 @@ const OrderManage = () => {
         return findIdDistrict ? findIdDistrict.full_name_en : "Unknown";
     };
 
+    // UseEffect to filter orders based on status 'Done'
     useEffect(() => {
-        if (dataProvince?.data) {
-            // Fetch all district names based on listOrder and dataProvince
+        if (listOrder && listOrder.length > 0) {
+            const filteredOrders = listOrder.filter((order) => order.status === "Done");
+            setOrders(filteredOrders);
+        }
+    }, [listOrder]);
+
+    // Fetch province and district info for orders
+    useEffect(() => {
+        if (dataProvince?.data && orders.length > 0) {
             const fetchData = async () => {
                 const updatedDistricts = await Promise.all(
-                    listOrder.map(async (item) => {
+                    orders.map(async (item) => {
                         const userInfo = JSON.parse(item.information);
                         if (userInfo?.province && userInfo?.district) {
                             const provinceId = userInfo.province;
@@ -44,7 +53,9 @@ const OrderManage = () => {
             };
             fetchData();
         }
-    }, [listOrder, dataProvince]);
+    }, [orders, dataProvince]);
+
+    // Handle showing details of the order
     const handleShowDetail = (order) => {
         let parsedInfo = {};
 
@@ -58,8 +69,6 @@ const OrderManage = () => {
             parsedInfo = order.information;
         }
         setShowDetailOrder({ ...parsedInfo, ...order });
-        console.log(showDetailOrder);
-
         setShow(true);
     };
 
@@ -67,36 +76,10 @@ const OrderManage = () => {
         setShow(false);
         Navigate("/admin/ordermanage");
     };
-    useEffect(() => {
-        if (listOrder && listOrder.length > 0) {
-            setOrders(listOrder);
-        }
-    }, [listOrder]);
-    const handleStatusChange = async (event, orderId) => {
-        const newStatus = event.target.value; // Lấy giá trị trạng thái mới
-
-        try {
-            // Gửi PUT request tới backend để thay đổi trạng thái
-            const response = await fetch(`http://localhost:8081/orders/${orderId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: newStatus }),
-            });
-
-            if (response.ok) {
-                setOrders((prevOrders) => prevOrders.map((order) => (order.id === orderId ? { ...order, status: newStatus } : order)));
-                alert(`status updated successfull`);
-            } else {
-                alert(`Failed to update status`);
-            }
-        } catch (error) {
-            console.error("Error updating status:", error);
-        }
-    };
-
     return (
         <div className="orderManage">
             <div className="orderManage-table">
+                <h4>Order Done</h4>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -122,10 +105,7 @@ const OrderManage = () => {
                                         <td>{item.codeDiscount || "N/A"}</td>
                                         <td>{item.payment || "N/A"}</td>
                                         <td>
-                                            <select value={item.status} onChange={(e) => handleStatusChange(e, item.id)}>
-                                                <option value="Progressing">Progressing</option>
-                                                <option value="Done">Done</option>
-                                            </select>
+                                            <p style={{ backgroundColor: "green", color: "white", borderRadius: "4px", textAlign: "center" }}> {item.status}</p>
                                         </td>
                                         <td>
                                             <button onClick={() => handleShowDetail(item)}>Show Detail</button>
@@ -182,6 +162,7 @@ const OrderManage = () => {
                             - Code Discount: <span>{showDetailOrder.codeDiscount || "N/A"}</span>
                         </div>
                     </div>
+
                     <div className="notification">
                         <div className="notification_des">
                             <i className="fa-solid fa-angle-right"></i>
@@ -244,7 +225,7 @@ const OrderManage = () => {
                         {/* Calculate and display total price */}
                         {showDetailOrder.cartRetail && (
                             <p className="s-left_totalprice">
-                                Total Price for Combo:
+                                Total Price for Retail:
                                 <span>
                                     $
                                     {Math.round(
@@ -267,4 +248,4 @@ const OrderManage = () => {
     );
 };
 
-export default OrderManage;
+export default OrderDone;

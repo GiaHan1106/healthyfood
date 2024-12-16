@@ -10,30 +10,34 @@ const Product = () => {
     return (
         <div className="product">
             <Container>
-                <HeadLine headline={"Our Product"}></HeadLine>
+                <HeadLine headline={"From Cravings to Plate"}></HeadLine>
                 <Row>
-                    <Col md={4}>
+                    <Col xs={6} md={3}>
                         <div data-aos="fade-down" data-aos-delay="200">
-                            <a className="product-image" href="">
-                                <img src={product1} alt="" />
-                            </a>
-                            <h3>DAILY FOOD</h3>
+                            <i className="fa-solid fa-mobile-screen"></i>
+                            <h3>Choose Your Meal</h3>
+                            <p>Choose the meal package that suits your needs and fill in the delivery information</p>
                         </div>
                     </Col>
-                    <Col md={4}>
+                    <Col xs={6} md={3}>
                         <div data-aos="fade-down">
-                            <a className="product-image" href="">
-                                <img src={product2} alt="" />
-                            </a>
-                            <h3>DAILY DRINKS</h3>
+                            <i className="fa-solid fa-kitchen-set"></i>
+                            <h3>Cooking In Progress</h3>
+                            <p>We select the best ingredients and cook in modern industrial kitchens</p>
                         </div>
                     </Col>
-                    <Col md={4}>
+                    <Col xs={6} md={3}>
                         <div data-aos="fade-down" data-aos-delay="200">
-                            <a className="product-image" href="">
-                                <img src={product3} alt="" />
-                            </a>
-                            <h3>DAILY SNACKS</h3>
+                            <i className="fa-solid fa-truck-fast"></i>
+                            <h3>Delivery</h3>
+                            <p>DailyFood's delivery team will deliver your meals to your doorstep every day.</p>
+                        </div>
+                    </Col>
+                    <Col xs={6} md={3}>
+                        <div data-aos="fade-down" data-aos-delay="200">
+                            <i className="fa-solid fa-utensils"></i>
+                            <h3>Enjoy Your Meal</h3>
+                            <p>No thinking, shopping or greasy cooking, just heat and enjoy!</p>
                         </div>
                     </Col>
                 </Row>

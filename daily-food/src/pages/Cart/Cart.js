@@ -9,8 +9,10 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import emptyCart from "~/assets/emptyCart.png";
 import axios from "axios";
+import { useUser } from "~/context/UserContext";
 const Cart = () => {
     const { cart, deleteCartRetail, cartRetail, deleteCart, deleteAll } = useCart();
+    const { user } = useUser();
     const Navigate = useNavigate();
     const [sortCart, setSortCart] = useState([]);
     const [selectProvince, setSelectProvince] = useState();
@@ -59,7 +61,7 @@ const Cart = () => {
                 information: information,
                 cart: cart,
                 cartRetail: cartRetail,
-                payment: choosePayment === 1 ? "delivery" : "transfer",
+                payment: choosePayment === 1 ? "cash" : "online-payment",
             };
 
             try {
@@ -70,6 +72,11 @@ const Cart = () => {
                     setTimeout(() => {
                         deleteAll();
                     }, 2000);
+                    if (user) {
+                        Navigate("/user/dashboard");
+                    } else {
+                        Navigate("/");
+                    }
                 }
             } catch (error) {
                 console.error("Error posting data:", error);
@@ -87,6 +94,7 @@ const Cart = () => {
     };
     const handlePayment = (index) => {
         setChoosePayment(index);
+        console.log(index);
     };
     const dataProvince = UseFetch(`https://esgoo.net/api-tinhthanh/1/0.htm`);
     const dataDistrict = UseFetch(`https://esgoo.net/api-tinhthanh/2/${selectProvince}.htm`);
@@ -225,7 +233,7 @@ const Cart = () => {
                                         </div>
                                         <h2>Payments</h2>
                                         <div className={`${choosePayment === 1 ? "s_radioActive" : "s_radio"}`} onClick={() => handlePayment(1)}>
-                                            <input type="radio" name="payment" value="delivery" checked={choosePayment === 1} />
+                                            <input type="radio" name="payment" value="cash" checked={choosePayment === 1} />
                                             <img src="https://static.vecteezy.com/system/resources/thumbnails/002/206/240/small_2x/fast-delivery-icon-free-vector.jpg" alt="" />{" "}
                                             <div className="s_radio_text">
                                                 <h4> COD</h4>
@@ -234,7 +242,7 @@ const Cart = () => {
                                         </div>
                                         <div className={`${choosePayment === 2 ? "s_radioActive" : "s_radio"}`} onClick={() => handlePayment(2)}>
                                             <div className="s_radio_left">
-                                                <input type="radio" name="payment" value="transfer" checked={choosePayment === 2} />
+                                                <input type="radio" name="payment" value="online-payment" checked={choosePayment === 2} />
                                                 <img src="https://play-lh.googleusercontent.com/dQbjuW6Jrwzavx7UCwvGzA_sleZe3-Km1KISpMLGVf1Be5N6hN6-tdKxE5RDQvOiGRg" alt="" />{" "}
                                                 <label> Payment on transfer</label>
                                             </div>

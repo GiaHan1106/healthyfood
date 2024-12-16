@@ -12,56 +12,18 @@
     }
     h3 {
         text-align: center;
-        color: $third-color;
-        font-size: $fs-24;
+        font-size: $fs-20;
         padding-top: $fs-16;
-        font-weight: 500;
+        font-weight: 600;
     }
-    &-image {
-        position: relative;
-        padding-top: $fs-32;
-        display: block;
-        width: 300px;
-        height: 300px;
-        border-radius: 50%;
-        overflow: hidden;
-        margin: 0 auto;
-        &:hover {
-            &::after {
-                background-color: $third-color;
-            }
-            &::before {
-                background-color: $four-color;
-                bottom: -30px;
-                opacity: 1;
-            }
-            img {
-                filter: brightness(0) invert(1);
-            }
-        }
-        img {
-            width: 80%;
-            margin: 0 auto;
-            z-index: 9;
-            position: relative;
-        }
-        &::before {
-            @include beforeAfter(120%, 120%, $four-color);
-            @include posAbsolute("bl", -100%, 50%);
-            transform: translateX(-50%);
-            opacity: 0;
-            border-radius: 100%;
-            margin: $fs-8 auto;
-            transition: 0.3s;
-        }
-        &::after {
-            @include beforeAfter(61%, 50px, $four-color);
-            @include posAbsolute("bl", -30px, 50%);
-            transform: translateX(-50%);
-            border-radius: 100%;
-            margin: $fs-8 auto;
-            transition: 0.5s;
-        }
+    i {
+        display: flex;
+        justify-content: center;
+        font-size: $fs-72;
+        margin: $fs-56 0 $fs-20 0;
+    }
+    p {
+        text-align: center;
     }
     &-imageChoose {
         position: absolute;

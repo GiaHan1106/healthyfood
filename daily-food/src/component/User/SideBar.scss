@@ -1,22 +1,25 @@
 .c-bodyUser {
     padding: $fs-20;
+    background-color: $secondary-color;
 }
 .c-rightUser {
-    background-color: $secondary-color;
+    background-color: #fff;
     border-radius: $fs-8;
     padding: $fs-20;
 }
 .c-dashboardUser {
+    background-color: rgba(251, 251, 251, 0.031372549);
+    border-radius: 0.55rem;
     height: 100vh;
     padding: 1rem 2rem;
     .c_menu {
         li {
             margin-bottom: $fs-12;
-            background-color: $secondary-color;
             transition: 0.5s;
             font-weight: 500;
             font-size: $fs-16;
             border-radius: $fs-8;
+            color: #fff;
             padding: $fs-14 $fs-8;
             cursor: pointer;
             font-weight: bold;
@@ -27,7 +30,13 @@
             }
             i {
                 margin-right: $fs-12;
-                color: $secondary-color;
+                color: #fff;
+            }
+        }
+        .c_subMenu {
+            margin-left: $fs-32;
+            li {
+                margin-top: $fs-20;
             }
         }
     }
@@ -37,17 +46,14 @@
     h3 {
         margin-right: auto;
         font-weight: 600;
-        color: #fff;
     }
     &_right {
-        color: #fff;
         @include flexBox(center);
         i {
             font-size: $fs-24;
         }
     }
     &_left {
-        color: #fff;
         h3 {
             font-size: $fs-20;
         }
@@ -61,11 +67,9 @@
     }
     .button2 {
         border: none;
-        background-color: transparent;
         font-size: $fs-14;
         text-decoration: underline;
         margin-left: 1rem;
-        color: #fff;
     }
     .c_name {
         @include flexBox("center");

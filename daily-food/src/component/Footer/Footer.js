@@ -85,10 +85,6 @@ const Footer = (props) => {
                                         <i className="fa-solid fa-chevron-right"></i>
                                         <Link to="/recipe">Recipe</Link>
                                     </li>
-                                    <li>
-                                        <i className="fa-solid fa-chevron-right"></i>
-                                        <Link to="/deseases">Deseases</Link>
-                                    </li>
                                 </ul>
                             </Col>
                             <Col md={3}>

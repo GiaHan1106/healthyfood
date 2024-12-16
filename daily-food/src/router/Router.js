@@ -7,15 +7,18 @@ import Cart from "~/pages/Cart/Cart";
 import Payment from "~/pages/Payment/Payment";
 import Register from "~/pages/Register/Register";
 import Login from "~/pages/Login/Login";
-import Revenue from "~/pages/Admin/Revenue/Revenue";
+import Order from "~/pages/Order/Order";
+import CategoryDetail from "~/pages/CategoryDetail/CategoryDetail";
+import Dashboard from "~/pages/User/Dashboard/Dashboard";
+import OrderProgressing from "~/pages/User/OrderProgressing/OrderProgressing";
+import OrderDone from "~/pages/User/OrderDone/OrderDone";
 import DayMenu from "~/pages/Admin/DayMenu/DayMenu";
 import FoodMenu from "~/pages/Admin/FoodMenu/FoodMenu";
-import OrderManage from "~/pages/Admin/OrderManage/OrderManage";
-import Order from "~/pages/Order/Order";
+import OrderProgressingAdmin from "~/pages/Admin/OrderProgressingAdmin/OrderProgressingAdmin";
 import CateMenu from "~/pages/Admin/CateMenu/CateMenu";
-import CategoryDetail from "~/pages/CategoryDetail/CategoryDetail";
-import UserOrder from "~/pages/User/UserOrder/UserOrder";
-import Dashboard from "~/pages/User/Dashboard/Dashboard";
+import Revenue from "~/pages/Admin/Revenue/Revenue";
+import OrderDoneAdmin from "~/pages/Admin/OrderDoneAdmin/OrderDoneAdmin";
+
 const RouterUser = [
     { path: "/", component: Home },
     { path: "/about", component: About },
@@ -32,14 +35,16 @@ const RouterUser = [
 ];
 const RouterUserLogin = [
     { path: "/user/dashboard", component: Dashboard },
-    { path: "/user/userorder", component: UserOrder },
+    { path: "/user/orderProgressing", component: OrderProgressing },
+    { path: "/user/orderDone", component: OrderDone },
 ];
 const RouterAdmin = [
     { path: "/admin", component: Revenue },
     { path: "/admin/catemenu", component: CateMenu },
     { path: "/admin/daymenu", component: DayMenu },
     { path: "/admin/foodmenu", component: FoodMenu },
-    { path: "/admin/ordermanage", component: OrderManage },
+    { path: "/admin/orderDoneAdmin", component: OrderDoneAdmin },
+    { path: "/admin/orderProgressingAdmin", component: OrderProgressingAdmin },
 ];
 
 export { RouterUser, RouterAdmin, RouterUserLogin };

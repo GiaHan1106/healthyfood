@@ -66,13 +66,13 @@ const Header = () => {
                         </li>
 
                         <li onClick={() => setMenu(false)}>
-                            <Link to="/order"> ORDER</Link>
+                            <Link to="/order"> ORDERS</Link>
                         </li>
                         <li onClick={() => setMenu(false)}>
                             <Link to="/calories">CALORIES</Link>
                         </li>
                         <li onClick={() => setMenu(false)}>
-                            <Link to="/recipe">RECIPE</Link>
+                            <Link to="/recipe">RECIPES</Link>
                         </li>
                     </ul>
 

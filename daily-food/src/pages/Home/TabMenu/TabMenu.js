@@ -13,7 +13,7 @@ const TabMenu = () => {
     return (
         <div className="tabmenu">
             <Container>
-                <HeadLine headline={"Choose Your Plan"}></HeadLine>
+                <HeadLine headline={"Pick Your Perfect Fit"}></HeadLine>
                 <ul className="tabmenu-listmenu">
                     {dataMenu.map((item, index) => (
                         <li key={item.catemenu_id} className={`${tab === index && "active"}`} onClick={() => setTab(index)}>

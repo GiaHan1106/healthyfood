@@ -16,8 +16,10 @@ import pic1 from "~/assets/banner/pic1.png";
 import pic2 from "~/assets/banner/pic2.png";
 import pic3 from "~/assets/banner/pic3.png";
 import Button from "~/component/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const Slide = () => {
+    const Navigate = useNavigate();
     const settings = {
         dots: true,
         fade: true,
@@ -58,6 +60,9 @@ const Slide = () => {
             decs: "With natural ingredients",
         },
     ];
+    const handleClick = () => {
+        Navigate("/order");
+    };
     return (
         <div className="slider">
             <Slider {...settings}>
@@ -84,7 +89,9 @@ const Slide = () => {
                                     <div className="slider-infor">
                                         <h2>{item.title}</h2>
                                         <h3>{item.decs}</h3>
-                                        <Button className="button" text="ORDER NOW" link=""></Button>
+                                        <Button className="button" text="ORDER NOW" onClick={handleClick}>
+                                            ORDER NOW
+                                        </Button>
                                     </div>
                                 </Col>
                             </Row>
