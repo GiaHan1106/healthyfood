@@ -27,23 +27,24 @@ const OrderProgressing = () => {
         if (listOrder && listOrder.length > 0) {
             const filteredOrders = listOrder.filter((order) => {
                 const status = order.status?.trim();
-                return status === "progressing";
+                return status === "Waiting for confirmation";
             });
 
             // Lọc thêm những đơn hàng có thời gian đã qua 5 phút
-            const updatedOrders = filteredOrders.map((order) => {
-                const orderTime = new Date(order.orderTime);
-                const currentTime = new Date();
-                const diffInMinutes = (currentTime - orderTime) / (1000 * 60);
+            // const updatedOrders = filteredOrders.map((order) => {
+            //     const orderTime = new Date(order.orderTime);
+            //     const currentTime = new Date();
+            //     const diffInMinutes = (currentTime - orderTime) / (1000 * 60);
 
-                // Cập nhật trạng thái nếu thời gian đã qua 5 phút
-                return {
-                    ...order,
-                    isReadyToPrepare: diffInMinutes >= 5 ? true : order.isReadyToPrepare, // Cập nhật cờ nếu đã qua 5 phút
-                };
-            });
-
-            setOrders(updatedOrders);
+            //     // Thêm thông báo nếu thời gian đã qua 5 phút
+            //     if (diffInMinutes >= 5) {
+            //         order.isReadyToPrepare = true;
+            //     } else {
+            //         order.isReadyToPrepare = false;
+            //     }
+            //     return order;
+            // });
+            setOrders(filteredOrders);
         }
     }, [listOrder]);
 
@@ -173,7 +174,7 @@ const OrderProgressing = () => {
                                         <td>{item.isReadyToPrepare ? <span>Prepare</span> : <span>Not yet</span>}</td>
                                         <td>
                                             <select value={item.status} onChange={(e) => handleStatusChange(e, item.id)}>
-                                                <option value="Progressing">Progressing</option>
+                                                <option value="Waiting for confirmation">Waiting for confirmation</option>
                                                 <option value="Done">Done</option>
                                             </select>
                                         </td>
