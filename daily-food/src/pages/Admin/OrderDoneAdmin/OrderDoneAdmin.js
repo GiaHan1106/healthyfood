@@ -25,7 +25,7 @@ const OrderDone = () => {
     // UseEffect to filter orders based on status 'Done'
     useEffect(() => {
         if (listOrder && listOrder.length > 0) {
-            const filteredOrders = listOrder.filter((order) => order.status === "Done");
+            const filteredOrders = listOrder.filter((order) => order.status === "Delivered");
             setOrders(filteredOrders);
         }
     }, [listOrder]);
@@ -74,7 +74,7 @@ const OrderDone = () => {
 
     const handleClose = () => {
         setShow(false);
-        Navigate("/admin/ordermanage");
+        Navigate("/admin/orderDone");
     };
     return (
         <div className="orderManage">

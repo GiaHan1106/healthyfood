@@ -25,53 +25,39 @@ const OrderProgressing = () => {
     // Lọc chỉ những đơn hàng có trạng thái "progressing"
     useEffect(() => {
         if (listOrder && listOrder.length > 0) {
+            const statusChain = ["Waiting Confirmation", "Preparing", "In transit", "Delivered"];
             const filteredOrders = listOrder.filter((order) => {
                 const status = order.status?.trim();
-                return status === "Waiting for confirmation";
+                return statusChain.includes(status) && status !== "Delivered";
             });
 
-            // Lọc thêm những đơn hàng có thời gian đã qua 5 phút
-            // const updatedOrders = filteredOrders.map((order) => {
-            //     const orderTime = new Date(order.orderTime);
-            //     const currentTime = new Date();
-            //     const diffInMinutes = (currentTime - orderTime) / (1000 * 60);
-
-            //     // Thêm thông báo nếu thời gian đã qua 5 phút
-            //     if (diffInMinutes >= 5) {
-            //         order.isReadyToPrepare = true;
-            //     } else {
-            //         order.isReadyToPrepare = false;
-            //     }
-            //     return order;
-            // });
             setOrders(filteredOrders);
         }
     }, [listOrder]);
 
     // Fetch province and district info for orders
-    useEffect(() => {
-        if (dataProvince?.data && orders.length > 0) {
-            const fetchData = async () => {
-                const updatedDistricts = await Promise.all(
-                    orders.map(async (item) => {
-                        const userInfo = JSON.parse(item.information);
-                        if (userInfo?.province && userInfo?.district) {
-                            const provinceId = userInfo.province;
-                            const districtId = userInfo.district;
-                            const findIdProvince = dataProvince.data.find((province) => province.id === provinceId);
-                            if (findIdProvince) {
-                                const districtName = await fetchDistricts(provinceId, districtId);
-                                return { province: findIdProvince.name, district: districtName };
-                            }
+    const fetchLocationData = async (orders, dataProvince) => {
+        try {
+            const updatedDistricts = await Promise.all(
+                orders.map(async (item) => {
+                    const userInfo = JSON.parse(item.information);
+                    if (userInfo?.province && userInfo?.district) {
+                        const provinceId = userInfo.province;
+                        const districtId = userInfo.district;
+                        const findIdProvince = dataProvince.data.find((province) => province.id === provinceId);
+                        if (findIdProvince) {
+                            const districtName = await fetchDistricts(provinceId, districtId);
+                            return { province: findIdProvince.name, district: districtName };
                         }
-                        return { province: "Unknown", district: "Unknown" };
-                    })
-                );
-                setLocationData(updatedDistricts);
-            };
-            fetchData();
+                    }
+                    return { province: "Unknown", district: "Unknown" };
+                })
+            );
+            setLocationData(updatedDistricts);
+        } catch (error) {
+            console.error("Error fetching location data:", error);
         }
-    }, [orders, dataProvince]);
+    };
 
     // Handle showing details of the order
     const handleShowDetail = (order) => {
@@ -92,50 +78,84 @@ const OrderProgressing = () => {
 
     const handleClose = () => {
         setShow(false);
-        Navigate("/admin/ordermanage");
+        Navigate("/admin/orderProgressingAdmin");
     };
 
-    const handleStatusChange = async (event, orderId) => {
-        const newStatus = event.target.value; // Lấy giá trị trạng thái mới
+    const handleStatusTransition = async (orderId, currentStatus) => {
+        const statusChain = ["Waiting Confirmation", "Preparing", "In transit", "Delivered"];
+        const currentIndex = statusChain.indexOf(currentStatus);
+        const nextStatus = currentIndex >= 0 && currentIndex < statusChain.length - 1 ? statusChain[currentIndex + 1] : null;
+
+        // Nếu trạng thái là Cancelled, hiển thị cảnh báo
+        if (currentStatus === "Cancelled") {
+            alert("This order has been cancelled.");
+            return;
+        }
+
+        if (!nextStatus) {
+            alert("Order is already delivered.");
+            return;
+        }
 
         try {
-            // Gửi PUT request tới backend để thay đổi trạng thái
+            // Gửi yêu cầu cập nhật trạng thái
             const response = await fetch(`http://localhost:8081/orders/${orderId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: newStatus }),
+                body: JSON.stringify({ status: nextStatus }),
             });
 
             if (response.ok) {
-                // Cập nhật trạng thái trong state ngay lập tức và lọc lại các đơn hàng có status là "Progressing"
-                setOrders((prevOrders) => {
-                    const updatedOrders = prevOrders.map((order) => (order.id === orderId ? { ...order, status: newStatus } : order));
-                    return updatedOrders.filter((order) => order.status === "progressing");
+                // Cập nhật lại danh sách đơn hàng sau khi trạng thái thay đổi
+                const updatedResponse = await fetch("http://localhost:8081/orders");
+                const updatedOrders = await updatedResponse.json();
+
+                // Lọc lại đơn hàng để loại bỏ trạng thái "Delivered"
+                const statusChain = ["Waiting Confirmation", "Preparing", "In transit", "Delivered"];
+                const filteredOrders = updatedOrders.filter((order) => {
+                    const status = order.status?.trim();
+                    return statusChain.includes(status) && status !== "Delivered";
                 });
-                alert("Status updated successfully");
+
+                setOrders(filteredOrders);
+
+                alert(`Order status updated to "${nextStatus}".`);
             } else {
-                alert("Failed to update status");
+                alert("Failed to update order status.");
             }
         } catch (error) {
-            console.error("Error updating status:", error);
+            console.error("Error updating order status:", error);
         }
     };
 
-    // Set up polling to fetch data every 5 seconds
+    // Fetch the data every 3 seconds
     useEffect(() => {
-        const intervalId = setInterval(() => {
-            // Fetch the order data again to check for any changes
+        const interval = setInterval(() => {
             const fetchOrders = async () => {
-                const response = await fetch("http://localhost:8081/orders");
-                const updatedOrders = await response.json();
-                setOrders(updatedOrders.filter((order) => order.status === "progressing"));
-            };
-            fetchOrders();
-        }, 5000); // Fetch every 5 seconds
+                const updatedResponse = await fetch("http://localhost:8081/orders");
+                const updatedOrders = await updatedResponse.json();
 
-        // Cleanup interval on component unmount
-        return () => clearInterval(intervalId);
+                const statusChain = ["Waiting Confirmation", "Preparing", "In transit", "Delivered"];
+                const filteredOrders = updatedOrders.filter((order) => {
+                    const status = order.status?.trim();
+                    return statusChain.includes(status) && status !== "Delivered";
+                });
+
+                setOrders(filteredOrders);
+            };
+
+            fetchOrders();
+        }, 3000); // 3 seconds interval
+
+        // Clean up interval when the component is unmounted
+        return () => clearInterval(interval);
     }, []);
+
+    useEffect(() => {
+        if (dataProvince?.data && orders.length > 0) {
+            fetchLocationData(orders, dataProvince);
+        }
+    }, [orders, dataProvince]);
 
     return (
         <div className="orderManage">
@@ -149,8 +169,6 @@ const OrderProgressing = () => {
                             <th>Phone</th>
                             <th>Code Discount</th>
                             <th>Payment</th>
-                            <th>Time Order</th>
-                            <th>Condition</th>
                             <th>Status</th>
                             <th>Seen</th>
                         </tr>
@@ -159,10 +177,6 @@ const OrderProgressing = () => {
                         {orders && orders.length > 0 ? (
                             orders.map((item) => {
                                 const userInfo = JSON.parse(item.information);
-                                const orderTime = new Date(item.orderTime);
-                                const hours = orderTime.getHours();
-                                const minutes = orderTime.getMinutes();
-                                const formattedTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes}`; // Hiển thị giờ:phút
                                 return (
                                     <tr key={item.id}>
                                         <td>{userInfo.fullname || "Unknown"}</td>
@@ -170,13 +184,15 @@ const OrderProgressing = () => {
                                         <td>{userInfo.phone || "N/A"}</td>
                                         <td>{item.codeDiscount || "N/A"}</td>
                                         <td>{item.payment || "N/A"}</td>
-                                        <td>{formattedTime}</td>
-                                        <td>{item.isReadyToPrepare ? <span>Prepare</span> : <span>Not yet</span>}</td>
                                         <td>
-                                            <select value={item.status} onChange={(e) => handleStatusChange(e, item.id)}>
-                                                <option value="Waiting for confirmation">Waiting for confirmation</option>
-                                                <option value="Done">Done</option>
-                                            </select>
+                                            <button
+                                                onClick={() => handleStatusTransition(item.id, item.status)}
+                                                className={`btn btn-primary  ${item.status === "Awaiting Confirmation" ? "yes" : ""} ${item.status === "Preparing" ? "yellow" : ""} ${
+                                                    item.status === "In transit" ? "green" : ""
+                                                } ${item.status === "Cancelled" ? "red" : ""}`}
+                                            >
+                                                {item.status || "Awaiting Confirmation"}
+                                            </button>
                                         </td>
                                         <td>
                                             <button onClick={() => handleShowDetail(item)}>Show Detail</button>

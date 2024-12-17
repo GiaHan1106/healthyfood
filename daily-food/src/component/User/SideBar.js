@@ -18,7 +18,7 @@ const SideBar = () => {
                         </li>
                         <li>
                             <Link to="/user/orderDone">
-                                <i className="fa-regular fa-calendar-days"></i>Done
+                                <i className="fa-regular fa-calendar-days"></i>Delivered
                             </Link>
                         </li>
                     </ul>

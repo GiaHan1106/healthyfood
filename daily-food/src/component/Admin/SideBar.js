@@ -43,6 +43,11 @@ const SideBar = () => {
                                 <i className="fa-regular fa-calendar-days"></i>Done
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/admin/orderCancelAdmin">
+                                <i className="fa-regular fa-calendar-days"></i>Cancel
+                            </Link>
+                        </li>
                     </ul>
                 </li>
                 <li>

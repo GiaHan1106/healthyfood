@@ -5,7 +5,7 @@ import { useUser } from "~/context/UserContext";
 import UseFetch from "~/feature/UseFetch";
 import CardMenu from "~/pages/Menu/CardMenu/CardMenu";
 
-const OrderDone = () => {
+const OrderCancelAdmin = () => {
     const Navigate = useNavigate();
     const { user } = useUser();
     const [orders, setOrders] = useState([]);
@@ -25,8 +25,7 @@ const OrderDone = () => {
 
     useEffect(() => {
         const filteredOrders = listOrder.filter((order) => {
-            const userInfo = JSON.parse(order.information);
-            return userInfo.email === user.email && order.status === "Delivered";
+            return order.status === "Cancelled";
         });
         setOrders(filteredOrders);
     }, [listOrder, user.email]);
@@ -73,7 +72,7 @@ const OrderDone = () => {
 
     const handleClose = () => {
         setShow(false);
-        Navigate("/user/orderDone");
+        Navigate("/user/userorder");
     };
 
     const sortedOrders = orders.sort((a, b) => {
@@ -143,7 +142,6 @@ const OrderDone = () => {
                         {sortedOrders.length > 0 ? (
                             sortedOrders.map((item) => {
                                 const userInfo = JSON.parse(item.information);
-                                const isDone = item.status === "Delivered";
                                 return (
                                     <tr key={item.id}>
                                         <td>{userInfo.fullname || "Unknown"}</td>
@@ -153,7 +151,7 @@ const OrderDone = () => {
                                         <td>{item.codeDiscount || "N/A"}</td>
                                         <td>{item.payment || "N/A"}</td>
                                         <td>
-                                            <p style={{ backgroundColor: "green", color: "white", borderRadius: "5px", padding: "5px" }}>{item.status}</p>
+                                            <p style={{ backgroundColor: "yellow", color: "black", borderRadius: "5px", padding: "5px" }}>{item.status}</p>
                                         </td>
                                         <td>
                                             <button style={{ backgroundColor: "blue", color: "white", borderRadius: "5px", padding: "5px" }} onClick={() => handleShowDetail(item)}>
@@ -313,4 +311,4 @@ const OrderDone = () => {
     );
 };
 
-export default OrderDone;
+export default OrderCancelAdmin;

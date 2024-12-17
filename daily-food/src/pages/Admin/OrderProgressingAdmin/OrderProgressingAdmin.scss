@@ -1,0 +1,35 @@
+.yes {
+    animation: blink 1s step-start 0s infinite !important;
+    background-color: red !important;
+    color: white;
+}
+
+@keyframes blink {
+    0% {
+        background-color: red; /* Bắt đầu với màu đỏ */
+    }
+    50% {
+        background-color: green; /* Giữa chừng sẽ chuyển sang màu xanh */
+    }
+    100% {
+        background-color: red; /* Kết thúc lại với màu đỏ */
+    }
+}
+
+/* Màu vàng cho trạng thái "Preparing" */
+.yellow {
+    background-color: yellow !important;
+    color: black;
+    border: none;
+
+    &:hover {
+        border: none;
+        color: black;
+    }
+}
+
+/* Màu xanh lá cây cho trạng thái "In transit" */
+.green {
+    background-color: green !important;
+    color: white;
+}

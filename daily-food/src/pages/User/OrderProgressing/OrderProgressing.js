@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import { Button, Modal, Table } from "react-bootstrap";
+import { Modal, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "~/context/UserContext";
 import UseFetch from "~/feature/UseFetch";
 import CardMenu from "~/pages/Menu/CardMenu/CardMenu";
 
 const OrderProgressing = () => {
     const Navigate = useNavigate();
-    const { user } = useUser();
-    const [orders, setOrders] = useState([]);
+
     const [showDetailOrder, setShowDetailOrder] = useState({});
     const [show, setShow] = useState(false);
+    const [orders, setOrders] = useState([]);
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
-    const listOrder = UseFetch("http://localhost:8081/orders");
+    const [listOrder, setListOrder] = useState([]); // Added state for listOrder
     const dataProvince = UseFetch("https://esgoo.net/api-tinhthanh/1/0.htm");
 
     // Function to fetch district data
@@ -23,39 +22,65 @@ const OrderProgressing = () => {
         return findIdDistrict ? findIdDistrict.full_name_en : "Unknown";
     };
 
+    // Lọc chỉ những đơn hàng có trạng thái "progressing"
     useEffect(() => {
-        // Lọc các đơn hàng có trạng thái "progressing" và thuộc về user hiện tại
-        const filteredOrders = listOrder.filter((order) => {
-            const userInfo = JSON.parse(order.information); // Lấy thông tin người dùng từ order
-            return userInfo.email === user.email && order.status === "progressing"; // Lọc theo email và trạng thái
-        });
-        setOrders(filteredOrders); // Cập nhật danh sách đơn hàng
-    }, [listOrder, user.email]);
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:8081/orders");
+                const data = await response.json();
+                setListOrder(data); // Cập nhật listOrder
+            } catch (error) {
+                console.error("Error fetching orders:", error);
+            }
+        };
 
+        fetchData(); // Gọi API ban đầu
+
+        // Cập nhật API mỗi 30 giây
+        const intervalId = setInterval(fetchData, 3000);
+
+        // Dọn dẹp interval khi component unmount
+        return () => clearInterval(intervalId);
+    }, []); // Chạy một lần khi component mount
+
+    // Lọc đơn hàng khi có listOrder
     useEffect(() => {
-        if (dataProvince?.data) {
-            const fetchData = async () => {
-                const updatedDistricts = await Promise.all(
-                    orders.map(async (item) => {
-                        const userInfo = JSON.parse(item.information);
-                        if (userInfo?.province && userInfo?.district) {
-                            const provinceId = userInfo.province;
-                            const districtId = userInfo.district;
-                            const findIdProvince = dataProvince.data.find((province) => province.id === provinceId);
-                            if (findIdProvince) {
-                                const districtName = await fetchDistricts(provinceId, districtId);
-                                return { province: findIdProvince.name, district: districtName };
-                            }
-                        }
-                        return { province: "Unknown", district: "Unknown" };
-                    })
-                );
-                setLocationData(updatedDistricts);
-            };
-            fetchData();
+        if (listOrder && listOrder.length > 0) {
+            const statusChain = ["Waiting Confirmation", "Preparing", "In transit", "Delivered"];
+            const filteredOrders = listOrder.filter((order) => {
+                const status = order.status?.trim();
+                return statusChain.includes(status) && status !== "Delivered";
+            });
+
+            setOrders(filteredOrders);
         }
-    }, [orders, dataProvince]);
+    }, [listOrder]);
 
+    // Fetch province and district info for orders
+    const fetchLocationData = async (orders, dataProvince) => {
+        try {
+            const updatedDistricts = await Promise.all(
+                orders.map(async (item) => {
+                    const userInfo = JSON.parse(item.information);
+                    if (userInfo?.province && userInfo?.district) {
+                        const provinceId = userInfo.province;
+                        const districtId = userInfo.district;
+                        const findIdProvince = dataProvince.data.find((province) => province.id === provinceId);
+                        if (findIdProvince) {
+                            const districtName = await fetchDistricts(provinceId, districtId);
+                            return { province: findIdProvince.name, district: districtName };
+                        }
+                    }
+                    return { province: "Unknown", district: "Unknown" };
+                })
+            );
+            setLocationData(updatedDistricts);
+        } catch (error) {
+            console.error("Error fetching location data:", error);
+        }
+    };
+
+    // Handle showing details of the order
     const handleShowDetail = (order) => {
         let parsedInfo = {};
 
@@ -74,61 +99,51 @@ const OrderProgressing = () => {
 
     const handleClose = () => {
         setShow(false);
-        Navigate("/user/userorder");
+        Navigate("/user/orderProgressing");
     };
 
-    const handleCancel = async (id) => {
-        if (!id) {
-            alert("Invalid order ID");
+    useEffect(() => {
+        if (dataProvince?.data && orders.length > 0) {
+            fetchLocationData(orders, dataProvince);
+        }
+    }, [orders, dataProvince]);
+
+    const handleCancel = async (order) => {
+        if (order.status !== "Waiting Confirmation") {
             return;
         }
 
         try {
-            const response = await fetch(`http://localhost:8081/orders/${id}`, {
-                method: "DELETE",
+            // Gửi yêu cầu hủy đơn hàng tới server (cập nhật trạng thái đơn hàng)
+            const response = await fetch(`http://localhost:8081/orders/${order.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...order,
+                    status: "Cancelled", // Cập nhật trạng thái thành "Cancelled"
+                }),
             });
 
             if (response.ok) {
-                setOrders((prevOrders) => {
-                    return prevOrders.filter((item) => item.id !== id);
-                });
-                alert(`Canceled successfully`);
-                setShow(false);
+                // Cập nhật lại danh sách đơn hàng sau khi hủy thành công
+                const updatedOrder = await response.json();
+                setListOrder((prevOrders) => prevOrders.map((o) => (o.id === updatedOrder.id ? updatedOrder : o)));
+                alert("Order has been canceled successfully!");
             } else {
-                console.error(`Failed to cancel Order ID`);
-                alert(`Failed to cancel Order ID`);
+                alert("Failed to cancel order. Please try again.");
             }
         } catch (error) {
             console.error("Error canceling order:", error);
-            alert(`There was an error canceling the order: ${error.message}`);
+            alert("An error occurred while canceling the order.");
         }
     };
 
-    const sortedOrders = orders.sort((a, b) => {
-        const orderTimeA = new Date(a.orderTime).getTime();
-        const orderTimeB = new Date(b.orderTime).getTime();
-        const currentTime = new Date().getTime();
-
-        const canCancelA = (currentTime - orderTimeA) / 1000 / 60 < 5;
-        const canCancelB = (currentTime - orderTimeB) / 1000 / 60 < 5;
-
-        if (canCancelA && !canCancelB) return -1;
-        if (!canCancelA && canCancelB) return 1;
-        return 0;
-    });
-
     return (
-        <div className="s-orderManage">
-            <ul>
-                <li>
-                    <i className="fa-solid fa-bell"></i>Orders can be canceled within 5 minutes.{" "}
-                </li>
-                <li>
-                    <i className="fa-solid fa-fire"></i>After 5 minutes, you will not be able to cancel and the order will be processed and prepared for delivery to you.
-                </li>
-            </ul>
-            <h4>Manage Order Progressing Of User</h4>
-            <div className="s-orderManage-table">
+        <div className="orderManage">
+            <div className="orderManage-table">
+                <h4>Order Progressing</h4>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -138,45 +153,43 @@ const OrderProgressing = () => {
                             <th>Code Discount</th>
                             <th>Payment</th>
                             <th>Status</th>
-                            <th>Cancel</th>
                             <th>Seen</th>
+                            <th>Cancel</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedOrders.length > 0 ? (
-                            sortedOrders.map((item) => {
+                        {orders && orders.length > 0 ? (
+                            orders.map((item) => {
                                 const userInfo = JSON.parse(item.information);
-                                const orderTime = new Date(item.orderTime).getTime();
-                                const currentTime = new Date().getTime();
-                                const timeDiffInMinutes = (currentTime - orderTime) / 1000 / 60;
-                                const canCancel = timeDiffInMinutes < 5;
-
                                 return (
                                     <tr key={item.id}>
                                         <td>{userInfo.fullname || "Unknown"}</td>
                                         <td>{userInfo.email || "N/A"}</td>
                                         <td>{userInfo.phone || "N/A"}</td>
-
                                         <td>{item.codeDiscount || "N/A"}</td>
                                         <td>{item.payment || "N/A"}</td>
-                                        <td>{item.status}</td>
                                         <td>
-                                            <button
-                                                style={{
-                                                    backgroundColor: canCancel ? "red" : "gray",
-                                                    color: "white",
-                                                    borderRadius: "5px",
-                                                    cursor: canCancel ? "pointer" : "not-allowed",
-                                                }}
-                                                onClick={() => canCancel && handleCancel(item.id)}
-                                                disabled={!canCancel}
+                                            <p
+                                                className={`${item.status === "Awaiting Confirmation" ? "yes" : ""} ${item.status === "Preparing" ? "yellow" : ""} ${
+                                                    item.status === "In transit" ? "green" : ""
+                                                }`}
                                             >
-                                                Cancel
-                                            </button>
+                                                {item.status}
+                                            </p>
                                         </td>
                                         <td>
-                                            <button style={{ backgroundColor: "green", color: "white", borderRadius: "5px" }} onClick={() => handleShowDetail(item)}>
-                                                Show Detail
+                                            <button onClick={() => handleShowDetail(item)}>Show Detail</button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                onClick={() => handleCancel(item)}
+                                                disabled={item.status !== "Waiting Confirmation"}
+                                                style={{
+                                                    backgroundColor: item.status === "Waiting Confirmation" ? "#f44336" : "#9e9e9e", // Red for cancel, gray if disabled
+                                                    cursor: item.status === "Waiting Confirmation" ? "pointer" : "not-allowed", // Change cursor to show disabled state
+                                                }}
+                                            >
+                                                Cancel
                                             </button>
                                         </td>
                                     </tr>
@@ -184,7 +197,7 @@ const OrderProgressing = () => {
                             })
                         ) : (
                             <tr>
-                                <td colSpan="8">No orders available</td>
+                                <td colSpan="7">No orders available</td>
                             </tr>
                         )}
                     </tbody>
@@ -231,90 +244,33 @@ const OrderProgressing = () => {
                             - Code Discount: <span>{showDetailOrder.codeDiscount || "N/A"}</span>
                         </div>
                     </div>
+
                     <div className="notification">
                         <div className="notification_des">
                             <i className="fa-solid fa-angle-right"></i>
                             <h5>Combo:</h5>
                         </div>
-                        {showDetailOrder.cart && JSON.parse(showDetailOrder.cart).length > 0 ? (
-                            <>
-                                {JSON.parse(showDetailOrder.cart).map((item, index) => (
-                                    <div key={index}>
-                                        {item.listfood &&
-                                            item.listfood.length > 0 &&
-                                            item.listfood.map((food, foodIndex) => (
-                                                <div key={foodIndex}>
-                                                    <CardMenu
-                                                        image={food.foodmenu_image}
-                                                        name={food.foodmenu_name}
-                                                        des={food.foodmenu_des}
-                                                        calories={food.foodmenu_calories}
-                                                        protein={food.foodmenu_protein}
-                                                        carbohydrates={food.foodmenu_carbohydrates}
-                                                    />
-                                                </div>
-                                            ))}
-                                    </div>
-                                ))}
-                                <p className="s-left_totalprice">
-                                    Total Price for Combo:
-                                    <span>
-                                        $
-                                        {Math.round(
-                                            JSON.parse(showDetailOrder.cart).reduce((total, current) => {
-                                                return total + Number(current.price);
-                                            }, 0)
-                                        )}
-                                    </span>
-                                </p>
-                            </>
-                        ) : (
-                            <p>No items in the cart.</p>
-                        )}
-                    </div>
-
-                    <div className="notification">
-                        <div className="notification_des">
-                            <i className="fa-solid fa-angle-right"></i>
-                            <h5>Retail:</h5>
-                        </div>
-                        {showDetailOrder.cartRetail && JSON.parse(showDetailOrder.cartRetail).length > 0 ? (
-                            <>
-                                {JSON.parse(showDetailOrder.cartRetail).map((item, index) => (
-                                    <div key={index}>
-                                        <CardMenu
-                                            image={item.foodmenu_image}
-                                            name={item.foodmenu_name}
-                                            time={item.foodmenu_time}
-                                            des={item.foodmenu_des}
-                                            calories={item.foodmenu_calories}
-                                            protein={item.foodmenu_protein}
-                                            carbohydrates={item.foodmenu_carbohydrates}
-                                        />
-                                    </div>
-                                ))}
-                                <p className="s-left_totalprice">
-                                    Total Price for Combo:
-                                    <span>
-                                        $
-                                        {Math.round(
-                                            JSON.parse(showDetailOrder.cartRetail).reduce((total, current) => {
-                                                return total + Number(current.price * current.quantity);
-                                            }, 0)
-                                        )}
-                                    </span>
-                                </p>
-                            </>
-                        ) : (
-                            <p>No items in retail cart.</p>
-                        )}
+                        {showDetailOrder.cart &&
+                            JSON.parse(showDetailOrder.cart).map((item, index) => (
+                                <div key={index}>
+                                    {item.listfood &&
+                                        item.listfood.length > 0 &&
+                                        item.listfood.map((food, foodIndex) => (
+                                            <div key={foodIndex}>
+                                                <CardMenu
+                                                    image={food.foodmenu_image}
+                                                    name={food.foodmenu_name}
+                                                    des={food.foodmenu_des}
+                                                    calories={food.foodmenu_calories}
+                                                    protein={food.foodmenu_protein}
+                                                    carbohydrates={food.foodmenu_carbohydrates}
+                                                />
+                                            </div>
+                                        ))}
+                                </div>
+                            ))}
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
             </Modal>
         </div>
     );

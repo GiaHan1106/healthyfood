@@ -18,6 +18,7 @@ import OrderProgressingAdmin from "~/pages/Admin/OrderProgressingAdmin/OrderProg
 import CateMenu from "~/pages/Admin/CateMenu/CateMenu";
 import Revenue from "~/pages/Admin/Revenue/Revenue";
 import OrderDoneAdmin from "~/pages/Admin/OrderDoneAdmin/OrderDoneAdmin";
+import OrderCancelAdmin from "~/pages/Admin/OrderCancelAdmin/OrderCancelAdmin";
 
 const RouterUser = [
     { path: "/", component: Home },
@@ -45,6 +46,8 @@ const RouterAdmin = [
     { path: "/admin/foodmenu", component: FoodMenu },
     { path: "/admin/orderDoneAdmin", component: OrderDoneAdmin },
     { path: "/admin/orderProgressingAdmin", component: OrderProgressingAdmin },
+    { path: "/admin/orderProgressingAdmin", component: OrderProgressingAdmin },
+    { path: "/admin/orderCancelAdmin", component: OrderCancelAdmin },
 ];
 
 export { RouterUser, RouterAdmin, RouterUserLogin };

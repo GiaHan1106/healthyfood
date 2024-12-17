@@ -1,0 +1,28 @@
+.yes {
+  background-color: red !important;
+  color: white;
+}
+
+.yellow {
+  background-color: yellow !important;
+  color: black;
+  border: none;
+}
+.yellow:hover {
+  border: none;
+  color: black;
+}
+
+.green {
+  background-color: green !important;
+  color: white;
+}
+
+.red {
+  border: none;
+  background-color: red !important;
+}
+.red:hover {
+  border: none;
+  color: #fff;
+}/*# sourceMappingURL=OrderProgressing.css.map */
