@@ -145,8 +145,12 @@
             font-size: $fs-14;
             padding: 7rem 0 2rem 0;
             margin-bottom: 0;
+            font-weight: 400;
             @media (max-width: 767px) {
                 padding: 4rem 0 2rem 0;
+            }
+            span {
+                font-weight: 800;
             }
         }
     }

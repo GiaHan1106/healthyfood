@@ -5,7 +5,7 @@ import { useUser } from "~/context/UserContext";
 import UseFetch from "~/feature/UseFetch";
 import CardMenu from "~/pages/Menu/CardMenu/CardMenu";
 
-const OrderCancelAdmin = () => {
+const OrderCancel = () => {
     const Navigate = useNavigate();
     const { user } = useUser();
     const [orders, setOrders] = useState([]);
@@ -25,7 +25,8 @@ const OrderCancelAdmin = () => {
 
     useEffect(() => {
         const filteredOrders = listOrder.filter((order) => {
-            return order.status === "Cancelled";
+            const userInfo = JSON.parse(order.information);
+            return userInfo.email === user.email && order.status === "Cancelled";
         });
         setOrders(filteredOrders);
     }, [listOrder, user.email]);
@@ -72,7 +73,7 @@ const OrderCancelAdmin = () => {
 
     const handleClose = () => {
         setShow(false);
-        Navigate("/admin/orderCancelAdmin");
+        Navigate("/user/orderCancel");
     };
 
     const sortedOrders = orders.sort((a, b) => {
@@ -90,7 +91,15 @@ const OrderCancelAdmin = () => {
 
     return (
         <div className="s-orderManage">
-            <h4>Manage Order Done Of User</h4>
+            <div className="c-content">
+                <ul>
+                    <li>Order is being canceled.</li>
+                    <li>
+                        Hope to serve you again soon.<i className="fa-solid fa-heart-circle-check"></i>
+                    </li>
+                </ul>
+                <h4>Order is being canceled</h4>
+            </div>
             <div className="s-orderManage-table">
                 <Table striped bordered hover>
                     <thead>
@@ -265,4 +274,4 @@ const OrderCancelAdmin = () => {
     );
 };
 
-export default OrderCancelAdmin;
+export default OrderCancel;

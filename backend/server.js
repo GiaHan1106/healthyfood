@@ -14,8 +14,6 @@ const db = mysql.createConnection({
     database: "daily-food",
 });
 
-const bcrypt = require("bcryptjs");
-
 ///CATEMENU
 app.get("/catemenu", (req, res) => {
     const sql = "SELECT * FROM catemenu";

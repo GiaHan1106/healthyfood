@@ -157,6 +157,35 @@ const OrderProgressing = () => {
         }
     }, [orders, dataProvince]);
 
+    const handleCancel = async (order) => {
+        if (order.status !== "Waiting Confirmation") {
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8081/orders/${order.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...order,
+                    status: "Cancelled",
+                }),
+            });
+
+            if (response.ok) {
+                const updatedOrder = await response.json();
+                setOrders((prevOrders) => prevOrders.map((o) => (o.id === updatedOrder.id ? updatedOrder : o)));
+                alert("Order has been canceled successfully!");
+            } else {
+                alert("Failed to cancel order. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error canceling order:", error);
+            alert("An error occurred while canceling the order.");
+        }
+    };
     return (
         <div className="orderManage">
             <div className="orderManage-table">
@@ -171,6 +200,7 @@ const OrderProgressing = () => {
                             <th>Payment</th>
                             <th>Status</th>
                             <th>Seen</th>
+                            <th>Cancel</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -195,7 +225,21 @@ const OrderProgressing = () => {
                                             </button>
                                         </td>
                                         <td>
-                                            <button onClick={() => handleShowDetail(item)}>Show Detail</button>
+                                            <button style={{ backgroundColor: "blue", color: "white", borderRadius: "5px", padding: "5px" }} onClick={() => handleShowDetail(item)}>
+                                                Show Detail
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                onClick={() => handleCancel(item)}
+                                                disabled={item.status !== "Waiting Confirmation"}
+                                                style={{
+                                                    backgroundColor: item.status === "Waiting Confirmation" ? "#f44336" : "#9e9e9e", // Red for cancel, gray if disabled
+                                                    cursor: item.status === "Waiting Confirmation" ? "pointer" : "not-allowed", // Change cursor to show disabled state
+                                                }}
+                                            >
+                                                Cancel
+                                            </button>
                                         </td>
                                     </tr>
                                 );

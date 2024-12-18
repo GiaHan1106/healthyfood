@@ -16,7 +16,6 @@ const CateMenu = () => {
         images: "",
         describe: "",
     });
-
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -39,8 +38,6 @@ const CateMenu = () => {
                 catemenu_image: values.images,
                 catemenu_describe: values.describe,
             };
-
-            console.log("Payload gửi lên:", JSON.stringify(newObj));
 
             try {
                 const url = update ? `http://localhost:8081/catemenu/${values.id}` : `http://localhost:8081/catemenu`;

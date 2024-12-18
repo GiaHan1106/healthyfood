@@ -7,12 +7,12 @@ import { useCart } from "~/context/CartContext";
 import { useUser } from "~/context/UserContext";
 const Header = () => {
     const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
-    const menuRef = useRef(null); // Tham chiếu đến header-menu_showmenu
+    const menuRef = useRef(null);
     const divRef = useRef();
     const iconRef = useRef();
     const [menu, setMenu] = useState(false);
     const { cart, cartRetail } = useCart();
-    const { user, handleLogOut } = useUser();
+    const { handleLogOut } = useUser();
 
     const handleShowMenu = () => {
         setMenu(!menu);

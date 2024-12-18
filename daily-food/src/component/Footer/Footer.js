@@ -104,10 +104,7 @@ const Footer = (props) => {
                                 <div className="footer-center_listInfor_timing">
                                     <h5>Open Hours</h5>
                                     <p>
-                                        Mon - Sat: <span>8am - 7pm</span>
-                                    </p>
-                                    <p>
-                                        Sunday: <span>CLOSE</span>
+                                        Mon - Sun: <span>8am - 7pm</span>
                                     </p>
                                 </div>
                             </Col>
@@ -139,7 +136,9 @@ const Footer = (props) => {
                 </Container>
             </div>
             <div className="footer-bot">
-                <h5> © 2024 coding by Luong Gia Han from UIT</h5>
+                <h5>
+                    © 2024 coding by <span>Luong Gia Han</span> && <span>Bui Thu Ha</span> from UIT
+                </h5>
             </div>
             <button className={`footer-scrolltop ${scroll && "active"}`} onClick={handleOnTop}>
                 <i className="fa-solid fa-chevron-up"></i>

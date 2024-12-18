@@ -12,6 +12,7 @@
     border-radius: 0.55rem;
     height: 100vh;
     padding: 1rem 2rem;
+
     .c_menu {
         li {
             margin-bottom: $fs-12;
@@ -23,24 +24,48 @@
             padding: $fs-14 $fs-8;
             cursor: pointer;
             font-weight: bold;
+
             a {
-                transition: 0.5s;
                 padding: $fs-8;
+                transition: 0.5s;
                 color: #fff;
+                &.active {
+                    background-color: #fff;
+                    border-radius: $fs-20;
+                    color: $secondary-color;
+                    font-weight: 500;
+                    padding: $fs-8;
+                }
             }
+
             i {
                 margin-right: $fs-12;
                 color: #fff;
             }
         }
+
         .c_subMenu {
             margin-left: $fs-32;
             li {
                 margin-top: $fs-20;
+                padding: $fs-8;
+
+                &.active {
+                    background-color: #fff;
+                    border-radius: $fs-20;
+                    color: $secondary-color;
+                    font-weight: 500;
+                    padding: $fs-8;
+                    a,
+                    i {
+                        color: $secondary-color !important;
+                    }
+                }
             }
         }
     }
 }
+
 .c-nameUser {
     @include flexBox(space-between);
     h3 {
@@ -87,5 +112,22 @@
             width: 13%;
             border-radius: 50%;
         }
+    }
+}
+.c-content {
+    ul {
+        margin: $fs-40 0 $fs-32 0;
+        li {
+            margin: $fs-8 0;
+            i {
+                margin-left: $fs-12;
+                color: rgb(193, 29, 29);
+            }
+        }
+    }
+    h4 {
+        font-size: $fs-20;
+        color: $secondary-color;
+        font-weight: 600;
     }
 }

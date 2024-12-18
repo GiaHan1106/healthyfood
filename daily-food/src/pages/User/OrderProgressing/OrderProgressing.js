@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { Modal, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "~/context/UserContext";
 import UseFetch from "~/feature/UseFetch";
 import CardMenu from "~/pages/Menu/CardMenu/CardMenu";
 
 const OrderProgressing = () => {
     const Navigate = useNavigate();
-
+    const { user } = useUser();
     const [showDetailOrder, setShowDetailOrder] = useState({});
     const [show, setShow] = useState(false);
     const [orders, setOrders] = useState([]);
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
-    const [listOrder, setListOrder] = useState([]); // Added state for listOrder
+    const [listOrder, setListOrder] = useState([]);
     const dataProvince = UseFetch("https://esgoo.net/api-tinhthanh/1/0.htm");
 
     // Function to fetch district data
@@ -49,12 +50,17 @@ const OrderProgressing = () => {
             const statusChain = ["Waiting Confirmation", "Preparing", "In transit", "Delivered"];
             const filteredOrders = listOrder.filter((order) => {
                 const status = order.status?.trim();
-                return statusChain.includes(status) && status !== "Delivered";
+                const userInfo = JSON.parse(order.information);
+                // Log orders where userInfo.email matches user.email
+                if (userInfo.email === user.email) {
+                    console.log(order); // Log matching orders
+                }
+                return statusChain.includes(status) && status !== "Delivered" && userInfo.email === user.email;
             });
 
             setOrders(filteredOrders);
         }
-    }, [listOrder]);
+    }, [listOrder, user.email]);
 
     // Fetch province and district info for orders
     const fetchLocationData = async (orders, dataProvince) => {
@@ -114,7 +120,6 @@ const OrderProgressing = () => {
         }
 
         try {
-            // Gửi yêu cầu hủy đơn hàng tới server (cập nhật trạng thái đơn hàng)
             const response = await fetch(`http://localhost:8081/orders/${order.id}`, {
                 method: "PUT",
                 headers: {
@@ -122,12 +127,11 @@ const OrderProgressing = () => {
                 },
                 body: JSON.stringify({
                     ...order,
-                    status: "Cancelled", // Cập nhật trạng thái thành "Cancelled"
+                    status: "Cancelled",
                 }),
             });
 
             if (response.ok) {
-                // Cập nhật lại danh sách đơn hàng sau khi hủy thành công
                 const updatedOrder = await response.json();
                 setListOrder((prevOrders) => prevOrders.map((o) => (o.id === updatedOrder.id ? updatedOrder : o)));
                 alert("Order has been canceled successfully!");
@@ -142,8 +146,18 @@ const OrderProgressing = () => {
 
     return (
         <div className="orderManage">
+            <div className="c-content">
+                <ul>
+                    <li>
+                        Please kindly wait, we are processing your order <i className="fa-solid fa-headset"></i>
+                    </li>
+                    <li>
+                        Thank you for placing your order. We hope you have a tasty meal full of joy!<i className="fa-solid fa-heart-circle-check"></i>
+                    </li>
+                </ul>
+                <h4>Order is being processed</h4>
+            </div>
             <div className="orderManage-table">
-                <h4>Order Progressing</h4>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -170,7 +184,7 @@ const OrderProgressing = () => {
                                         <td>{item.payment || "N/A"}</td>
                                         <td>
                                             <p
-                                                className={`${item.status === "Awaiting Confirmation" ? "yes" : ""} ${item.status === "Preparing" ? "yellow" : ""} ${
+                                                className={`${item.status === "Waiting Confirmation" ? "yes" : ""} ${item.status === "Preparing" ? "yellow" : ""} ${
                                                     item.status === "In transit" ? "green" : ""
                                                 }`}
                                             >
@@ -178,15 +192,19 @@ const OrderProgressing = () => {
                                             </p>
                                         </td>
                                         <td>
-                                            <button onClick={() => handleShowDetail(item)}>Show Detail</button>
+                                            <button style={{ backgroundColor: "blue", color: "white", borderRadius: "5px", padding: "5px" }} onClick={() => handleShowDetail(item)}>
+                                                Show Detail
+                                            </button>
                                         </td>
                                         <td>
                                             <button
                                                 onClick={() => handleCancel(item)}
                                                 disabled={item.status !== "Waiting Confirmation"}
                                                 style={{
-                                                    backgroundColor: item.status === "Waiting Confirmation" ? "#f44336" : "#9e9e9e", // Red for cancel, gray if disabled
-                                                    cursor: item.status === "Waiting Confirmation" ? "pointer" : "not-allowed", // Change cursor to show disabled state
+                                                    backgroundColor: item.status === "Waiting Confirmation" ? "#f44336" : "#9e9e9e",
+                                                    borderRadius: "5px",
+                                                    color: "white",
+                                                    cursor: item.status === "Waiting Confirmation" ? "pointer" : "not-allowed",
                                                 }}
                                             >
                                                 Cancel

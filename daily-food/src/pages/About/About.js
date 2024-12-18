@@ -9,18 +9,18 @@ const About = () => {
                         <Col xs={5}>
                             <div className="about-story_text">
                                 <h2>
-                                    <span> CÂU CHUYỆN CỦA</span> NHÀ SÁNG LẬP
+                                    <span>THE STORY OF</span> FOUNDER
                                 </h2>
 
                                 <p>
-                                    Chúng tôi là những người đam mê trà sữa, được truyền cảm hứng từ câu chuyện về Shaman ,chúng tôi kết hợp thảo mộc cổ truyền và trà sữa hiện đại để mang đến những
-                                    hương vị độc đáo và bổ dưỡng.
+                                    We are healthy food enthusiasts, inspired by the nutritional values ​​of traditional herbs combined with modern dishes. We aim to bring unique flavors and health
+                                    benefits.
                                 </p>
                             </div>
                         </Col>
                         <Col xs={7}>
                             <div className="about-img">
-                                <img src="https://i.pinimg.com/564x/d7/4c/5a/d74c5afa5fbeb4dc6d5635b48ca76a05.jpg" alt="" />
+                                <img src="https://i.ytimg.com/vi/UgA_5V3Jro0/maxresdefault.jpg" alt="" />
                             </div>
                         </Col>
                     </Row>
@@ -29,17 +29,17 @@ const About = () => {
                     <Row>
                         <Col xs={7}>
                             <div className="about-img">
-                                <img src="https://i.pinimg.com/564x/7a/5d/c6/7a5dc673338021e7dc27e7b00df79879.jpg" alt="" />
+                                <img src="https://www.londonstaffagency.co.uk/wp-content/uploads/2021/07/private-chef--1600x800.jpeg" alt="" />
                             </div>
                         </Col>
                         <Col xs={5}>
                             <div className="about-story_text">
                                 <h2>
-                                    <span> BẮT ĐẦU TỪ NIỀM ĐAM MÊ </span>TRÀ ĐẬM ĐÀ & VỊ TINH TẾ
+                                    <span> STARTING WITH PASSION</span>HEALTHY & DELICATE FLAVOR FROM HERBS
                                 </h2>
                                 <p>
-                                    Mỗi ly trà sữa đều chứa đựng tâm huyết và sự sáng tạo của chúng tôi, đảm bảo không chỉ ngon miệng mà còn tốt cho sức khỏe. Sự hài lòng của khách hàng luôn là ưu
-                                    tiên hàng đầu của chúng tôi.
+                                    Each dish contains our passion and creativity, ensuring that it is not only delicious but also good for your health. Customer satisfaction is always our top
+                                    priority.
                                 </p>
                             </div>
                         </Col>
@@ -50,17 +50,17 @@ const About = () => {
                         <Col xs={5}>
                             <div className="about-story_text">
                                 <h2>
-                                    <span> CHÚNG TÔI </span> LẤY KHÁCH HÀNG LÀM TRỌNG TÂM
+                                    <span> WE ALWAY </span> CUSTOMER FOCUS
                                 </h2>
                                 <p>
-                                    Chúng tôi luôn đặt khách hàng lên hàng đầu trong mọi hoạt động của mình. Tại Shaman Tea, sự hài lòng của khách hàng là ưu tiên hàng đầu. Chúng tôi không ngừng lắng
-                                    nghe ý kiến, phản hồi để cải thiện và nâng cao chất lượng dịch vụ.
+                                    We always put customers first in all our activities. At Daily Food, customer satisfaction is our top priority. We constantly listen to opinions and feedback to
+                                    improve and enhance the quality of our services.
                                 </p>
                             </div>
                         </Col>
                         <Col xs={7}>
                             <div className="about-img">
-                                <img src="https://i.pinimg.com/564x/5b/96/e2/5b96e2fe05725f6f6c764904bf1a2222.jpg" alt="" />
+                                <img src="https://blog.uvahealth.com/wp-content/uploads/2023/02/bowl-cropped.jpg" alt="" />
                             </div>
                         </Col>
                     </Row>

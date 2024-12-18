@@ -1,13 +1,16 @@
 .yes {
-    background-color: red !important;
+    background-color: #0d6efd !important;
     color: white;
+    text-align: center;
+    border-radius: $fs-8;
 }
 
 .yellow {
     background-color: yellow !important;
     color: black;
-    border: none;
-
+    border-radius: $fs-8;
+    padding: 10px;
+    text-align: center;
     &:hover {
         border: none;
         color: black;
@@ -16,6 +19,9 @@
 .green {
     background-color: green !important;
     color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: $fs-8;
 }
 .red {
     border: none;

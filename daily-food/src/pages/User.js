@@ -8,6 +8,7 @@ import Header from "~/component/Header/Header";
 const User = ({ children }) => {
     const { user, handleLogOut } = useUser();
     const navigate = useNavigate();
+
     useEffect(() => {
         if (user && typeof user.permissions !== "undefined") {
             if (user.permissions === 0) {

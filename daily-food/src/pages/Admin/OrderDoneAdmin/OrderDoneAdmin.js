@@ -74,8 +74,9 @@ const OrderDone = () => {
 
     const handleClose = () => {
         setShow(false);
-        Navigate("/admin/orderDone");
+        Navigate("/admin/orderDoneAdmin");
     };
+
     return (
         <div className="orderManage">
             <div className="orderManage-table">
@@ -108,7 +109,9 @@ const OrderDone = () => {
                                             <p style={{ backgroundColor: "green", color: "white", borderRadius: "4px", textAlign: "center" }}> {item.status}</p>
                                         </td>
                                         <td>
-                                            <button onClick={() => handleShowDetail(item)}>Show Detail</button>
+                                            <button style={{ backgroundColor: "blue", color: "white", borderRadius: "5px", padding: "5px" }} onClick={() => handleShowDetail(item)}>
+                                                Show Detail
+                                            </button>
                                         </td>
                                     </tr>
                                 );

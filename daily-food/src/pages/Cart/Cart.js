@@ -33,7 +33,7 @@ const Cart = () => {
     const formik = useFormik({
         initialValues: {
             fullname: "",
-            email: "",
+            email: user ? user.email : "", // Pre-fill the email if the user is logged in
             phone: "",
             address: "",
             province: "",
@@ -167,9 +167,9 @@ const Cart = () => {
                                                 <input onChange={formik.handleChange} type="text" name="fullname" />
                                                 {formik.touched.fullname && formik.errors.fullname ? <div className="error">{formik.errors.fullname}</div> : null}
                                             </div>
-                                            <div class="s_input">
+                                            <div className="s_input">
                                                 <h5>Email*</h5>
-                                                <input onChange={formik.handleChange} type="email" name="email" />
+                                                <input onChange={formik.handleChange} type="email" name="email" value={formik.values.email} disabled={!!user} />
                                                 {formik.touched.email && formik.errors.email ? <div className="error">{formik.errors.email}</div> : null}
                                             </div>
 

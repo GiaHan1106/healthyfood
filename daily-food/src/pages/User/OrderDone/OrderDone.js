@@ -88,44 +88,19 @@ const OrderDone = () => {
         if (!canCancelA && canCancelB) return 1;
         return 0;
     });
-    const handleDelete = async (id) => {
-        if (!id) {
-            alert("Invalid order ID");
-            return;
-        }
 
-        try {
-            const response = await fetch(`http://localhost:8081/orders/${id}`, {
-                method: "DELETE",
-            });
-
-            if (response.ok) {
-                setOrders((prevOrders) => {
-                    return prevOrders.filter((item) => item.id !== id);
-                });
-                alert(`Canceled successfully`);
-                setShow(false);
-            } else {
-                console.error(`Failed to cancel Order ID`);
-                alert(`Failed to cancel Order ID`);
-            }
-        } catch (error) {
-            console.error("Error canceling order:", error);
-            alert(`There was an error canceling the order: ${error.message}`);
-        }
-    };
     return (
-        <div className="s-orderManage">
-            <ul>
-                <li>
-                    <i className="fa-solid fa-bell"></i>Orders can be canceled within 5 minutes.{" "}
-                </li>
-                <li>
-                    <i className="fa-solid fa-fire"></i>After 5 minutes, you will not be able to cancel and the order will be processed and prepared for delivery to you.
-                </li>
-            </ul>
-            <h4>Manage Order Done Of User</h4>
-            <div className="s-orderManage-table">
+        <div className="s-orderDone">
+            <div className="c-content">
+                <ul>
+                    <li>Wishing you a delicious meal! 🍽️</li>
+                    <li>
+                        Thank you for placing your order. We hope you have a tasty meal full of joy!<i className="fa-solid fa-heart-circle-check"></i>
+                    </li>
+                </ul>
+                <h4>Successfully Delivered</h4>
+            </div>
+            <div className="s-orderDone-table">
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -136,14 +111,12 @@ const OrderDone = () => {
                             <th>Payment</th>
                             <th>Status</th>
                             <th>Seen</th>
-                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         {sortedOrders.length > 0 ? (
                             sortedOrders.map((item) => {
                                 const userInfo = JSON.parse(item.information);
-                                const isDone = item.status === "Delivered";
                                 return (
                                     <tr key={item.id}>
                                         <td>{userInfo.fullname || "Unknown"}</td>
@@ -158,18 +131,6 @@ const OrderDone = () => {
                                         <td>
                                             <button style={{ backgroundColor: "blue", color: "white", borderRadius: "5px", padding: "5px" }} onClick={() => handleShowDetail(item)}>
                                                 Show Detail
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button
-                                                style={{
-                                                    backgroundColor: "red",
-                                                    color: "white",
-                                                    borderRadius: "5px",
-                                                }}
-                                                onClick={() => handleDelete(item.id)}
-                                            >
-                                                Delete
                                             </button>
                                         </td>
                                     </tr>

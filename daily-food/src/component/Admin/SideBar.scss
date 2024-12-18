@@ -10,7 +10,7 @@
 .c-dashboard {
     background-color: #fbfbfb08;
     border-radius: 0.55rem;
-    height: 100vh;
+    height: 105vh;
     padding: 1rem 2rem;
     h2 {
         font-weight: 600;
@@ -26,12 +26,11 @@
             font-size: $fs-16;
             border-radius: $fs-20;
             padding: $fs-8;
-            cursor: pointer;
             a {
                 transition: 0.5s;
                 padding: $fs-8;
                 color: #fff;
-                &:hover {
+                &.active {
                     background-color: #fff;
                     border-radius: $fs-20;
                     color: $secondary-color;

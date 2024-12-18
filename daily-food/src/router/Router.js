@@ -19,6 +19,8 @@ import CateMenu from "~/pages/Admin/CateMenu/CateMenu";
 import Revenue from "~/pages/Admin/Revenue/Revenue";
 import OrderDoneAdmin from "~/pages/Admin/OrderDoneAdmin/OrderDoneAdmin";
 import OrderCancelAdmin from "~/pages/Admin/OrderCancelAdmin/OrderCancelAdmin";
+import OrderCancel from "~/pages/User/OrderCancel/OrderCancel";
+import UserManage from "~/pages/Admin/UserManage/UserManage";
 
 const RouterUser = [
     { path: "/", component: Home },
@@ -38,12 +40,14 @@ const RouterUserLogin = [
     { path: "/user/dashboard", component: Dashboard },
     { path: "/user/orderProgressing", component: OrderProgressing },
     { path: "/user/orderDone", component: OrderDone },
+    { path: "/user/orderCancel", component: OrderCancel },
 ];
 const RouterAdmin = [
     { path: "/admin", component: Revenue },
     { path: "/admin/catemenu", component: CateMenu },
     { path: "/admin/daymenu", component: DayMenu },
     { path: "/admin/foodmenu", component: FoodMenu },
+    { path: "/admin/usermanage", component: UserManage },
     { path: "/admin/orderDoneAdmin", component: OrderDoneAdmin },
     { path: "/admin/orderProgressingAdmin", component: OrderProgressingAdmin },
     { path: "/admin/orderProgressingAdmin", component: OrderProgressingAdmin },
