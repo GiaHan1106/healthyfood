@@ -6,7 +6,7 @@ import CardMenu from "../Menu/CardMenu/CardMenu";
 import { useCart } from "~/context/CartContext";
 
 const Order = () => {
-    const navigate = useNavigate(); // Hook dùng để điều hướng
+    const navigate = useNavigate();
     const { addCartRetail } = useCart();
     const cateMenu = UseFetch(`http://localhost:8081/catemenu`);
     const listFood = UseFetch(`http://localhost:8081/foodmenu`);
@@ -15,6 +15,7 @@ const Order = () => {
     const [food, setFood] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [visibleCount, setVisibleCount] = useState(4);
+    const [selectedCategory, setSelectedCategory] = useState(""); // state for category filter
 
     const arrayFood = cateMenu.map((item) => ({
         ...item,
@@ -31,32 +32,42 @@ const Order = () => {
         const keyword = event.target.value.toLowerCase();
         setSearchTerm(keyword);
 
-        if (!keyword) {
-            setFood(allFood);
-        } else {
-            const filterResults = allFood.filter((item) => {
-                const nameMatch = item.foodmenu_name.toLowerCase().includes(keyword);
-                const descriptionMatch = item.foodmenu_des && item.foodmenu_des.toLowerCase().includes(keyword);
-                let diseaseMatch = false;
-                if (item.diseases) {
-                    try {
-                        const diseases = JSON.parse(item.diseases);
-                        diseaseMatch = diseases.some((disease) => disease.toLowerCase().includes(keyword));
-                    } catch (error) {
-                        console.warn("Invalid JSON in diseases field:", item.diseases);
-                        diseaseMatch = false;
-                    }
-                }
-                const timeMatch = item.foodmenu_time && item.foodmenu_time.toLowerCase().includes(keyword);
-                const caloriesMatch = item.foodmenu_calories && item.foodmenu_calories.toString().includes(keyword);
-                const proteinMatch = item.foodmenu_protein && item.foodmenu_protein.toString().includes(keyword);
-                const carbohydratesMatch = item.foodmenu_carbohydrates && item.foodmenu_carbohydrates.toString().includes(keyword);
-                return nameMatch || descriptionMatch || diseaseMatch || timeMatch || caloriesMatch || proteinMatch || carbohydratesMatch;
-            });
+        // Filter lại các món ăn theo cả category đã chọn và từ khóa tìm kiếm
+        const filterResults = allFood.filter((item) => {
+            // Lọc theo category nếu có
+            const categoryMatch = selectedCategory ? item.catemenu_title === selectedCategory : true;
 
-            setFood(filterResults);
-        }
+            // Lọc theo từ khóa tìm kiếm trong tên, mô tả, bệnh lý, thời gian, calo, protein, carbohydrate
+            const nameMatch = item.foodmenu_name.toLowerCase().includes(keyword);
+            const descriptionMatch = item.foodmenu_des && item.foodmenu_des.toLowerCase().includes(keyword);
+
+            let diseaseMatch = false;
+
+            // Kiểm tra nếu có trường diseases và từ khóa có nằm trong diseases
+            if (item.diseases) {
+                try {
+                    // Nếu diseases là chuỗi JSON, parse thành mảng
+                    const diseases = JSON.parse(item.diseases);
+                    diseaseMatch = diseases.some((disease) => disease.toLowerCase().includes(keyword));
+                } catch (error) {
+                    // Nếu không thể parse thành JSON, coi như nó là chuỗi văn bản
+                    console.warn("Invalid JSON in diseases field:", item.diseases);
+                    diseaseMatch = item.diseases.toLowerCase().includes(keyword); // Tìm kiếm trong chuỗi nếu không phải JSON
+                }
+            }
+
+            const timeMatch = item.foodmenu_time && item.foodmenu_time.toLowerCase().includes(keyword);
+            const caloriesMatch = item.foodmenu_calories && item.foodmenu_calories.toString().includes(keyword);
+            const proteinMatch = item.foodmenu_protein && item.foodmenu_protein.toString().includes(keyword);
+            const carbohydratesMatch = item.foodmenu_carbohydrates && item.foodmenu_carbohydrates.toString().includes(keyword);
+
+            // Điều kiện lọc: kết quả tìm kiếm từ bệnh lý hoặc các thuộc tính khác, kèm theo lọc category
+            return categoryMatch && (nameMatch || descriptionMatch || diseaseMatch || timeMatch || caloriesMatch || proteinMatch || carbohydratesMatch);
+        });
+
+        setFood(filterResults);
     };
+
     const handleShowAll = (categoryId) => {
         console.log("Navigating to category: ", categoryId);
         navigate(`/categorydetail/${categoryId}`);
@@ -65,9 +76,11 @@ const Order = () => {
     return (
         <Container>
             <div className="s-order">
+                {/* Thanh tìm kiếm */}
                 <div className="s-order-search_bar">
                     <input type="text" placeholder="Search by name or diseases..." value={searchTerm} onChange={handleSearch} className="search-input" />
                 </div>
+                {/* Hiển thị món ăn theo category đã chọn và tìm kiếm */}
                 {cateMenu &&
                     arrayFood.map((item) => (
                         <div key={item.catemenu_id}>
@@ -89,7 +102,8 @@ const Order = () => {
                                                     carbohydrates={food.allday}
                                                     price={food.price}
                                                     order={true}
-                                                    deseases={food.diseases}
+                                                    deseases={item.catemenu_title === "HEALTHY" ? food.diseases : undefined}
+                                                    catemenuTitle={item.catemenu_title}
                                                 />
                                                 <button className="s-order-button" onClick={() => addCartRetail(food)}>
                                                     Order

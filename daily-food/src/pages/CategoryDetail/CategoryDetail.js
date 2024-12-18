@@ -9,25 +9,28 @@ const CategoryDetail = () => {
     const { addCartRetail } = useCart();
     const { state } = useLocation(); // Get searchTerm from location state
     const searchTermFromState = state?.searchTerm || ""; // Default to empty string if not present
-
     const [categoryFood, setCategoryFood] = useState([]);
     const [titleCate, settitleCate] = useState([]);
-
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(searchTermFromState);
 
     useEffect(() => {
         const fetchFoodByCategory = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/foodmenu?categoryId=${slug}`);
+                const response = await fetch(`http://localhost:8081/foodmenu`);
                 const data = await response.json();
-                setCategoryFood(data);
+
+                data.forEach((food) => console.log(food.foodmenu_idCate));
+                const filteredData = data.filter((food) => Number(food.foodmenu_idCate) === Number(slug));
+
+                setCategoryFood(filteredData);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching data: ", error);
                 setLoading(false);
             }
         };
+
         const fetchTitleCategory = async () => {
             try {
                 const response = await fetch(`http://localhost:8081/catemenu`);
@@ -39,9 +42,19 @@ const CategoryDetail = () => {
                 setLoading(false);
             }
         };
+
         fetchTitleCategory();
         fetchFoodByCategory();
     }, [slug]);
+
+    // Log slug and categoryTitle
+    console.log("slug:", slug);
+    const categoryTitle = titleCate.find((title) => String(title.catemenu_id) === slug)?.catemenu_title || "Không xác định";
+    console.log("categoryTitle:", categoryTitle);
+
+    // Check if the category is "healthy"
+    const isHealthyCategory = categoryTitle.toLowerCase().includes("healthy");
+    console.log("isHealthyCategory:", isHealthyCategory);
 
     // Handling search input change
     const handleSearch = (event) => {
@@ -49,12 +62,10 @@ const CategoryDetail = () => {
     };
 
     // Filtered food based on search term
-    const filteredFood = categoryFood.filter(
-        (food) => food.foodmenu_name.toLowerCase().includes(searchTerm) || (food.diseases && JSON.parse(food.diseases).some((disease) => disease.toLowerCase().includes(searchTerm)))
-    );
-    //filter name Title
-    const categoryTitle = titleCate.find((title) => String(title.catemenu_id) === slug)?.catemenu_title || "Không xác định";
-    console.log(categoryTitle);
+    const filteredFood = categoryFood.filter((food) => food.foodmenu_name.toLowerCase().includes(searchTerm) || (food.diseases && food.diseases.toLowerCase().includes(searchTerm)));
+
+    // Log diseases for each food
+    filteredFood.forEach((food) => console.log("Diseases:", food.diseases));
 
     if (loading) return <div>Loading...</div>;
 
@@ -80,7 +91,8 @@ const CategoryDetail = () => {
                                         carbohydrates={food.allday}
                                         price={food.price}
                                         order={true}
-                                        deseases={food.diseases}
+                                        deseases={isHealthyCategory && food.diseases ? food.diseases : null} // Only show diseases if it's not empty and it's a healthy category
+                                        catemenuTitle={food.catemenu_title}
                                     />
                                     <button className="s-order-button" onClick={() => addCartRetail(food)}>
                                         Order

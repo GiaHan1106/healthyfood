@@ -93,9 +93,9 @@
                 display: inline-block;
                 white-space: nowrap;
 
-                &:last-child {
-                    background-color: $primary-color;
-                }
+                // &:last-child {
+                //     background-color: $primary-color;
+                // }
             }
         }
     }

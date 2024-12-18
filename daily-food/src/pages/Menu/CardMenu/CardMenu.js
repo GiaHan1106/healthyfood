@@ -28,19 +28,13 @@ const CardMenu = (props) => {
                             <li>
                                 Protein: <span>{props.protein}</span>
                             </li>
-                            {/* <li>
-                                Suitable for:
-                                <span className="lastchild">
-                                    {props.deseases &&
-                                        JSON.parse(props.deseases).map((item, index) => (
-                                            <React.Fragment key={index}>
-                                                {index > 0 && " "}
-                                                <span>#</span>
-                                                {item}
-                                            </React.Fragment>
-                                        ))}
-                                </span>
-                            </li> */}
+                            {/* Chỉ hiển thị "Suitable for" nếu catemenuTitle là "HEALTHY" và có deseases */}
+                            {props.catemenuTitle === "HEALTHY" && props.deseases && props.deseases !== "" && (
+                                <li>
+                                    Suitable for:
+                                    <span className="lastchild">{props.deseases}</span>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </Col>
