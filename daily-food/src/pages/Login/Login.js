@@ -52,7 +52,7 @@ const Login = () => {
                         }, 2000);
                     } else {
                         setTimeout(() => {
-                            navigate("/user/dashboard");
+                            navigate("/");
                         }, 2000);
                     }
                     getUserLogin({ id: checkUser.user_id, email: checkUser.user_email, username: checkUser.user_user, permissions: checkUser.user_permissions });

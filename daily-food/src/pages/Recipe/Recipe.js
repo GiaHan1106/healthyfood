@@ -9,7 +9,7 @@ const Recipe = () => {
     const [detailFood, setDetailFood] = useState([]);
     const getNutritionData = async () => {
         try {
-            const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${food}`);
+            const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${food}`);
             setInforFood(response.data);
         } catch (err) {
             alert("error", err);

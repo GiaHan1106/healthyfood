@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import logo from "~/assets/Logo-name.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UseFetch from "~/feature/UseFetch";
 import { useCart } from "~/context/CartContext";
 import { useUser } from "~/context/UserContext";
 const Header = () => {
     const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
+    const Navigate = useNavigate();
     const menuRef = useRef(null);
     const divRef = useRef();
     const iconRef = useRef();
@@ -52,7 +53,7 @@ const Header = () => {
                             <Link to="/about">ABOUT</Link>
                         </li>
                         <li className={`header-menu_showmenu ${menu && "active"}`} ref={menuRef}>
-                            <span onClick={() => setIsSubmenuVisible((prev) => !prev)}>COMBO</span>
+                            <Link onClick={() => setIsSubmenuVisible((prev) => !prev)}>COMBO</Link>
                             <ul className={`header-menu_showmenu_child ${isSubmenuVisible ? "active" : ""}`}>
                                 {dataMenu.map((menu) => (
                                     <li key={menu.id} onClick={() => setMenu(false)}>
@@ -89,7 +90,13 @@ const Header = () => {
                                     <h4>
                                         Hello <span>{userinfor.username}</span>
                                     </h4>
-                                    <i className="fa-solid fa-arrow-right-from-bracket" onClick={handleLogOut}></i>
+                                    <div className="header-icon_user_infor">
+                                        <i className="fa-solid fa-square-caret-down"></i>
+                                        <ul>
+                                            <li onClick={() => Navigate("/user/Dashboard")}>Dashboard</li>
+                                            <li onClick={handleLogOut}>Log Out</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             ) : (
                                 <Link to="/login" className="header-icon">

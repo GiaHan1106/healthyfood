@@ -59,6 +59,12 @@
             }
         }
         &_showmenu {
+            &:hover {
+                .header-menu_showmenu_child {
+                    opacity: 1; // Hiển thị menu con
+                    visibility: visible; // Đảm bảo rằng submenu có thể nhìn thấy
+                }
+            }
             span {
                 color: $secondary-color;
                 font-weight: 600;
@@ -69,6 +75,7 @@
                     transition: $trans;
                 }
             }
+
             &:hover {
                 span {
                     &::after {
@@ -88,10 +95,10 @@
                 opacity: 0;
                 visibility: hidden;
                 transition: 0.5s;
-                &.active {
-                    opacity: 1;
-                    visibility: visible;
-                }
+                // &.active {
+                //     opacity: 1;
+                //     visibility: visible;
+                // }
                 @media (max-width: 991px) {
                     background-image: unset;
                     z-index: 99999;
@@ -247,6 +254,36 @@
             p {
                 font-size: $fs-14;
                 font-weight: 600;
+            }
+            &_infor {
+                cursor: pointer;
+                position: relative;
+                z-index: 999999;
+                &:hover {
+                    ul {
+                        opacity: 1;
+                        visibility: visible;
+                        right: -10px;
+                    }
+                }
+                ul {
+                    background-color: #c4e5ae !important;
+                    border-radius: 5px;
+                    @include posAbsolute("tr", 50px, 10px);
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: 0.5s;
+                    li {
+                        font-size: $fs-16;
+                        font-weight: 600;
+                        padding: $fs-16;
+                        border-bottom: 0.5px solid rgba(0, 0, 0, 0.8);
+                        transition: 0.5s;
+                        &:hover {
+                            color: #000;
+                        }
+                    }
+                }
             }
         }
     }

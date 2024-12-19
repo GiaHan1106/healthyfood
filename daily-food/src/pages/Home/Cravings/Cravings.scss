@@ -1,4 +1,4 @@
-.product {
+.Cravings {
     padding-top: $fs-32;
     position: relative;
     overflow: hidden;
@@ -9,6 +9,10 @@
     }
     @media (max-width: 767px) {
         padding-top: 0;
+    }
+    &_imageFeature {
+        width: 35%;
+        margin: 0 auto;
     }
     h3 {
         text-align: center;

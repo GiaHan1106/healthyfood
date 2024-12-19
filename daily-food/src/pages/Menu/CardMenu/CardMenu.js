@@ -28,8 +28,7 @@ const CardMenu = (props) => {
                             <li>
                                 Protein: <span>{props.protein}</span>
                             </li>
-                            {/* Chỉ hiển thị "Suitable for" nếu catemenuTitle là "HEALTHY" và có deseases */}
-                            {props.catemenuTitle === "HEALTHY" && props.deseases && props.deseases !== "" && (
+                            {props.catemenuTitle === "HEALTHY" && props.deseases && (
                                 <li>
                                     Suitable for:
                                     <span className="lastchild">{props.deseases}</span>

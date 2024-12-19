@@ -6,14 +6,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { v4 as uuidv4 } from "uuid";
 import Modal from "react-bootstrap/Modal";
-import { useNavigate } from "react-router-dom";
 import emptyCart from "~/assets/emptyCart.png";
 import axios from "axios";
 import { useUser } from "~/context/UserContext";
 const Cart = () => {
     const { cart, deleteCartRetail, cartRetail, deleteCart, deleteAll } = useCart();
     const { user } = useUser();
-    const Navigate = useNavigate();
     const [sortCart, setSortCart] = useState([]);
     const [selectProvince, setSelectProvince] = useState();
     const [selectDistrict, setSelectDistrict] = useState();
@@ -72,19 +70,17 @@ const Cart = () => {
                     setTimeout(() => {
                         deleteAll();
                     }, 2000);
-                    if (user) {
-                        Navigate("/user/dashboard");
-                    } else {
-                        Navigate("/");
-                    }
                 }
             } catch (error) {
                 console.error("Error posting data:", error);
             }
         },
     });
+
     const handleClose = () => {
-        Navigate("/");
+        setTimeout(() => {
+            setShow(false);
+        }, 2000);
     };
     const arrayIcon = {
         balanced: "fa-scale-balanced",
@@ -94,14 +90,10 @@ const Cart = () => {
     };
     const handlePayment = (index) => {
         setChoosePayment(index);
-        console.log(index);
     };
     const dataProvince = UseFetch(`https://esgoo.net/api-tinhthanh/1/0.htm`);
     const dataDistrict = UseFetch(`https://esgoo.net/api-tinhthanh/2/${selectProvince}.htm`);
     const dataWards = UseFetch(`https://esgoo.net/api-tinhthanh/3/${selectDistrict}.htm`);
-    // console.log(dataProvince);
-    // console.log(dataDistrict);
-    // console.log(dataProvince);
 
     const handleSelectProvince = (e) => {
         setSelectProvince(e.target.value);
@@ -114,7 +106,6 @@ const Cart = () => {
     const handleSelectWards = (e) => {
         setSelectWards(e.target.value);
         formik.setFieldValue("wards", e.target.value);
-        console.log(e.target.value);
     };
 
     //Sap xep Cart theo danh muc va thu tu
@@ -169,7 +160,7 @@ const Cart = () => {
                                             </div>
                                             <div className="s_input">
                                                 <h5>Email*</h5>
-                                                <input onChange={formik.handleChange} type="email" name="email" value={formik.values.email} disabled={!!user} />
+                                                <input onChange={formik.handleChange} type="email" name="email" value={formik.values.email} disabled={!user} />
                                                 {formik.touched.email && formik.errors.email ? <div className="error">{formik.errors.email}</div> : null}
                                             </div>
 

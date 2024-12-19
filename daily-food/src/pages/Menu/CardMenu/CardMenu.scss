@@ -1,8 +1,8 @@
 .cardMenu {
     @include flexBox(space-between);
     gap: $fs-12;
-    width: 70%;
-    margin: $fs-40 auto;
+    // width: 70%;
+    // margin: $fs-40 auto;
     padding: $fs-20 0;
     border-bottom: 1px solid #eee;
 

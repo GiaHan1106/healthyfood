@@ -2,9 +2,9 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import HeadLine from "~/component/HeadLine/HeadLine";
 import imagePrograms from "~/assets/program.png";
-const Feature = () => {
+const ServeOur = () => {
     return (
-        <div className="feature">
+        <div className="serveOur">
             <Container>
                 <Row>
                     <Col lg={6} md={12} className="mb-4">
@@ -27,8 +27,8 @@ const Feature = () => {
                     </Col>
 
                     <Col lg={6} md={12}>
-                        <div className="feature-imagePrograms">
-                            <div className="feature-image">
+                        <div className="serveOur-imagePrograms">
+                            <div className="serveOur-image">
                                 <img src={imagePrograms} alt="" />
                             </div>
                         </div>
@@ -39,4 +39,4 @@ const Feature = () => {
     );
 };
 
-export default Feature;
+export default ServeOur;

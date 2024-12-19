@@ -1,9 +1,9 @@
 import React from "react";
 import Slide from "../Home/Slide/Slide";
 import ChooseUs from "./ChooseUs/ChooseUs";
-import Product from "./Product/Product";
+import Cravings from "./Cravings/Cravings";
 import TabMenu from "./TabMenu/TabMenu";
-import Feature from "./Feature/Feature";
+import ServeOur from "./ServeOur/ServeOur";
 import Enviroment from "./Enviroment/Enviroment";
 import Map from "./Map/Map";
 import FeedBack from "./FeedBack/FeedBack";
@@ -12,10 +12,10 @@ const Home = () => {
         <>
             <Slide></Slide>
             <ChooseUs></ChooseUs>
-            <Product></Product>
+            <Cravings></Cravings>
             <TabMenu></TabMenu>
             <Enviroment></Enviroment>
-            <Feature></Feature>
+            <ServeOur></ServeOur>
             <Map></Map>
             <FeedBack></FeedBack>
         </>

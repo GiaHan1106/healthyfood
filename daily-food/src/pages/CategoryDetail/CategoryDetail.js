@@ -62,12 +62,15 @@ const CategoryDetail = () => {
     };
 
     // Filtered food based on search term
-    const filteredFood = categoryFood.filter((food) => food.foodmenu_name.toLowerCase().includes(searchTerm) || (food.diseases && food.diseases.toLowerCase().includes(searchTerm)));
+    const filteredFood = categoryFood.filter(
+        (food) => food.foodmenu_name.toLowerCase().includes(searchTerm) || (food.diseases && typeof food.diseases === "string" && food.diseases.toLowerCase().includes(searchTerm))
+    );
 
     // Log diseases for each food
     filteredFood.forEach((food) => console.log("Diseases:", food.diseases));
 
     if (loading) return <div>Loading...</div>;
+    console.log(filteredFood.foodmenu_);
 
     return (
         <div className="s-categoryDetail">
@@ -91,8 +94,8 @@ const CategoryDetail = () => {
                                         carbohydrates={food.allday}
                                         price={food.price}
                                         order={true}
-                                        deseases={isHealthyCategory && food.diseases ? food.diseases : null} // Only show diseases if it's not empty and it's a healthy category
-                                        catemenuTitle={food.catemenu_title}
+                                        deseases={categoryTitle === "HEALTHY" ? food.diseases : undefined}
+                                        catemenuTitle={categoryTitle}
                                     />
                                     <button className="s-order-button" onClick={() => addCartRetail(food)}>
                                         Order

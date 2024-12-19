@@ -3,7 +3,6 @@ import { Col, Row } from "react-bootstrap";
 import SideBar from "~/component/User/SideBar";
 import { useUser } from "~/context/UserContext";
 import { useNavigate } from "react-router-dom";
-import Header from "~/component/Header/Header";
 
 const User = ({ children }) => {
     const { user, handleLogOut } = useUser();
@@ -23,7 +22,6 @@ const User = ({ children }) => {
 
     return (
         <div>
-            <Header></Header>
             <div className="c-bodyUser">
                 <Row>
                     <Col md={3}>

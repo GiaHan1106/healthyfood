@@ -198,14 +198,23 @@ const OrderDone = () => {
                                             item.listfood.length > 0 &&
                                             item.listfood.map((food, foodIndex) => (
                                                 <div key={foodIndex}>
-                                                    <CardMenu
-                                                        image={food.foodmenu_image}
-                                                        name={food.foodmenu_name}
-                                                        des={food.foodmenu_des}
-                                                        calories={food.foodmenu_calories}
-                                                        protein={food.foodmenu_protein}
-                                                        carbohydrates={food.foodmenu_carbohydrates}
-                                                    />
+                                                    <div className="s-left" key={food.foodmenu_id}>
+                                                        <div className="s-item" key={food.foodmenu_id}>
+                                                            <div className="s-item_top">
+                                                                <div className="s-item_bot">
+                                                                    <div className="s_left" key={food.foodmenu_id}>
+                                                                        <img src={food.foodmenu_image} alt="" />
+                                                                        <div className="s_left_child">
+                                                                            <h4>{food.foodmenu_name}</h4>
+                                                                            <h4>Calories: {food.foodmenu_calories}</h4>
+                                                                            <h4>Protein: {food.foodmenu_protein}</h4>
+                                                                            <h4>Carbohydrates: {food.foodmenu_carbohydrates}</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             ))}
                                     </div>
@@ -236,15 +245,23 @@ const OrderDone = () => {
                             <>
                                 {JSON.parse(showDetailOrder.cartRetail).map((item, index) => (
                                     <div key={index}>
-                                        <CardMenu
-                                            image={item.foodmenu_image}
-                                            name={item.foodmenu_name}
-                                            time={item.foodmenu_time}
-                                            des={item.foodmenu_des}
-                                            calories={item.foodmenu_calories}
-                                            protein={item.foodmenu_protein}
-                                            carbohydrates={item.foodmenu_carbohydrates}
-                                        />
+                                        <div className="s-left" key={item.foodmenu_id}>
+                                            <div className="s-item" key={item.foodmenu_id}>
+                                                <div className="s-item_top">
+                                                    <div className="s-item_bot">
+                                                        <div className="s_left" key={item.foodmenu_id}>
+                                                            <img src={item.foodmenu_image} alt="" />
+                                                            <div className="s_left_child">
+                                                                <h4>{item.foodmenu_name}</h4>
+                                                                <h4>Calories: {item.foodmenu_calories}</h4>
+                                                                <h4>Protein: {item.foodmenu_protein}</h4>
+                                                                <h4>Carbohydrates: {item.foodmenu_carbohydrates}</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 ))}
                                 <p className="s-left_totalprice">

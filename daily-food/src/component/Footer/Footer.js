@@ -137,7 +137,7 @@ const Footer = (props) => {
             </div>
             <div className="footer-bot">
                 <h5>
-                    © 2024 coding by <span>Luong Gia Han</span> && <span>Bui Thu Ha</span> from UIT
+                    © 2024 coding by <span>Luong Gia Han</span> & <span>Bui Thu Ha</span> from UIT
                 </h5>
             </div>
             <button className={`footer-scrolltop ${scroll && "active"}`} onClick={handleOnTop}>

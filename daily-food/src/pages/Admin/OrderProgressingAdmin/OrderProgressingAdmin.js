@@ -299,38 +299,94 @@ const OrderProgressing = () => {
                             <i className="fa-solid fa-angle-right"></i>
                             <h5>Combo:</h5>
                         </div>
-                        {showDetailOrder.cart &&
-                            JSON.parse(showDetailOrder.cart).map((item, index) => (
-                                <div key={index}>
-                                    {item.listfood &&
-                                        item.listfood.length > 0 &&
-                                        item.listfood.map((food, foodIndex) => (
-                                            <div key={foodIndex}>
-                                                <CardMenu
-                                                    image={food.foodmenu_image}
-                                                    name={food.foodmenu_name}
-                                                    des={food.foodmenu_des}
-                                                    calories={food.foodmenu_calories}
-                                                    protein={food.foodmenu_protein}
-                                                    carbohydrates={food.foodmenu_carbohydrates}
-                                                />
+                        {showDetailOrder.cart && JSON.parse(showDetailOrder.cart).length > 0 ? (
+                            <>
+                                {JSON.parse(showDetailOrder.cart).map((item, index) => (
+                                    <div key={index}>
+                                        {item.listfood &&
+                                            item.listfood.length > 0 &&
+                                            item.listfood.map((food, foodIndex) => (
+                                                <div key={foodIndex}>
+                                                    <div className="s-left" key={food.foodmenu_id}>
+                                                        <div className="s-item" key={food.foodmenu_id}>
+                                                            <div className="s-item_top">
+                                                                <div className="s-item_bot">
+                                                                    <div className="s_left" key={food.foodmenu_id}>
+                                                                        <img src={food.foodmenu_image} alt="" />
+                                                                        <div className="s_left_child">
+                                                                            <h4>{food.foodmenu_name}</h4>
+                                                                            <h4>Calories: {food.foodmenu_calories}</h4>
+                                                                            <h4>Protein: {food.foodmenu_protein}</h4>
+                                                                            <h4>Carbohydrates: {food.foodmenu_carbohydrates}</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                    </div>
+                                ))}
+                                <p className="s-left_totalprice">
+                                    Total Price for Combo:
+                                    <span>
+                                        $
+                                        {Math.round(
+                                            JSON.parse(showDetailOrder.cart).reduce((total, current) => {
+                                                return total + Number(current.price);
+                                            }, 0)
+                                        )}
+                                    </span>
+                                </p>
+                            </>
+                        ) : (
+                            <p>No items in the cart.</p>
+                        )}
+                    </div>
+
+                    <div className="notification">
+                        <div className="notification_des">
+                            <i className="fa-solid fa-angle-right"></i>
+                            <h5>Retail:</h5>
+                        </div>
+                        {showDetailOrder.cartRetail && JSON.parse(showDetailOrder.cartRetail).length > 0 ? (
+                            <>
+                                {JSON.parse(showDetailOrder.cartRetail).map((item, index) => (
+                                    <div key={index}>
+                                        <div className="s-left" key={item.foodmenu_id}>
+                                            <div className="s-item" key={item.foodmenu_id}>
+                                                <div className="s-item_top">
+                                                    <div className="s-item_bot">
+                                                        <div className="s_left" key={item.foodmenu_id}>
+                                                            <img src={item.foodmenu_image} alt="" />
+                                                            <div className="s_left_child">
+                                                                <h4>{item.foodmenu_name}</h4>
+                                                                <h4>Calories: {item.foodmenu_calories}</h4>
+                                                                <h4>Protein: {item.foodmenu_protein}</h4>
+                                                                <h4>Carbohydrates: {item.foodmenu_carbohydrates}</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        ))}
-                                </div>
-                            ))}
-                        {/* Calculate and display total price */}
-                        {showDetailOrder.cart && (
-                            <p className="s-left_totalprice">
-                                Total Price for Combo:
-                                <span>
-                                    $
-                                    {Math.round(
-                                        JSON.parse(showDetailOrder.cart).reduce((total, current) => {
-                                            return total + Number(current.price);
-                                        }, 0)
-                                    )}
-                                </span>
-                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                                <p className="s-left_totalprice">
+                                    Total Price for Combo:
+                                    <span>
+                                        $
+                                        {Math.round(
+                                            JSON.parse(showDetailOrder.cartRetail).reduce((total, current) => {
+                                                return total + Number(current.price * current.quantity);
+                                            }, 0)
+                                        )}
+                                    </span>
+                                </p>
+                            </>
+                        ) : (
+                            <p>No items in retail cart.</p>
                         )}
                     </div>
                 </Modal.Body>

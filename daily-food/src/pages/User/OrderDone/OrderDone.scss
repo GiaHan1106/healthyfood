@@ -1,2 +1,34 @@
-.s-orderDone {
+.notification {
+    &-child {
+        font-size: $fs-14;
+        margin-left: $fs-20;
+    }
+    &_des {
+        display: flex;
+        align-items: center;
+        h5 {
+            margin-left: 10px;
+        }
+    }
+}
+.s_left {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: $fs-8;
+    }
+    &_child {
+        margin-left: $fs-8;
+        h4 {
+            font-weight: 600;
+            font-size: $fs-12;
+        }
+        h5 {
+            font-size: $fs-12;
+        }
+    }
 }
