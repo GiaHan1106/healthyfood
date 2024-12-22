@@ -93,7 +93,7 @@ const Header = () => {
                                     <div className="header-icon_user_infor">
                                         <i className="fa-solid fa-square-caret-down"></i>
                                         <ul>
-                                            <li onClick={() => Navigate("/user/Dashboard")}>Dashboard</li>
+                                            <li onClick={() => Navigate("/user/Dashboard")}>Account</li>
                                             <li onClick={handleLogOut}>Log Out</li>
                                         </ul>
                                     </div>

@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import Layout from "./pages/Layout";
 import { RouterUser, RouterAdmin, RouterUserLogin } from "~/router/Router";
 import { Routes, Route } from "react-router-dom";
@@ -8,8 +9,26 @@ import "react-toastify/dist/ReactToastify.css";
 import Admin from "./pages/Admin";
 import Page404 from "./pages/Page404/Page404";
 import User from "./pages/User";
+import socket from "~/socket/socket";
 
 function App() {
+    useEffect(() => {
+        // Lắng nghe sự kiện từ server
+        socket.on("connect", () => {
+            console.log("Connected to Socket.IO server");
+        });
+
+        socket.on("message", (data) => {
+            console.log("Message from server:", data);
+        });
+
+        // Dọn dẹp kết nối khi component bị unmount
+        return () => {
+            socket.off("connect");
+            socket.off("message");
+        };
+    }, []);
+
     return (
         <>
             <Routes>

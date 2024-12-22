@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import { Modal, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import UseFetch from "~/feature/UseFetch";
-import CardMenu from "~/pages/Menu/CardMenu/CardMenu";
 
 const OrderProgressing = () => {
     const Navigate = useNavigate();
-
     const [showDetailOrder, setShowDetailOrder] = useState({});
     const [show, setShow] = useState(false);
     const [orders, setOrders] = useState([]);
+
+    const [searchTerm, setSearchTerm] = useState("");
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
     const listOrder = UseFetch("http://localhost:8081/orders");
     const dataProvince = UseFetch("https://esgoo.net/api-tinhthanh/1/0.htm");
@@ -186,6 +186,7 @@ const OrderProgressing = () => {
             alert("An error occurred while canceling the order.");
         }
     };
+
     return (
         <div className="orderManage">
             <div className="orderManage-table">
