@@ -233,9 +233,71 @@
     }
     &-result {
         margin-top: $fs-48 !important;
-        width: 50%;
-        margin: 0 auto;
         border-top: 1px solid #1c6d241a;
         text-align: center;
+        h3 {
+            margin-bottom: $fs-20;
+            color: $secondary-color;
+            font-weight: 800;
+
+            span {
+                display: block;
+                margin-top: $fs-12;
+                color: $primary-color;
+                font-weight: 800;
+            }
+        }
+        h4 {
+            margin: $fs-48 0 $fs-16 0;
+            color: $secondary-color;
+            font-weight: 800;
+            animation: blink-animation 1s infinite;
+        }
+        &_bottom {
+            background-color: $third-color;
+            color: white;
+            padding: $fs-12;
+            border-radius: $fs-12;
+            ul {
+                h5 {
+                    font-size: $fs-16;
+                }
+                li {
+                    font-size: $fs-16;
+                }
+            }
+            p {
+                font-style: italic;
+                font-size: $fs-16;
+                margin-top: $fs-32;
+            }
+        }
+    }
+    &-detailMenu {
+        .cardMenu {
+            &-textMenu {
+                text-align: left;
+            }
+            &-imgMenu {
+                width: 300px;
+                @media (max-width: 767px) {
+                    width: 250px;
+                }
+                @media (max-width: 567px) {
+                    width: 200px;
+                }
+            }
+        }
+    }
+}
+@keyframes blink-animation {
+    0% {
+        color: $primary-color; /* Màu đỏ tại thời điểm bắt đầu */
+    }
+    50% {
+        color: $secondary-color; /* Màu xanh khi ẩn */
+    }
+    100% {
+        color: $primary-color; /* Màu đỏ tại thời điểm bắt đầu */
     }
 }

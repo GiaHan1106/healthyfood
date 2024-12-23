@@ -1,17 +1,23 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import UseFetch from "~/feature/UseFetch";
+import CardMenu from "../Menu/CardMenu/CardMenu";
+import { useCart } from "~/context/CartContext";
 
 const Calories = () => {
     const appId = "186c3fe1";
     const apiKey = "6057c94cb806a3946f6a66b28b91d25f";
+    const { addCartRetail } = useCart();
+    const [menuItems, setMenuItems] = useState([]);
     const [foodItem, setFoodItem] = useState("");
+    const [primaryResult, setPrimaryResult] = useState("");
+    const [secondaryResult, setSecondaryResult] = useState("");
     const [weight, setWeight] = useState("");
     const [BMI, setBmi] = useState("");
     const [arrCalo, setArrCalo] = useState([]);
     const [error, setError] = useState("");
     const [totalDaily, setTotalDaily] = useState("");
-    const [totalResult, setTotalResult] = useState("");
     const [inforTdee, setInforTdee] = useState({
         weightBmi: "",
         heightBmi: "",
@@ -19,6 +25,7 @@ const Calories = () => {
         gender: "",
         activity: "",
     });
+    const listMenu = UseFetch(`http://localhost:8081/foodmenu`);
     const getNutritionData = async (food) => {
         try {
             const response = await axios.get(`https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${apiKey}&nutrition-type=logging&ingr=${food}`);
@@ -56,6 +63,8 @@ const Calories = () => {
     };
     const handleCheckBmi = (e) => {
         e.preventDefault();
+
+        // Tính TDEE
         let TDEE = "";
         if (inforTdee.gender === "male") {
             const bmrMale = 88.362 + 13.397 * inforTdee.weightBmi + (4.799 * inforTdee.heightBmi - 5.677 * inforTdee.age);
@@ -64,57 +73,81 @@ const Calories = () => {
             const bmrFemale = 447.593 + 9.247 * inforTdee.weightBmi + (3.098 * inforTdee.heightBmi - 4.33 * inforTdee.age);
             TDEE = bmrFemale * inforTdee.activity;
         }
+
+        // Tính BMI
         const convertHeight = inforTdee.heightBmi / 100;
         const checkHeight = convertHeight * convertHeight;
         const checkNumberBmi = Math.round(inforTdee.weightBmi / checkHeight);
-        console.log(checkNumberBmi);
         setBmi(checkNumberBmi);
         setTotalDaily(TDEE);
-        let result = "";
-        if (BMI < 18.5) {
-            result = "you should gain weight";
-        } else if (BMI >= 18.5 && BMI <= 24.9) {
-            result = "your weight is perfect, you should maintain it.";
+
+        // Phân loại BMI và xử lý kết quả
+        let primaryResult = "";
+        let secondaryResult = "";
+        let foodCategoryId = 0;
+        let categoryName = "";
+
+        if (checkNumberBmi < 18.5) {
+            const weightIdealGain = (18.5 * checkHeight).toFixed(2);
+            primaryResult = `You are underweight. Your ideal weight should be around ${weightIdealGain} kg. Consider a high-calorie diet with strength training.`;
+            secondaryResult = "For underweight, consider eating from the 'Gymer' category for high-calorie and protein-rich meals.";
+            foodCategoryId = 3; // Gymer
+            categoryName = "GYMER"; // Thêm tên danh mục
+        } else if (checkNumberBmi >= 18.5 && checkNumberBmi <= 24.9) {
+            primaryResult = "Your weight is perfect! Keep maintaining your current lifestyle. Focus on balanced nutrition and regular exercise.";
+            secondaryResult = "For maintaining weight, stick to the 'Healthy' category for balanced and nutritious meals.";
+            foodCategoryId = 4; // Healthy
+            categoryName = "HEALTHY"; // Thêm tên danh mục
+        } else if (checkNumberBmi >= 25 && checkNumberBmi <= 29.9) {
+            const weightIdeal = (22 * checkHeight).toFixed(2);
+            primaryResult = `You are overweight. Your ideal weight should be around ${weightIdeal} kg. Try reducing calorie intake and increasing physical activity.`;
+            secondaryResult = "For overweight, follow the 'Slimming' category for calorie-controlled meals.";
+            foodCategoryId = 1; // Slimming
+            categoryName = "SLIMMING"; // Thêm tên danh mục
+        } else if (checkNumberBmi >= 30 && checkNumberBmi <= 34.9) {
+            const weightIdeal = (22 * checkHeight).toFixed(2);
+            primaryResult = `You are in Obesity Level 1. Your ideal weight should be around ${weightIdeal} kg. With level 1 obesity, which may pose health risks if it persists. Please adopt a healthier diet and a regular exercise routine.`;
+            secondaryResult = "With your current weight you are suitable for the 'Slimming' category for calorie-controlled meals and focus on exercise.";
+            foodCategoryId = 1; // Slimming
+            categoryName = "SLIMMING"; // Thêm tên danh mục
+        } else if (checkNumberBmi >= 35 && checkNumberBmi <= 39.9) {
+            const weightIdeal = (22 * checkHeight).toFixed(2);
+            primaryResult = `You are in Obesity Level 2. Your ideal weight should be around ${weightIdeal} kg. With level 2 obesity, which can lead to significant health concerns. Consider seeking professional guidance to reduce weight effectively.`;
+            secondaryResult = "With your current weight you are suitable for the 'Slimming' category and consider seeking professional health guidance.";
+            foodCategoryId = 1; // Slimming
+            categoryName = "SLIMMING"; // Thêm tên danh mục
         } else {
-            result = "you are too fat, you should lose weight";
+            const weightIdeal = (22 * checkHeight).toFixed(2);
+            primaryResult = `You are in Obesity Level 3. Your ideal weight should be around ${weightIdeal} kg. With level 3 obesity, which is considered severe. Immediate medical consultation and intervention are highly recommended.`;
+            secondaryResult = "With your current weight, it's crucial to follow the 'Slimming' category and consult a healthcare provider.";
+            foodCategoryId = 1; // Slimming
+            categoryName = "SLIMMING"; // Thêm tên danh mục
         }
-        setTotalResult(result);
+
+        // Cập nhật kết quả
+        setPrimaryResult(primaryResult);
+        setSecondaryResult(secondaryResult);
+
+        // Lọc menuItems theo foodCategoryId
+        const filteredMenuItems = listMenu
+            .filter((item) => item.foodmenu_idCate === foodCategoryId)
+            .map((item) => ({
+                ...item,
+                categoryName,
+            }));
+        setMenuItems(filteredMenuItems);
+        console.log(filteredMenuItems);
     };
-    // const handleResult = (type) => {
-    //     let total = 0;
-    //     let result = "";
-    //     let totalCalo = arrCalo.reduce((total, current) => total + current.calo, 0);
-    //     if (type === "lose") {
-    //         total = totalDaily - 500;
-    //         if (totalCalo <= total) {
-    //             result = "you ok";
-    //         } else {
-    //             result = "you not ok";
-    //         }
-    //     } else if (type === "keep") {
-    //         total = totalDaily - 200;
-    //         if (total > totalCalo - 200 && total < totalCalo - 200) {
-    //             result = "you ok";
-    //         } else {
-    //             result = "you not ok";
-    //         }
-    //     } else {
-    //         total = totalDaily + 500;
-    //         if (totalCalo > total) {
-    //             result = "you ok";
-    //         } else {
-    //             result = "you not ok";
-    //         }
-    //     }
-    //     setResult({
-    //         total,
-    //         result,
-    //     });
-    // };
+
+    useEffect(() => {
+        if (listMenu && listMenu.length > 0) {
+            setMenuItems(listMenu);
+        }
+    }, [listMenu]);
     return (
         <div className="calories">
             <div className="calories-image">
-                <img src="https://i.pinimg.com/564x/bd/51/fd/bd51fdf1aaed650b239a4043cbad06b5.jpg" alt="" />
+                <img src="https://www.springcreekmedical.com/wp-content/uploads/2022/05/healthy-diet-providence-ut-scaled.jpg" alt="" />
                 <div className="calories-textBanner">
                     <h2>Caculate With Us</h2>
                     <h3>Calories & Bmi</h3>
@@ -213,29 +246,46 @@ const Calories = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* {totalDaily && (
-                            <div className="calories-buttonType">
-                                <h2>What do you want</h2>
-                                <div className="calories-buttonType-type">
-                                    <button className="calories-buttonType-type_child" onClick={() => handleResult("lose")}>
-                                        <i className="fa-solid fa-arrow-up"></i>Losing Weight
-                                    </button>
-                                    <button className="calories-buttonType-type_child" onClick={() => handleResult("keep")}>
-                                        <i className="fa-solid fa-equals"></i> Keep Weight
-                                    </button>
-                                    <button className="calories-buttonType-type_child" onClick={() => handleResult("gain")}>
-                                        <i className="fa-solid fa-arrow-down"></i>Weight Gain
-                                    </button>
-                                </div>
-                            </div>
-                        )} */}
                     </Col>
                 </Row>
                 {totalDaily && (
                     <div className="calories-result">
                         <h3>
-                            With your BMI is {BMI} and {totalResult}
+                            YOUR CURRENT BMI <span>{BMI}</span>
                         </h3>
+                        <div className="calories-result_bottom">
+                            <ul>
+                                <h5>Advice for you :</h5>
+                                <li>{primaryResult}</li>
+                                <li>{secondaryResult}</li>
+                            </ul>
+                            <p>You can learn more basic knowledge about nutrition to choose healthy foods or you can also message us for more specific personal advice.</p>
+                        </div>
+                        <h4>WE HAVE HEALTHY FOODS SUITABLE FOR YOUR WEIGHT IN OUR STORE</h4>
+                        <Row>
+                            {menuItems.map((food) => (
+                                <Col xs={6} lg={3} key={food.foodmenu_id}>
+                                    <div className="calories-detailMenu">
+                                        <CardMenu
+                                            image={food.foodmenu_image}
+                                            name={food.foodmenu_name}
+                                            time={food.foodmenu_time}
+                                            des={food.foodmenu_des}
+                                            calories={food.foodmenu_calories}
+                                            protein={food.foodmenu_protein}
+                                            carbohydrates={food.allday}
+                                            price={food.price}
+                                            order={true}
+                                            deseases={food.categoryName === "HEALTHY" ? food.diseases : undefined}
+                                            catemenuTitle={food.categoryName}
+                                        />
+                                        <button className="s-order-button" onClick={() => addCartRetail(food)}>
+                                            Order
+                                        </button>
+                                    </div>
+                                </Col>
+                            ))}
+                        </Row>
                     </div>
                 )}
             </Container>
