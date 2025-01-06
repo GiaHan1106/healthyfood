@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const SideBar = () => {
     const location = useLocation(); // Lấy thông tin đường dẫn hiện tại
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // State để theo dõi trạng thái của menu
 
+    // Hàm để toggle menu khi màn hình nhỏ
+    const handleMenuToggle = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+    const handleMenuClose = () => {
+        setIsMenuOpen(false);
+    };
     return (
         <div className="c-dashboardUser">
-            <ul className="c_menu">
+            <div className="c-dashboardUser_submenu" onClick={handleMenuToggle}>
+                <i className="fa-solid fa-bars"></i>
+            </div>
+            {/* Menu cho desktop */}
+            <ul className="c_menu c_menu_desktop">
                 <li>
                     <Link to="/user/dashboard" className={location.pathname === "/user/dashboard" ? "active" : ""}>
                         DASHBOARD
@@ -31,6 +43,21 @@ const SideBar = () => {
                             </Link>
                         </li>
                     </ul>
+                </li>
+            </ul>
+            {/* Menu cho mobile */}
+            <ul className={`c_menu c_menu_mobile ${isMenuOpen ? "open" : ""}`}>
+                <li onClick={handleMenuClose} className={location.pathname === "/user/dashboard" ? "active" : ""}>
+                    <Link to="/user/dashboard">DASHBOARD</Link>
+                </li>
+                <li onClick={handleMenuClose} className={location.pathname === "/user/orderProgressing" ? "active" : ""}>
+                    <Link to="/user/orderProgressing">Progressing</Link>
+                </li>
+                <li onClick={handleMenuClose} className={location.pathname === "/user/orderDone" ? "active" : ""}>
+                    <Link to="/user/orderDone">Delivered</Link>
+                </li>
+                <li onClick={handleMenuClose} className={location.pathname === "/user/orderCancel" ? "active" : ""}>
+                    <Link to="/user/orderCancel">Cancel</Link>
                 </li>
             </ul>
         </div>

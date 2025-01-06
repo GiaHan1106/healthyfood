@@ -12,8 +12,25 @@
     border-radius: 0.55rem;
     height: 100vh;
     padding: 1rem 2rem;
-
+    @media (max-width: 767px) {
+        height: unset;
+    }
+    &_submenu {
+        display: none;
+        text-align: right;
+        color: white;
+        font-size: 20px;
+        @media (max-width: 767px) {
+            cursor: pointer;
+            display: block;
+            color: white;
+        }
+    }
     .c_menu {
+        @media (max-width: 767px) {
+            display: none;
+        }
+
         li {
             margin-bottom: $fs-12;
             transition: 0.5s;
@@ -24,12 +41,12 @@
             padding: $fs-14 $fs-8;
             cursor: pointer;
             font-weight: bold;
-
             a {
                 padding: $fs-8;
                 transition: 0.5s;
                 color: #fff;
                 &.active {
+                    color: #000;
                     background-color: #fff;
                     border-radius: $fs-20;
                     color: $secondary-color;
@@ -63,16 +80,64 @@
                 }
             }
         }
+        &_mobile {
+            display: none;
+            text-align: right;
+            @media (max-width: 767px) {
+                display: block;
+                visibility: hidden;
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                padding: 2rem;
+                z-index: 100;
+                transform: translateY(-100%);
+                transition: transform 1s ease, opacity 1s ease;
+                &.open {
+                    display: block;
+                    visibility: visible;
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            li {
+                @media (max-width: 767px) {
+                    margin-bottom: 1rem;
+                    padding: 0.5rem 0;
+                    list-style: none;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: white;
+                    &.active {
+                        background-color: #fff;
+                        a {
+                            color: #000;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
 .c-nameUser {
     @include flexBox(space-between);
+    @media (max-width: 767px) {
+        display: block;
+    }
     h3 {
         margin-right: auto;
         font-weight: 600;
     }
     &_right {
+        @media (max-width: 767px) {
+            justify-content: unset;
+            margin: $fs-20 0;
+        }
         @include flexBox(center);
         i {
             font-size: $fs-24;

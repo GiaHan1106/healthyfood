@@ -157,7 +157,7 @@ const OrderProgressing = () => {
                 </ul>
                 <h4>Order is being processed</h4>
             </div>
-            <div className="orderManage-table">
+            <div className="s-orderManage-table">
                 <Table striped bordered hover>
                     <thead>
                         <tr>

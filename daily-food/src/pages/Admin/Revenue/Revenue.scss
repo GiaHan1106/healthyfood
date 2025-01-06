@@ -6,11 +6,15 @@
         color: #1c6d24;
         padding: 0.75rem;
         border-radius: 0.55rem;
+        margin-top: 30px;
         h2 {
             font-size: $fs-28;
             font-weight: 800;
         }
         h5 {
+            height: 20px;
+            min-height: 20px;
+            max-height: 20px;
             margin: $fs-32 0;
             color: black;
             font-size: $fs-14;

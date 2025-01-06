@@ -100,7 +100,7 @@ const OrderDone = () => {
                 </ul>
                 <h4>Successfully Delivered</h4>
             </div>
-            <div className="s-orderDone-table">
+            <div className="s-orderManage-table">
                 <Table striped bordered hover>
                     <thead>
                         <tr>

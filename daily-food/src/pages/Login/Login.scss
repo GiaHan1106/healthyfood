@@ -32,19 +32,11 @@
             h2 {
                 font-size: $fs-32;
                 font-weight: 600;
+                display: flex;
                 color: $secondary-color;
-                span {
-                    margin-left: $fs-12;
-                    padding: $fs-8;
-                    color: $third-color;
-                    border-radius: $fs-8;
-                    display: none;
-                    @media (max-width: 767) {
-                        display: block;
-                    }
-                }
+                text-align: center;
                 @media (max-width: 576px) {
-                    font-size: $fs-28;
+                    font-size: $fs-20;
                 }
             }
             h3 {

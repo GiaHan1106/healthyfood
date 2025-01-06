@@ -15,28 +15,28 @@ const Cravings = () => {
                 <HeadLine headline={"From Cravings to Plate"}></HeadLine>
                 <Row>
                     <Col xs={6} md={3}>
-                        <div data-aos="fade-down" data-aos-delay="200">
+                        <div>
                             <img className="Cravings_imageFeature" src={feature1} alt="" />
                             <h3>Choose Your Meal</h3>
                             <p>Choose the meal package that suits your needs and fill in the delivery information</p>
                         </div>
                     </Col>
                     <Col xs={6} md={3}>
-                        <div data-aos="fade-down">
+                        <div>
                             <img className="Cravings_imageFeature" src={feature2} alt="" />
                             <h3>Cooking In Progress</h3>
                             <p>We select the best ingredients and cook in modern industrial kitchens</p>
                         </div>
                     </Col>
                     <Col xs={6} md={3}>
-                        <div data-aos="fade-down" data-aos-delay="200">
+                        <div>
                             <img className="Cravings_imageFeature" src={feature3} alt="" />
                             <h3>Delivery</h3>
                             <p>DailyFood's delivery team will deliver your meals to your doorstep every day.</p>
                         </div>
                     </Col>
                     <Col xs={6} md={3}>
-                        <div data-aos="fade-down" data-aos-delay="200">
+                        <div>
                             <img className="Cravings_imageFeature" src={feature4} alt="" />
                             <h3>Enjoy Your Meal</h3>
                             <p>No thinking, shopping or greasy cooking, just heat and enjoy!</p>

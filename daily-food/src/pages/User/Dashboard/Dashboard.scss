@@ -11,3 +11,13 @@
         }
     }
 }
+@media (max-width: 767px) {
+    .s-orderManage-table {
+        overflow-x: scroll; /* Luôn hiển thị thanh cuộn ngang */
+        -webkit-overflow-scrolling: touch; /* Cải thiện trải nghiệm cuộn trên iOS */
+    }
+
+    .s-orderManage-table table {
+        min-width: 700px;
+    }
+}

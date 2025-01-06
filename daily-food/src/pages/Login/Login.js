@@ -92,12 +92,7 @@ const Login = () => {
                     <form onSubmit={formik.handleSubmit}>
                         <div className="login-right">
                             <div className="login-right_text">
-                                <h2>
-                                    Welcome Back!
-                                    <span>
-                                        <i className="fa-solid fa-utensils"></i>
-                                    </span>
-                                </h2>
+                                <h2>Welcome Back!</h2>
                                 <h3>Sign In Continue using Order</h3>
                             </div>
 

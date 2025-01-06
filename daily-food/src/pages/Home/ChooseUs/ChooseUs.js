@@ -15,7 +15,7 @@ const ChooseUs = () => {
                 <HeadLine headline={"Why Choosing Us"}></HeadLine>
                 <Row>
                     <Col md={3}>
-                        <div data-aos="fade-down-right" data-aos-delay="200">
+                        <div>
                             <h3>
                                 <span>0</span>1
                             </h3>
@@ -26,7 +26,7 @@ const ChooseUs = () => {
                         </div>
                     </Col>
                     <Col md={3}>
-                        <div data-aos="fade-down-right">
+                        <div>
                             <h3>
                                 <span>0</span>2
                             </h3>
@@ -37,7 +37,7 @@ const ChooseUs = () => {
                         </div>
                     </Col>
                     <Col md={3}>
-                        <div data-aos="fade-down-left">
+                        <div>
                             <h3>
                                 <span>0</span>3
                             </h3>
@@ -48,7 +48,7 @@ const ChooseUs = () => {
                         </div>
                     </Col>
                     <Col md={3}>
-                        <div data-aos="fade-down-left" data-aos-delay="200">
+                        <div>
                             <h3>
                                 <span>0</span>4
                             </h3>
