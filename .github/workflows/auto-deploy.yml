@@ -36,7 +36,12 @@ jobs:
         working-directory: ./daily-food
         run: npm install
 
-      - name: Build React App
+      - name: Build React App for backend
+        working-directory: ./backend
+        run: CI=false npm run build
+
+      - name: Build React App for daily-food
+        working-directory: ./daily-food
         run: CI=false npm run build
 
       - name: Login Docker Hub
