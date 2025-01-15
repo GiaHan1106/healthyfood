@@ -12,7 +12,7 @@ const OrderCancel = () => {
     const [showDetailOrder, setShowDetailOrder] = useState({});
     const [show, setShow] = useState(false);
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
-    const listOrder = UseFetch("http://localhost:8081/orders");
+    const listOrder = UseFetch("https://healthy-food.techtheworld.id.vn/orders");
     const dataProvince = UseFetch("https://esgoo.net/api-tinhthanh/1/0.htm");
 
     // Function to fetch district data

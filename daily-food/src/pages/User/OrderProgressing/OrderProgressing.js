@@ -27,7 +27,7 @@ const OrderProgressing = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8081/orders");
+                const response = await fetch("https://healthy-food.techtheworld.id.vn/orders");
                 const data = await response.json();
                 setListOrder(data); // Cập nhật listOrder
             } catch (error) {
@@ -120,7 +120,7 @@ const OrderProgressing = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8081/orders/${order.id}`, {
+            const response = await fetch(`https://healthy-food.techtheworld.id.vn/orders/${order.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

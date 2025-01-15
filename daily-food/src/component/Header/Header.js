@@ -18,7 +18,7 @@ const Header = () => {
     const handleShowMenu = () => {
         setMenu(!menu);
     };
-    const dataMenu = UseFetch("http://localhost:8081/catemenu");
+    const dataMenu = UseFetch("https://healthy-food.techtheworld.id.vn/catemenu");
     const userinfor = JSON.parse(localStorage.getItem("USERINFO"));
 
     useEffect(() => {

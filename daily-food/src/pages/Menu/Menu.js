@@ -9,9 +9,9 @@ import { useCart } from "~/context/CartContext";
 const Menu = () => {
     const { addCart } = useCart();
     const { slug } = useParams();
-    const dataMenu = UseFetch(`http://localhost:8081/catemenu/${slug[slug.length - 1]}`);
-    const dataMenuDay = UseFetch(`http://localhost:8081/daymenu?idCate=${slug[slug.length - 1]}`);
-    const dataMenuFood = UseFetch(`http://localhost:8081/foodmenu?idCate=${slug[slug.length - 1]}`);
+    const dataMenu = UseFetch(`https://healthy-food.techtheworld.id.vn/catemenu/${slug[slug.length - 1]}`);
+    const dataMenuDay = UseFetch(`https://healthy-food.techtheworld.id.vn/daymenu?idCate=${slug[slug.length - 1]}`);
+    const dataMenuFood = UseFetch(`https://healthy-food.techtheworld.id.vn/foodmenu?idCate=${slug[slug.length - 1]}`);
     const [nowDay, setNowDay] = useState({
         day: "", // ngày trong tuần (0 - Chủ nhật, 6 - Thứ Bảy)
         hour: "", // giờ hiện tại

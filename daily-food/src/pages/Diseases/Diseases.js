@@ -7,7 +7,7 @@ const Deseases = () => {
     const [allFood, setAllFood] = useState([]); // Dữ liệu đầy đủ
     const [food, setFood] = useState([]); // Dữ liệu hiển thị
     const [searchTerm, setSearchTerm] = useState(""); // Từ khóa tìm kiếm
-    const foodmenu = UseFetch(`http://localhost:8081/foodmenu`); // Lấy dữ liệu từ API
+    const foodmenu = UseFetch(`https://healthy-food.techtheworld.id.vn/foodmenu`); // Lấy dữ liệu từ API
 
     useEffect(() => {
         setAllFood(foodmenu); // Lưu danh sách đầy đủ ban đầu

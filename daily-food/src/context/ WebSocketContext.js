@@ -11,7 +11,7 @@ export const WebSocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const newSocket = io("http://localhost:8081", {
+        const newSocket = io("https://healthy-food.techtheworld.id.vn", {
             transports: ["websocket"], // Đảm bảo sử dụng WebSocket protocol
         });
 

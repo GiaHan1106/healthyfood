@@ -62,7 +62,7 @@ const Recipe = () => {
     return (
         <div className="recipe">
             <div className="recipe-image">
-                <img src="http://localhost:3000/static/media/imageMenu.04a68d7e9eb9761a6e32.png" alt="" />
+                <img src="https://www.tribunewired.com/wp-content/uploads/2024/03/Top-15-Super-Healthy-Foods-to-Eat-Every-Day.jpg.webp" alt="" />
                 <div className="calories-textBanner">
                     <h2>Recipe Cooking With Us</h2>
                     <h3>Let's start</h3>
@@ -86,7 +86,7 @@ const Recipe = () => {
                     <Row>
                         {inforFood &&
                             inforFood.map((item) => (
-                                <Col md={2} key={item.idMeal}>
+                                <Col xs={6} md={2} key={item.idMeal}>
                                     <div className="recipe-list-food">
                                         <img src={item.strMealThumb} alt={item.strMeal} />
                                         <div className="recipe-list-food_content">

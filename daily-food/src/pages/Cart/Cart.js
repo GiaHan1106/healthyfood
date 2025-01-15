@@ -63,7 +63,7 @@ const Cart = () => {
             };
 
             try {
-                const response = await axios.post("http://localhost:8081/orders", dataOrders);
+                const response = await axios.post("https://healthy-food.techtheworld.id.vn/orders", dataOrders);
                 if (response.status === 200) {
                     setInformationOrder(dataOrders);
                     setShow(true);

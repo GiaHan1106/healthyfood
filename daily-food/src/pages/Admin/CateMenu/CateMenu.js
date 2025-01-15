@@ -6,7 +6,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import UseFetch from "~/feature/UseFetch";
 
 const CateMenu = () => {
-    const listData = UseFetch(`http://localhost:8081/catemenu`);
+    const listData = UseFetch(`https://healthy-food.techtheworld.id.vn/catemenu`);
     const [newCateMenu, setNewCateMenu] = useState([]);
     const [update, setUpdate] = useState("");
     const [data, setData] = useState({
@@ -40,7 +40,7 @@ const CateMenu = () => {
             };
 
             try {
-                const url = update ? `http://localhost:8081/catemenu/${values.id}` : `http://localhost:8081/catemenu`;
+                const url = update ? `https://healthy-food.techtheworld.id.vn/catemenu/${values.id}` : `https://healthy-food.techtheworld.id.vn/catemenu`;
 
                 const res = update
                     ? await axios.put(url, newObj, { headers: { "Content-Type": "application/json" } })
@@ -49,7 +49,7 @@ const CateMenu = () => {
                 console.log("Response từ server:", res.data);
 
                 // Fetch updated data
-                const updatedData = await axios.get(`http://localhost:8081/catemenu`);
+                const updatedData = await axios.get(`https://healthy-food.techtheworld.id.vn/catemenu`);
                 setNewCateMenu(updatedData.data);
 
                 // Reset form và trạng thái update
@@ -86,11 +86,11 @@ const CateMenu = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:8081/catemenu/${id}`);
+            await axios.delete(`https://healthy-food.techtheworld.id.vn/catemenu/${id}`);
             alert("Delete was successful");
 
             // Fetch the updated data
-            const updatedData = await axios.get(`http://localhost:8081/catemenu`);
+            const updatedData = await axios.get(`https://healthy-food.techtheworld.id.vn/catemenu`);
             setNewCateMenu(updatedData.data);
         } catch (error) {
             console.error("Error deleting data:", error);

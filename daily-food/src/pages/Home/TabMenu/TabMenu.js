@@ -7,7 +7,7 @@ import UseFetch from "~/feature/UseFetch";
 const TabMenu = () => {
     const [tab, setTab] = useState(1);
 
-    const dataMenu = UseFetch("http://localhost:8081/catemenu");
+    const dataMenu = UseFetch("https://healthy-food.techtheworld.id.vn/catemenu");
     console.log(dataMenu);
 
     return (

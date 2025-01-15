@@ -8,7 +8,7 @@ const UserManage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch("http://localhost:8081/user");
+                const response = await fetch("https://healthy-food.techtheworld.id.vn/user");
                 const data = await response.json();
                 setUser(data);
             } catch (error) {

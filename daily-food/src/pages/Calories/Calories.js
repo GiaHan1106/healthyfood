@@ -25,7 +25,7 @@ const Calories = () => {
         gender: "",
         activity: "",
     });
-    const listMenu = UseFetch(`http://localhost:8081/foodmenu`);
+    const listMenu = UseFetch(`https://healthy-food.techtheworld.id.vn/foodmenu`);
     const getNutritionData = async (food) => {
         try {
             const response = await axios.get(`https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${apiKey}&nutrition-type=logging&ingr=${food}`);

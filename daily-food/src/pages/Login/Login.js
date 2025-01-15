@@ -27,7 +27,7 @@ const Login = () => {
         onSubmit: async (values) => {
             const getUser = async () => {
                 try {
-                    const res = await axios.get("http://localhost:8081/user");
+                    const res = await axios.get("https://healthy-food.techtheworld.id.vn/user");
                     if (!res.data) {
                         throw new Error("No data returned from API");
                     }

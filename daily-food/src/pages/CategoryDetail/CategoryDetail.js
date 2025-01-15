@@ -17,7 +17,7 @@ const CategoryDetail = () => {
     useEffect(() => {
         const fetchFoodByCategory = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/foodmenu`);
+                const response = await fetch(`https://healthy-food.techtheworld.id.vn/foodmenu`);
                 const data = await response.json();
 
                 data.forEach((food) => console.log(food.foodmenu_idCate));
@@ -33,7 +33,7 @@ const CategoryDetail = () => {
 
         const fetchTitleCategory = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/catemenu`);
+                const response = await fetch(`https://healthy-food.techtheworld.id.vn/catemenu`);
                 const data = await response.json();
                 settitleCate(data);
                 setLoading(false);

@@ -6,7 +6,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import UseFetch from "~/feature/UseFetch";
 
 const DayMenu = () => {
-    const cateMenu = UseFetch(`http://localhost:8081/catemenu`);
+    const cateMenu = UseFetch(`https://healthy-food.techtheworld.id.vn/catemenu`);
     const [newCateMenu, setNewCateMenu] = useState([]);
     const [update, setUpdate] = useState("");
     const [selectCate, setSelectCate] = useState(cateMenu.length > 0 ? { id: cateMenu[0].catemenu_id, title: cateMenu[0].catemenu_title } : { id: "", title: "" });
@@ -48,11 +48,11 @@ const DayMenu = () => {
             try {
                 let res;
                 if (update) {
-                    res = await axios.put(`http://localhost:8081/daymenu/` + values.id, newObj);
+                    res = await axios.put(`https://healthy-food.techtheworld.id.vn/daymenu/` + values.id, newObj);
                     const updatedList = newCateMenu.map((item) => (item.daymenu_id === values.id ? { ...item, ...newObj } : item));
                     setNewCateMenu(updatedList);
                 } else {
-                    res = await axios.post(`http://localhost:8081/daymenu`, newObj);
+                    res = await axios.post(`https://healthy-food.techtheworld.id.vn/daymenu`, newObj);
                     setNewCateMenu([...newCateMenu, res.data]);
                 }
                 alert("Data saved successfully!");
@@ -82,7 +82,7 @@ const DayMenu = () => {
 
     const handleDelete = async (id) => {
         try {
-            const res = await axios.delete(`http://localhost:8081/daymenu/` + id);
+            const res = await axios.delete(`https://healthy-food.techtheworld.id.vn/daymenu/` + id);
             alert("Data deleted successfully!");
             setNewCateMenu(newCateMenu.filter((item) => item.daymenu_id !== id));
         } catch (error) {
@@ -93,8 +93,8 @@ const DayMenu = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const listDataRes = await axios.get("http://localhost:8081/daymenu");
-                const cateMenuRes = await axios.get("http://localhost:8081/catemenu");
+                const listDataRes = await axios.get("https://healthy-food.techtheworld.id.vn/daymenu");
+                const cateMenuRes = await axios.get("https://healthy-food.techtheworld.id.vn/catemenu");
 
                 if (cateMenuRes.data.length > 0 && !selectCate.id) {
                     setSelectCate({

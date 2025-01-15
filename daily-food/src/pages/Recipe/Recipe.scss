@@ -48,6 +48,10 @@
         }
         &-food {
             margin: $fs-16;
+            @media (max-width: 575px) {
+                margin: 0;
+                margin-bottom: $fs-28;
+            }
             img {
                 width: 100%;
                 border-top-left-radius: 20px;

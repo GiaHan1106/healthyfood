@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import UseFetch from "~/feature/UseFetch";
 
 const Revenue = () => {
-    const listOrder = UseFetch("http://localhost:8081/orders");
+    const listOrder = UseFetch("https://healthy-food.techtheworld.id.vn/orders");
     const [orderStats, setOrderStats] = useState({
         pendingConfirmation: 0,
         pendingPreparing: 0,

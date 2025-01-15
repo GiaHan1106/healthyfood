@@ -11,7 +11,7 @@ const OrderProgressing = () => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
-    const listOrder = UseFetch("http://localhost:8081/orders");
+    const listOrder = UseFetch("https://healthy-food.techtheworld.id.vn/orders");
     const dataProvince = UseFetch("https://esgoo.net/api-tinhthanh/1/0.htm");
 
     // Function to fetch district data
@@ -99,7 +99,7 @@ const OrderProgressing = () => {
 
         try {
             // Gửi yêu cầu cập nhật trạng thái
-            const response = await fetch(`http://localhost:8081/orders/${orderId}`, {
+            const response = await fetch(`https://healthy-food.techtheworld.id.vn/orders/${orderId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: nextStatus }),
@@ -107,7 +107,7 @@ const OrderProgressing = () => {
 
             if (response.ok) {
                 // Cập nhật lại danh sách đơn hàng sau khi trạng thái thay đổi
-                const updatedResponse = await fetch("http://localhost:8081/orders");
+                const updatedResponse = await fetch("https://healthy-food.techtheworld.id.vn/orders");
                 const updatedOrders = await updatedResponse.json();
 
                 // Lọc lại đơn hàng để loại bỏ trạng thái "Delivered"
@@ -132,7 +132,7 @@ const OrderProgressing = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             const fetchOrders = async () => {
-                const updatedResponse = await fetch("http://localhost:8081/orders");
+                const updatedResponse = await fetch("https://healthy-food.techtheworld.id.vn/orders");
                 const updatedOrders = await updatedResponse.json();
 
                 const statusChain = ["Waiting Confirmation", "Preparing", "In transit", "Delivered"];
@@ -163,7 +163,7 @@ const OrderProgressing = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8081/orders/${order.id}`, {
+            const response = await fetch(`https://healthy-food.techtheworld.id.vn/orders/${order.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

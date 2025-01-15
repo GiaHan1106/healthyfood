@@ -33,7 +33,7 @@ const Register = () => {
             // Kiểm tra xem email có tồn tại không
             const getUser = async () => {
                 try {
-                    const res = await axios.get("http://localhost:8081/user");
+                    const res = await axios.get("https://healthy-food.techtheworld.id.vn/user");
                     if (!res.data) {
                         throw new Error("No data returned from API");
                     }
@@ -53,7 +53,7 @@ const Register = () => {
 
             // Gửi request POST với mật khẩu gốc chưa mã hóa
             try {
-                const response = await fetch("http://localhost:8081/user", {
+                const response = await fetch("https://healthy-food.techtheworld.id.vn/user", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

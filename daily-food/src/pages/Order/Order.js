@@ -8,8 +8,8 @@ import { useCart } from "~/context/CartContext";
 const Order = () => {
     const navigate = useNavigate();
     const { addCartRetail } = useCart();
-    const cateMenu = UseFetch(`http://localhost:8081/catemenu`);
-    const listFood = UseFetch(`http://localhost:8081/foodmenu`);
+    const cateMenu = UseFetch(`https://healthy-food.techtheworld.id.vn/catemenu`);
+    const listFood = UseFetch(`https://healthy-food.techtheworld.id.vn/foodmenu`);
 
     const [allFood, setAllFood] = useState([]);
     const [food, setFood] = useState([]);

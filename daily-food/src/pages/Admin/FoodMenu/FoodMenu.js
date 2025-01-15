@@ -6,9 +6,9 @@ import { Col, Row, Table } from "react-bootstrap";
 import UseFetch from "~/feature/UseFetch";
 
 const FoodMenu = () => {
-    const listData = UseFetch(`http://localhost:8081/foodmenu`);
-    const catemenu = UseFetch(`http://localhost:8081/catemenu`);
-    const daymenu = UseFetch(`http://localhost:8081/daymenu`);
+    const listData = UseFetch(`https://healthy-food.techtheworld.id.vn/foodmenu`);
+    const catemenu = UseFetch(`https://healthy-food.techtheworld.id.vn/catemenu`);
+    const daymenu = UseFetch(`https://healthy-food.techtheworld.id.vn/daymenu`);
 
     const [newCateMenu, setNewCateMenu] = useState([]);
     const [cateMenuData, setCateMenu] = useState([]);
@@ -123,13 +123,13 @@ const FoodMenu = () => {
                 let res;
                 console.log(formik.values);
                 if (update) {
-                    res = await axios.put(`http://localhost:8081/foodmenu/${values.id}`, newObj);
+                    res = await axios.put(`https://healthy-food.techtheworld.id.vn/foodmenu/${values.id}`, newObj);
                     const updatedList = newCateMenu.map((item) => (item.foodmenu_id === values.id ? { ...item, ...newObj } : item));
                     console.log(updatedList);
 
                     setNewCateMenu(updatedList);
                 } else {
-                    res = await axios.post(`http://localhost:8081/foodmenu`, newObj);
+                    res = await axios.post(`https://healthy-food.techtheworld.id.vn/foodmenu`, newObj);
                     setNewCateMenu([...newCateMenu, newObj]);
                 }
                 alert("Data saved successfully!");
@@ -223,7 +223,7 @@ const FoodMenu = () => {
         }
 
         try {
-            const res = await axios.delete(`http://localhost:8081/foodmenu/` + findId.foodmenu_id);
+            const res = await axios.delete(`https://healthy-food.techtheworld.id.vn/foodmenu/` + findId.foodmenu_id);
             alert("Delete was successful");
             window.location.reload();
         } catch (error) {
