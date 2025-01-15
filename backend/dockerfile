@@ -1,0 +1,18 @@
+# Sử dụng Node.js
+FROM node:16
+
+# Làm việc trong thư mục /app
+WORKDIR /app
+
+# Copy package.json và cài đặt dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy toàn bộ mã nguồn
+COPY . .
+
+# Expose cổng 3000
+EXPOSE 8081
+
+# Chạy ứng dụng
+CMD ["node", "server.js"]

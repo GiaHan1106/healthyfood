@@ -1,0 +1,90 @@
+name: auto-build-deploy
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking allow to build
+        run: |
+          if [ ${{secrets.BUILD}} == ACTIVE ]
+          then
+            echo '------------------- ready to deploy --------------------'
+          else
+            echo 'not ready'
+            exit 1
+          fi
+  build-push:
+    needs: build-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.x"
+
+      - name: Install dependencies for backend
+        working-directory: ./backend
+        run: npm install
+
+      - name: Install dependencies for daily-food
+        working-directory: ./daily-food
+        run: npm install
+
+      - name: Build React App
+        run: CI=false npm run build
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        id: buildx
+      - name: Build and Push for Backend
+        uses: docker/build-push-action@v2
+        id: docker_build_backend
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: tranthequang/healthy-food:latest
+
+      - name: Build and Push for Daily-Food
+        uses: docker/build-push-action@v2
+        id: docker_build_daily_food
+        with:
+          context: ./daily-food
+          file: ./daily-food/Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: tranthequang/healthy-food-fe:latest
+
+      - name: Verify builds
+        run: |
+          echo "Backend Digest: ${{ steps.docker_build_backend.outputs.digest }}"
+          echo "Daily-Food Digest: ${{ steps.docker_build_daily_food.outputs.digest }}"
+          echo 'Build done, ready to deploy'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-push
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ~/compose-demo
+            docker compose pull
+            docker compose up --force-recreate --no-deps -d healthy-food
+            docker compose up --force-recreate --no-deps -d healthy-food-fe
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USERNAME }}
+          pass: ${{ secrets.PASSWORD }}

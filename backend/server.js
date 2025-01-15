@@ -8,17 +8,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 const db = mysql.createConnection({
-    host: "localhost",
+    host: "36.50.54.245",
     user: "root",
-    password: "",
-    database: "daily-food",
+    password: "YourStrong@Passw0rd",
+    database: "daily_food",
 });
 
 ///CATEMENU
 app.get("/catemenu", (req, res) => {
     const sql = "SELECT * FROM catemenu";
     db.query(sql, (err, data) => {
-        if (err) return res.json("Error");
+        if (err) return res.json(err);
         return res.json(data);
     });
 });
