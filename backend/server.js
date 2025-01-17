@@ -7,7 +7,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
+    connectionLimit: 10,
     host: "36.50.54.245",
     user: "root",
     password: "YourStrong@Passw0rd",
