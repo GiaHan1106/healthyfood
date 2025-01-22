@@ -13,16 +13,15 @@ const Menu = () => {
     const dataMenuDay = UseFetch(`https://healthy-food.techtheworld.id.vn/daymenu?idCate=${slug[slug.length - 1]}`);
     const dataMenuFood = UseFetch(`https://healthy-food.techtheworld.id.vn/foodmenu?idCate=${slug[slug.length - 1]}`);
     const [nowDay, setNowDay] = useState({
-        day: "", // ngày trong tuần (0 - Chủ nhật, 6 - Thứ Bảy)
-        hour: "", // giờ hiện tại
+        day: "",
+        hour: "",
     });
 
-    const [tab, setTab] = useState(0); // Chỉ số tab hiện tại
+    const [tab, setTab] = useState(0);
 
     // Mảng ngày trong tuần
     const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-    // Lấy ngày hiện tại và cập nhật trạng thái
     const checkDay = () => {
         const now = new Date();
         const day = now.getDay();
@@ -37,11 +36,11 @@ const Menu = () => {
     // Chọn tab tương ứng với ngày hiện tại
     useEffect(() => {
         if (dataMenuDay && dataMenuDay.length > 0) {
-            const currentDayName = weekDays[nowDay.day]; // Ví dụ: "FRI"
+            const currentDayName = weekDays[nowDay.day];
             const currentDayIndex = dataMenuDay.findIndex((item) => item.daymenu_day.toUpperCase() === currentDayName);
 
             if (currentDayIndex !== -1) {
-                setTab(currentDayIndex); // Chọn tab tương ứng với ngày hiện tại
+                setTab(currentDayIndex);
             }
         }
     }, [nowDay, dataMenuDay]);
@@ -88,6 +87,10 @@ const Menu = () => {
                                 {item.listfood &&
                                     item.listfood
                                         .filter((food) => food.allday === 1)
+                                        .sort((a, b) => {
+                                            const priority = ["Breakfast", "Lunch", "Dinner"];
+                                            return priority.indexOf(a.foodmenu_time) - priority.indexOf(b.foodmenu_time);
+                                        })
                                         .map((food) => (
                                             <CardMenu
                                                 key={food.foodmenu_id}

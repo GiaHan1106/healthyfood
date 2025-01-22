@@ -431,31 +431,53 @@ const FoodMenu = () => {
                     </thead>
                     <tbody>
                         {sortedMenu &&
-                            sortedMenu.map((item, index) => (
-                                <tr key={index}>
-                                    <td> {handleGetCate(item.foodmenu_idCate).title}</td>
-                                    <td> {handleGetDay(item.foodmenu_idDay).day}</td>
-                                    <td>{item.foodmenu_name}</td>
-                                    <td>{item.foodmenu_time}</td>
-                                    <td>
-                                        <img src={item.foodmenu_image} alt="" />
-                                    </td>
-                                    <td>{item.price}</td>
-                                    <td>{item.foodmenu_des}</td>
-                                    <td>{item.foodmenu_calories}</td>
-                                    <td>{item.foodmenu_carbohydrates}</td>
-                                    <td>{item.foodmenu_protein}</td>
-                                    <td>{item.foodmenu_fat}</td>
-                                    <td>{item.diseases}</td>
-                                    <td>{item.allday.toString() === "1" ? "All Day" : "Combo"}</td>
-                                    <td>
-                                        <button onClick={() => handleEdit(item.foodmenu_id)}>Edit</button>
-                                    </td>
-                                    <td>
-                                        <button onClick={() => handleDelete(item.foodmenu_id)}>Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
+                            sortedMenu
+                                .sort((a, b) => {
+                                    // 1. Sắp xếp theo `category` với thứ tự cố định
+                                    const categoryOrder = ["SLIMMING", "VEGETARIAN", "GYMER", "HEALTHY"];
+                                    const categoryA = handleGetCate(a.foodmenu_idCate).title;
+                                    const categoryB = handleGetCate(b.foodmenu_idCate).title;
+                                    if (categoryA !== categoryB) {
+                                        return categoryOrder.indexOf(categoryA) - categoryOrder.indexOf(categoryB);
+                                    }
+
+                                    // 2. Sắp xếp theo `Day` với thứ tự cố định
+                                    const dayOrder = ["MON", "TUE", "WED", "THUR", "FRI", "SAT", "SUN"];
+                                    const dayA = handleGetDay(a.foodmenu_idDay).day;
+                                    const dayB = handleGetDay(b.foodmenu_idDay).day;
+                                    if (dayA !== dayB) {
+                                        return dayOrder.indexOf(dayA) - dayOrder.indexOf(dayB);
+                                    }
+
+                                    // 3. Sắp xếp theo `time` với thứ tự cố định
+                                    const timeOrder = ["Breakfast", "Lunch", "Dinner"];
+                                    return timeOrder.indexOf(a.foodmenu_time) - timeOrder.indexOf(b.foodmenu_time);
+                                })
+                                .map((item, index) => (
+                                    <tr key={index}>
+                                        <td>{handleGetCate(item.foodmenu_idCate).title}</td>
+                                        <td>{handleGetDay(item.foodmenu_idDay).day}</td>
+                                        <td>{item.foodmenu_name}</td>
+                                        <td>{item.foodmenu_time}</td>
+                                        <td>
+                                            <img src={item.foodmenu_image} alt="" />
+                                        </td>
+                                        <td>{item.price}</td>
+                                        <td>{item.foodmenu_des}</td>
+                                        <td>{item.foodmenu_calories}</td>
+                                        <td>{item.foodmenu_carbohydrates}</td>
+                                        <td>{item.foodmenu_protein}</td>
+                                        <td>{item.foodmenu_fat}</td>
+                                        <td>{item.diseases}</td>
+                                        <td>{item.allday.toString() === "1" ? "All Day" : "Combo"}</td>
+                                        <td>
+                                            <button onClick={() => handleEdit(item.foodmenu_id)}>Edit</button>
+                                        </td>
+                                        <td>
+                                            <button onClick={() => handleDelete(item.foodmenu_id)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
                     </tbody>
                 </Table>
             </div>
