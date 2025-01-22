@@ -433,15 +433,12 @@ const FoodMenu = () => {
                         {sortedMenu &&
                             sortedMenu
                                 .sort((a, b) => {
-                                    // 1. Sắp xếp theo `category` với thứ tự cố định
                                     const categoryOrder = ["SLIMMING", "VEGETARIAN", "GYMER", "HEALTHY"];
                                     const categoryA = handleGetCate(a.foodmenu_idCate).title;
                                     const categoryB = handleGetCate(b.foodmenu_idCate).title;
                                     if (categoryA !== categoryB) {
                                         return categoryOrder.indexOf(categoryA) - categoryOrder.indexOf(categoryB);
                                     }
-
-                                    // 2. Sắp xếp theo `Day` với thứ tự cố định
                                     const dayOrder = ["MON", "TUE", "WED", "THUR", "FRI", "SAT", "SUN"];
                                     const dayA = handleGetDay(a.foodmenu_idDay).day;
                                     const dayB = handleGetDay(b.foodmenu_idDay).day;
@@ -449,7 +446,6 @@ const FoodMenu = () => {
                                         return dayOrder.indexOf(dayA) - dayOrder.indexOf(dayB);
                                     }
 
-                                    // 3. Sắp xếp theo `time` với thứ tự cố định
                                     const timeOrder = ["Breakfast", "Lunch", "Dinner"];
                                     return timeOrder.indexOf(a.foodmenu_time) - timeOrder.indexOf(b.foodmenu_time);
                                 })
