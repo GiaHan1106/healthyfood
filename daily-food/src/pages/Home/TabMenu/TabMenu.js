@@ -5,11 +5,8 @@ import MenuDetail from "~/component/MenuDetail/MenuDetail";
 import UseFetch from "~/feature/UseFetch";
 
 const TabMenu = () => {
-    const [tab, setTab] = useState(1);
-
+    const [tab, setTab] = useState(0);
     const dataMenu = UseFetch("https://healthy-food.techtheworld.id.vn/catemenu");
-    console.log(dataMenu);
-
     return (
         <div className="tabmenu">
             <Container>

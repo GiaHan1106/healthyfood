@@ -3,6 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import Button from "~/component/Button/Button";
 
 const MenuDetail = (props) => {
+    console.log(props);
     return (
         <div className="menudetail">
             <Row>
