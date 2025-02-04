@@ -92,7 +92,7 @@ const Footer = (props) => {
                                 <ul className="footer-center_listInfor">
                                     <li>
                                         <a href="https://maps.app.goo.gl/Ct75rDkdCYbSajxLA" target="_blank">
-                                            <i className="fa-solid fa-location-dot"></i> 50/2 Dương Quảng Hàm, Phường 10 ,Quận Gò vấp, Thành phố Hồ Chí Minh
+                                            <i className="fa-solid fa-location-dot"></i> 50/2 Duong Quang Ham, Ward 10, Go Vap District, Ho Chi Minh City
                                         </a>
                                     </li>
                                     <li>
