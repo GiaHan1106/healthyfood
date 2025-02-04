@@ -112,7 +112,7 @@ const Menu = () => {
                                 <div className="menu-button">
                                     {dataMenuDay && dataMenuDay.length > 0 && (
                                         <h5>
-                                            Total Price:
+                                            Tổng giá:
                                             <span
                                                 style={{
                                                     textDecoration: "line-through",
@@ -121,11 +121,14 @@ const Menu = () => {
                                                     fontSize: "24px",
                                                 }}
                                             >
-                                                $ {calculateTotalPrice(item.listfood)}
+                                                {Math.floor(calculateTotalPrice(item.listfood) / 1000).toLocaleString("vi-VN") + ".000"} ₫
                                             </span>
-                                            <span style={{ color: "black", marginLeft: "20px" }}>${Math.floor(calculateTotalPrice(item.listfood) * 0.9)}</span>
+                                            <span style={{ color: "black", marginLeft: "20px" }}>
+                                                {Math.floor((calculateTotalPrice(item.listfood) * 0.9) / 1000).toLocaleString("vi-VN") + ".000"} ₫
+                                            </span>
                                         </h5>
                                     )}
+
                                     <button
                                         className="menu-button_button-1"
                                         onClick={() =>

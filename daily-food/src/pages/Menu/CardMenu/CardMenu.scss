@@ -1,18 +1,19 @@
 .cardMenu {
-    @include flexBox(space-between);
+    // @include flexBox(space-between);
     gap: $fs-12;
-    // width: 70%;
-    // margin: $fs-40 auto;
+    width: 90%;
+    margin: $fs-40 auto;
     padding: $fs-20 0;
     border-bottom: 1px solid #eee;
 
     @media (max-width: 991px) {
-        overflow: hidden; /* Đảm bảo không có phần thừa vượt ra ngoài */
+        overflow: hidden;
     }
 
     &.order {
         border-bottom: none;
-
+        width: 300px;
+        height: 600px;
         .row {
             display: block;
 

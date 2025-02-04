@@ -222,12 +222,12 @@ const OrderDone = () => {
                                 <p className="s-left_totalprice">
                                     Total Price for Combo:
                                     <span>
-                                        $
-                                        {Math.round(
-                                            JSON.parse(showDetailOrder.cart).reduce((total, current) => {
+                                        {JSON.parse(showDetailOrder.cart)
+                                            .reduce((total, current) => {
                                                 return total + Number(current.price);
                                             }, 0)
-                                        )}
+                                            .toLocaleString("vi-VN", { style: "decimal" })}{" "}
+                                        ₫
                                     </span>
                                 </p>
                             </>
@@ -265,14 +265,14 @@ const OrderDone = () => {
                                     </div>
                                 ))}
                                 <p className="s-left_totalprice">
-                                    Total Price for Combo:
+                                    Total Price for Retail:
                                     <span>
-                                        $
                                         {Math.round(
                                             JSON.parse(showDetailOrder.cartRetail).reduce((total, current) => {
                                                 return total + Number(current.price * current.quantity);
                                             }, 0)
-                                        )}
+                                        ).toLocaleString("vi-VN")}{" "}
+                                        ₫
                                     </span>
                                 </p>
                             </>

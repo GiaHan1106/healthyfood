@@ -263,7 +263,7 @@ const Cart = () => {
                                                                 Menu for <span>{itemDetail.daymenu_day}</span>
                                                             </h2>
                                                             <h3>
-                                                                , <i className="fa-solid fa-money-bill"></i>:<span>${Math.floor(itemDetail.price)}</span>
+                                                                <i className="fa-solid fa-money-bill"></i>:<span>{Math.floor(itemDetail.price).toLocaleString("vi-VN")} ₫</span>
                                                             </h3>
                                                         </div>
                                                         <i className="fa-regular fa-trash-can" onClick={() => deleteCart(itemDetail.daymenu_id)}></i>
@@ -284,10 +284,12 @@ const Cart = () => {
                                             <p className="s-left_totalprice">
                                                 Total Price:
                                                 <span>
-                                                    $
-                                                    {item.list.reduce((total, current) => {
-                                                        return total + Number(current.price);
-                                                    }, 0)}
+                                                    {item.list
+                                                        .reduce((total, current) => {
+                                                            return total + Number(current.price);
+                                                        }, 0)
+                                                        .toLocaleString("vi-VN")}
+                                                    ₫
                                                 </span>
                                             </p>
                                         </div>
@@ -304,13 +306,13 @@ const Cart = () => {
                                                                 <h4>{item.foodmenu_name}</h4>
                                                                 <h4>Calories: {item.foodmenu_calories}</h4>
                                                                 <h4>Quantity: {item.quantity}</h4>
-                                                                <h4>Price: {item.price} $</h4>
+                                                                <h4>Price: {item.price.toLocaleString("vi-VN")} ₫</h4>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="s-item_top_left">
                                                         <h3>
-                                                            , <i className="fa-solid fa-money-bill"></i>:<span>${item.price * item.quantity}</span>
+                                                            , <i className="fa-solid fa-money-bill"></i>:<span>{(item.price * item.quantity).toLocaleString("vi-VN")} ₫</span>
                                                         </h3>
                                                     </div>
                                                     <i className="fa-regular fa-trash-can" onClick={() => deleteCartRetail(item.foodmenu_id)}></i>
@@ -321,10 +323,12 @@ const Cart = () => {
                                     <p className="s-left_totalprice">
                                         Total Price:
                                         <span>
-                                            $
-                                            {cartRetail.reduce((total, current) => {
-                                                return total + Number(current.price * current.quantity);
-                                            }, 0)}
+                                            {cartRetail
+                                                .reduce((total, current) => {
+                                                    return total + Number(current.price * current.quantity);
+                                                }, 0)
+                                                .toLocaleString("vi-VN")}{" "}
+                                            ₫
                                         </span>
                                     </p>
                                 </Col>
@@ -350,14 +354,16 @@ const Cart = () => {
                                             <div className="s_textTotal">
                                                 <h4>Total:</h4>
                                                 <h5>
-                                                    $
+                                                    ₫
                                                     <span>
-                                                        {cart.reduce((total, current) => {
-                                                            return total + Number(current.price);
-                                                        }, 0) +
+                                                        {(
+                                                            cart.reduce((total, current) => {
+                                                                return total + Number(current.price);
+                                                            }, 0) +
                                                             cartRetail.reduce((total, current) => {
                                                                 return total + Number(current.price * current.quantity);
-                                                            }, 0)}
+                                                            }, 0)
+                                                        ).toLocaleString("vi-VN")}
                                                     </span>
                                                 </h5>
                                             </div>
