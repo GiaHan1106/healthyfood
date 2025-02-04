@@ -20,7 +20,7 @@ const Menu = () => {
     const [tab, setTab] = useState(0);
 
     // Mảng ngày trong tuần
-    const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
     const checkDay = () => {
         const now = new Date();
@@ -59,6 +59,11 @@ const Menu = () => {
             return 0;
         }
     };
+
+    // Kiểm tra nếu dữ liệu chưa được load thì hiển thị loading
+    if (!dataMenu || !dataMenuDay || !dataMenuFood) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="menu">
@@ -103,6 +108,7 @@ const Menu = () => {
                                                 carbohydrates={food.foodmenu_carbohydrates}
                                             />
                                         ))}
+
                                 <div className="menu-button">
                                     {dataMenuDay && dataMenuDay.length > 0 && (
                                         <h5>
