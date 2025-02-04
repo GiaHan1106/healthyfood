@@ -14,7 +14,7 @@ const MenuDetail = (props) => {
                 <Col lg={6}>
                     <div className="menudetail-detail">
                         <h3>{props.title}</h3>
-                        <h5>{props.calo} kcal</h5>
+                        <h5>{props.calo} kcal / day</h5>
                         <p>
                             <i className="fa-solid fa-caret-right"></i>
                             {props.des}

@@ -92,36 +92,36 @@ const Calories = () => {
             primaryResult = `You are underweight. Your ideal weight should be around ${weightIdealGain} kg. Consider a high-calorie diet with strength training.`;
             secondaryResult = "For underweight, consider eating from the 'Gymer' category for high-calorie and protein-rich meals.";
             foodCategoryId = 3; // Gymer
-            categoryName = "GYMER"; // Thêm tên danh mục
+            categoryName = "GYMER";
         } else if (checkNumberBmi >= 18.5 && checkNumberBmi <= 24.9) {
             primaryResult = "Your weight is perfect! Keep maintaining your current lifestyle. Focus on balanced nutrition and regular exercise.";
             secondaryResult = "For maintaining weight, stick to the 'Healthy' category for balanced and nutritious meals.";
             foodCategoryId = 4; // Healthy
-            categoryName = "HEALTHY"; // Thêm tên danh mục
+            categoryName = "HEALTHY";
         } else if (checkNumberBmi >= 25 && checkNumberBmi <= 29.9) {
             const weightIdeal = (22 * checkHeight).toFixed(2);
             primaryResult = `You are overweight. Your ideal weight should be around ${weightIdeal} kg. Try reducing calorie intake and increasing physical activity.`;
             secondaryResult = "For overweight, follow the 'Slimming' category for calorie-controlled meals.";
             foodCategoryId = 1; // Slimming
-            categoryName = "SLIMMING"; // Thêm tên danh mục
+            categoryName = "SLIMMING";
         } else if (checkNumberBmi >= 30 && checkNumberBmi <= 34.9) {
             const weightIdeal = (22 * checkHeight).toFixed(2);
             primaryResult = `You are in Obesity Level 1. Your ideal weight should be around ${weightIdeal} kg. With level 1 obesity, which may pose health risks if it persists. Please adopt a healthier diet and a regular exercise routine.`;
             secondaryResult = "With your current weight you are suitable for the 'Slimming' category for calorie-controlled meals and focus on exercise.";
             foodCategoryId = 1; // Slimming
-            categoryName = "SLIMMING"; // Thêm tên danh mục
+            categoryName = "SLIMMING";
         } else if (checkNumberBmi >= 35 && checkNumberBmi <= 39.9) {
             const weightIdeal = (22 * checkHeight).toFixed(2);
             primaryResult = `You are in Obesity Level 2. Your ideal weight should be around ${weightIdeal} kg. With level 2 obesity, which can lead to significant health concerns. Consider seeking professional guidance to reduce weight effectively.`;
             secondaryResult = "With your current weight you are suitable for the 'Slimming' category and consider seeking professional health guidance.";
             foodCategoryId = 1; // Slimming
-            categoryName = "SLIMMING"; // Thêm tên danh mục
+            categoryName = "SLIMMING";
         } else {
             const weightIdeal = (22 * checkHeight).toFixed(2);
             primaryResult = `You are in Obesity Level 3. Your ideal weight should be around ${weightIdeal} kg. With level 3 obesity, which is considered severe. Immediate medical consultation and intervention are highly recommended.`;
             secondaryResult = "With your current weight, it's crucial to follow the 'Slimming' category and consult a healthcare provider.";
             foodCategoryId = 1; // Slimming
-            categoryName = "SLIMMING"; // Thêm tên danh mục
+            categoryName = "SLIMMING";
         }
 
         // Cập nhật kết quả
