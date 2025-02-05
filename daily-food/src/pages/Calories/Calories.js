@@ -165,8 +165,8 @@ const Calories = () => {
                                     Calories Checker
                                 </h4>
                                 <div className="calories-input">
-                                    <input type="text" placeholder="Search name food" onChange={(e) => setFoodItem(e.target.value)} />
-                                    <input type="number" placeholder="Quality Food" onChange={(e) => setWeight(e.target.value)} />
+                                    <input type="text" placeholder="Food" onChange={(e) => setFoodItem(e.target.value)} />
+                                    <input type="number" placeholder="Quantity" onChange={(e) => setWeight(e.target.value)} />
                                     <div className="calories-button">
                                         <button onClick={handleSubmit}>Search</button>
                                     </div>
