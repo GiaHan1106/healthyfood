@@ -109,6 +109,25 @@
                 border-radius: 5px;
                 margin-left: $fs-20;
             }
+            input {
+                width: 50%;
+                border: 1px solid #eee;
+            }
+        }
+    }
+}
+.orderManage {
+    &-filter {
+        margin: $fs-20 0;
+        &_box {
+            margin-bottom: $fs-16;
+            input {
+                width: 50%;
+                border: 1px solid #000;
+                border-radius: 5px;
+                padding: 5px;
+                margin-left: $fs-8;
+            }
         }
     }
 }

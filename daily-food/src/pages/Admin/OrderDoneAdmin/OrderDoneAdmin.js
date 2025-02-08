@@ -13,6 +13,7 @@ const OrderDone = () => {
     const [locationData, setLocationData] = useState({ districts: [], province: [] });
     const listOrder = UseFetch("https://healthy-food.techtheworld.id.vn/orders");
     const dataProvince = UseFetch("https://esgoo.net/api-tinhthanh/1/0.htm");
+    const [searchTerm, setSearchTerm] = useState({ email: "", phone: "" });
 
     // Function to fetch district data
     const fetchDistricts = async (provinceId, districtId) => {
@@ -76,9 +77,63 @@ const OrderDone = () => {
         setShow(false);
         Navigate("/admin/orderDoneAdmin");
     };
+    const handleFilter = () => {
+        let filteredData = listOrder;
+
+        // Lọc theo trạng thái đơn hàng
+        const statusChain = ["Waiting Confirmation", "Preparing", "In transit", "Delivered"];
+        filteredData = filteredData.filter((order) => {
+            const status = order.status?.trim();
+            return statusChain.includes(status) && status !== "Delivered";
+        });
+
+        // Lọc theo email nếu có nhập
+        if (searchTerm.email) {
+            filteredData = filteredData.filter((order) => {
+                const userInfo = JSON.parse(order.information);
+                return userInfo?.email?.toLowerCase().includes(searchTerm.email.toLowerCase());
+            });
+        }
+
+        // Lọc theo phone nếu có nhập
+        if (searchTerm.phone) {
+            filteredData = filteredData.filter((order) => {
+                const userInfo = JSON.parse(order.information);
+                return userInfo?.phone?.includes(searchTerm.phone);
+            });
+        }
+
+        setOrders(filteredData);
+    };
 
     return (
         <div className="orderManage">
+            <div className="orderManage-filter">
+                <div className="orderManage-filter_box">
+                    <label>Filter by Email:</label>
+                    <input
+                        type="text"
+                        placeholder="Enter email..."
+                        value={searchTerm.email}
+                        onChange={(e) => {
+                            setSearchTerm({ ...searchTerm, email: e.target.value });
+                            handleFilter();
+                        }}
+                    />
+                </div>
+                <div className="orderManage-filter_box">
+                    <label>Filter by Phone:</label>
+                    <input
+                        type="text"
+                        placeholder="Enter phone..."
+                        value={searchTerm.phone}
+                        onChange={(e) => {
+                            setSearchTerm({ ...searchTerm, phone: e.target.value });
+                            handleFilter();
+                        }}
+                    />{" "}
+                </div>
+            </div>
             <div className="orderManage-table">
                 <h4>Order Done</h4>
                 <Table striped bordered hover>
