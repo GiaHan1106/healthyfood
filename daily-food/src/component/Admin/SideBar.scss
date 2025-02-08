@@ -99,3 +99,16 @@
         }
     }
 }
+.foodmenuManage {
+    &-filter {
+        margin: $fs-32 0;
+        &_box {
+            margin-bottom: $fs-16;
+            select {
+                padding: $fs-8;
+                border-radius: 5px;
+                margin-left: $fs-20;
+            }
+        }
+    }
+}

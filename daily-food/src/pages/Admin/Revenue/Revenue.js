@@ -80,15 +80,6 @@ const Revenue = () => {
                 </Col>
                 <Col md={3}>
                     <div className="c-revenue_card">
-                        <h2>{orderStats.totalOrders}</h2>
-                        <h5>Total Orders Delivered Successfully</h5>
-                        <div className="icon">
-                            <i className="fa-solid fa-chart-simple"></i>
-                        </div>
-                    </div>
-                </Col>
-                <Col md={3}>
-                    <div className="c-revenue_card">
                         <h2>{orderStats.totalCancelled}</h2>
                         <h5>Total Orders Cancelled</h5>
                         <div className="icon">

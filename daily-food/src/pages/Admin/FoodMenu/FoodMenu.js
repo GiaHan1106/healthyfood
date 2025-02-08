@@ -121,11 +121,9 @@ const FoodMenu = () => {
             };
             try {
                 let res;
-                console.log(formik.values);
                 if (update) {
                     res = await axios.put(`https://healthy-food.techtheworld.id.vn/foodmenu/${values.id}`, newObj);
                     const updatedList = newCateMenu.map((item) => (item.foodmenu_id === values.id ? { ...item, ...newObj } : item));
-                    console.log(updatedList);
 
                     setNewCateMenu(updatedList);
                 } else {
@@ -408,6 +406,43 @@ const FoodMenu = () => {
                     </Col>
                 </Row>
             </form>
+            {/* <div className="foodmenuManage-filter">
+                <div className="foodmenuManage-filter_box">
+                    <label>Filter by Category:</label>
+                    <select
+                        onChange={(e) => {
+                            handleSelectCate(e);
+                            handleFilter();
+                        }}
+                        value={selectCate.id}
+                    >
+                        <option value="">All Categories</option>
+                        {cateMenuData.map((cate) => (
+                            <option key={cate.catemenu_id} data-id={cate.catemenu_id} value={cate.catemenu_title}>
+                                {cate.catemenu_title}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="foodmenuManage-filter_box">
+                    <label>Filter by Day:</label>
+                    <select
+                        onChange={(e) => {
+                            handleDaysByCate(e);
+                            handleFilter();
+                        }}
+                        value={selectDays.id}
+                    >
+                        <option value="">All Days</option>
+                        {daysByCate.map((day) => (
+                            <option key={day.id} data-day={day.id} value={day.day}>
+                                {day.day}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div> */}
+
             <div className="foodmenuManage-table">
                 <Table striped bordered hover>
                     <thead>
